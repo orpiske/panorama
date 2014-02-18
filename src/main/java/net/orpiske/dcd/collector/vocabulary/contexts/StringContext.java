@@ -19,8 +19,6 @@ import net.orpiske.dcd.collector.vocabulary.Context;
 
 public class StringContext implements Context {
 
-
-
     @Override
     public boolean isValid(final String word, final String textData) {
 

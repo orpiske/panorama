@@ -17,16 +17,19 @@
 package net.orpiske.dcd.actions;
 
 
+import net.orpiske.dcd.actions.runner.ParserRunner;
 import org.apache.commons.cli.*;
 
 public class ParseAction extends AbstractAction {
     private CommandLine cmdLine;
     private Options options;
 
-    private String fileName;
     private boolean isHelp;
+    private ParserRunner runner;
 
     public ParseAction(final String[] args) {
+        runner = new ParserRunner();
+
         processCommand(args);
     }
 
@@ -47,10 +50,12 @@ public class ParseAction extends AbstractAction {
 
         isHelp = cmdLine.hasOption("help");
 
-        fileName = cmdLine.getOptionValue('f');
+        String fileName = cmdLine.getOptionValue('f');
         if (fileName == null) {
             help(options, -1);
         }
+        runner.setFile(fileName);
+
     }
 
     @Override
@@ -60,6 +65,7 @@ public class ParseAction extends AbstractAction {
                 help(options, 0);
             }
 
+            runner.run();
 
             return 0;
         }

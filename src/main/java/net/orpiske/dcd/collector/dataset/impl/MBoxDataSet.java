@@ -19,6 +19,7 @@ import net.orpiske.dcd.collector.dataset.Data;
 import net.orpiske.dcd.collector.dataset.DataSet;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Properties;
 
 import javax.mail.*;
@@ -28,18 +29,27 @@ public class MBoxDataSet implements DataSet {
     private File file;
     private Session session;
     private Store store;
-    private Folder folder;
+    private Folder inbox;
 
     private int messageCount;
-    private int currentMessage;
+    private int currentMessage = 1;
 
     public MBoxDataSet(final File file) throws MessagingException {
         this.file = file;
 
         Properties properties = new Properties();
+
+        properties.setProperty("mail.store.protocol", "mstor");
+        properties.setProperty("mstor.mbox.metadataStrategy", "none");
+        properties.setProperty("mstor.mbox.cacheBuffers", "disabled");
+        properties.setProperty("mstor.mbox.bufferStrategy", "mapped");
+        properties.setProperty("mstor.metadata", "disabled");
+        properties.setProperty("mstor.mozillaCompatibility", "enabled");
+
         session = Session.getDefaultInstance(properties);
 
         store = session.getStore(new URLName("mstor:" + file.getPath()));
+
         store.connect();
 
         loadMessages();
@@ -47,8 +57,10 @@ public class MBoxDataSet implements DataSet {
 
 
     private void loadMessages() throws MessagingException {
-        folder = store.getDefaultFolder();
-        messageCount = folder.getMessageCount();
+
+        inbox = store.getDefaultFolder();
+        inbox.open(Folder.READ_ONLY);
+        messageCount = inbox.getMessageCount();
 
     }
 
@@ -66,14 +78,20 @@ public class MBoxDataSet implements DataSet {
         MBoxData mBoxData = null;
 
         try {
-            Message message = folder.getMessage(currentMessage);
+            Message message = inbox.getMessage(currentMessage);
+            System.out.println("Processing message " + currentMessage + ": "
+                    + message.getContent().toString());
 
-            mBoxData = new MBoxData(message.toString());
+            mBoxData = new MBoxData(message.getContent().toString());
         }
         catch (MessagingException e) {
             e.printStackTrace();
         }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
 
+        currentMessage++;
         return mBoxData;
     }
 }

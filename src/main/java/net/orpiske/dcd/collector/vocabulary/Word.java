@@ -51,12 +51,20 @@ public class Word {
 
     public boolean existsInText(final String text) {
 
-       for (Context context : contexts) {
+        for (Context context : contexts) {
             if (context.isValid(getWord(), text)) {
                 return true;
             }
-       }
+        }
 
-       return false;
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return "Word{" +
+                "word='" + word + '\'' +
+                ", contexts=" + contexts +
+                '}';
     }
 }

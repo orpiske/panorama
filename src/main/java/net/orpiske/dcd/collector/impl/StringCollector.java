@@ -32,13 +32,13 @@ public class StringCollector implements Collector {
         Set<MetaData> metaDataSet = new HashSet<MetaData>();
 
         for (Word word : vocabulary.getWords()) {
-            MetaData metaData = new MetaData();
+            MetaData metaData = new MetaData(word);
 
             metaDataSet.add(metaData);
         }
 
        while (dataSet.hasNext()) {
-           String textData = dataSet.next().toString();
+           String textData = dataSet.next().dataToString();
 
            for (MetaData metaData : metaDataSet) {
                Word word = metaData.getWord();

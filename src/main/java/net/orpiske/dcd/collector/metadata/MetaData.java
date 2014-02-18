@@ -21,6 +21,10 @@ public class MetaData {
     private Word word;
     private int occurrences = 0;
 
+    public MetaData(final Word word) {
+        this.word = word;
+    }
+
     public Word getWord() {
         return word;
     }
@@ -35,5 +39,13 @@ public class MetaData {
 
     public void addOccurrence() {
         occurrences++;
+    }
+
+    @Override
+    public String toString() {
+        return "MetaData{" +
+                "word=" + word +
+                ", occurrences=" + occurrences +
+                '}';
     }
 }

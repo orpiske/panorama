@@ -42,7 +42,7 @@ public class Main {
 
 
     private static void initLogger() throws FileNotFoundException {
-        LoggerUtils.initLogger(Constants.DCD_CONFIG_DIR);
+        //LoggerUtils.initLogger(Constants.DCD_CONFIG_DIR);
     }
 
     /**
