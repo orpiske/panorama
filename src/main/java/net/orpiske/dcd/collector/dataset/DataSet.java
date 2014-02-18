@@ -27,6 +27,7 @@ public interface DataSet {
      */
     boolean hasNext();
 
+
     /**
      * Gets the next data in the set
      * @return the next data in the set or null if there's none
