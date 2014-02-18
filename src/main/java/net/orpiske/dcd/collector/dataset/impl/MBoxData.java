@@ -25,7 +25,7 @@ public class MBoxData implements Data {
 
     /**
      * Constructor
-     * @param stringMessage
+     * @param stringMessage the message
      */
     public MBoxData(final String stringMessage) {
         this.stringMessage = stringMessage;
