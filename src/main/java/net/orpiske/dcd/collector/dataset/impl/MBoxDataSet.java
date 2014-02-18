@@ -17,6 +17,7 @@ package net.orpiske.dcd.collector.dataset.impl;
 
 import net.orpiske.dcd.collector.dataset.Data;
 import net.orpiske.dcd.collector.dataset.DataSet;
+import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +30,8 @@ import javax.mail.*;
  * in a mbox file
  */
 public class MBoxDataSet implements DataSet {
+    private static final Logger logger = Logger.getLogger(MBoxDataSet.class);
+
     private Session session;
     private Store store;
     private Folder inbox;
@@ -43,6 +46,8 @@ public class MBoxDataSet implements DataSet {
      * @throws MessagingException if unable to read or process the file
      */
     public MBoxDataSet(final File file) throws MessagingException {
+        logger.debug("Creating a new data set from file " + file.getPath());
+
         Properties properties = new Properties();
 
         properties.setProperty("mail.store.protocol", "mstor");
@@ -67,11 +72,15 @@ public class MBoxDataSet implements DataSet {
      * @throws MessagingException if unable to open the folder
      */
     private void loadMessages() throws MessagingException {
-
+        logger.debug("Loading message and folder information");
         inbox = store.getDefaultFolder();
-        inbox.open(Folder.READ_ONLY);
-        messageCount = inbox.getMessageCount();
 
+        logger.debug("Opened folder");
+        inbox.open(Folder.READ_ONLY);
+
+        messageCount = inbox.getMessageCount();
+        logger.info("MBox file is loaded and contains " + messageCount
+                + " to be processed");
     }
 
     @Override
@@ -86,19 +95,31 @@ public class MBoxDataSet implements DataSet {
     @Override
     public Data next() {
         MBoxData mBoxData = null;
+        Message message = null;
 
         try {
-            Message message = inbox.getMessage(currentMessage);
-            System.out.println("Processing message " + currentMessage + ": "
-                    + message.getContent().toString());
+            message = inbox.getMessage(currentMessage);
+
+            if (logger.isDebugEnabled()) {
+                logger.debug("Processing message " + currentMessage + " of "
+                        + messageCount + "");
+
+                if (logger.isTraceEnabled()) {
+                    logger.trace("------- MESSAGE START -------");
+                    logger.trace(message.getContent().toString());
+                    logger.trace("-------  MESSAGE END  -------");
+                }
+            }
 
             mBoxData = new MBoxData(message.getContent().toString());
         }
         catch (MessagingException e) {
-            e.printStackTrace();
+            logger.error("Unable to process message " + currentMessage +
+                    ": " + e.getMessage(), e);
         }
         catch (IOException e) {
-            e.printStackTrace();
+            logger.error("I/O error while processing the message " + currentMessage +
+                        ": " + e.getMessage(), e);
         }
 
         currentMessage++;
