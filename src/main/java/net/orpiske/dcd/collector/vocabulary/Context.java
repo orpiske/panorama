@@ -22,6 +22,12 @@ package net.orpiske.dcd.collector.vocabulary;
 public interface Context {
 
     /**
+     * Gets the context name
+     * @return the context name
+     */
+    String getName();
+
+    /**
      * Checks whether 'word' is valid within textData - if existent - in the
      * implemented context
      * @param word the word to check
