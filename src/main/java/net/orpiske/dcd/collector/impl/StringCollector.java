@@ -20,15 +20,21 @@ import net.orpiske.dcd.collector.dataset.DataSet;
 import net.orpiske.dcd.collector.metadata.MetaData;
 import net.orpiske.dcd.collector.vocabulary.Vocabulary;
 import net.orpiske.dcd.collector.vocabulary.Word;
+import org.apache.log4j.Logger;
 
 import java.util.HashSet;
 import java.util.Set;
 
 
+/**
+ * A string collector is a simple data collector that collects metadata out of text data
+ */
 public class StringCollector implements Collector {
+    private static final Logger logger = Logger.getLogger(StringCollector.class);
 
     @Override
     public Set<MetaData> collect(final DataSet dataSet, final Vocabulary vocabulary) {
+        logger.debug("Collecting data");
         Set<MetaData> metaDataSet = new HashSet<MetaData>();
 
         for (Word word : vocabulary.getWords()) {
@@ -37,7 +43,8 @@ public class StringCollector implements Collector {
             metaDataSet.add(metaData);
         }
 
-       while (dataSet.hasNext()) {
+        while (dataSet.hasNext()) {
+           logger.trace("Processing next data in the data set");
            String textData = dataSet.next().dataToString();
 
            for (MetaData metaData : metaDataSet) {
@@ -48,8 +55,7 @@ public class StringCollector implements Collector {
                    metaData.addOccurrence();
                }
            }
-       }
-
+        }
 
         return metaDataSet;
     }
