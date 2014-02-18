@@ -32,7 +32,6 @@ import javax.mail.*;
 public class MBoxDataSet implements DataSet {
     private static final Logger logger = Logger.getLogger(MBoxDataSet.class);
 
-    private Session session;
     private Store store;
     private Folder inbox;
 
@@ -49,6 +48,7 @@ public class MBoxDataSet implements DataSet {
         logger.debug("Creating a new data set from file " + file.getPath());
 
         Properties properties = new Properties();
+        Session session;
 
         properties.setProperty("mail.store.protocol", "mstor");
         properties.setProperty("mstor.mbox.metadataStrategy", "none");
@@ -85,17 +85,13 @@ public class MBoxDataSet implements DataSet {
 
     @Override
     public boolean hasNext() {
-        if (currentMessage < messageCount) {
-            return true;
-        }
-
-        return false;
+        return currentMessage < messageCount;
     }
 
     @Override
     public Data next() {
         MBoxData mBoxData = null;
-        Message message = null;
+        Message message;
 
         try {
             message = inbox.getMessage(currentMessage);
