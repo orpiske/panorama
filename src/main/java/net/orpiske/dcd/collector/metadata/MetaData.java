@@ -15,5 +15,25 @@
  */
 package net.orpiske.dcd.collector.metadata;
 
-public interface MetaData {
+import net.orpiske.dcd.collector.vocabulary.Word;
+
+public class MetaData {
+    private Word word;
+    private int occurrences = 0;
+
+    public Word getWord() {
+        return word;
+    }
+
+    public void setWord(Word word) {
+        this.word = word;
+    }
+
+    public int getOccurrences() {
+        return occurrences;
+    }
+
+    public void addOccurrence() {
+        occurrences++;
+    }
 }

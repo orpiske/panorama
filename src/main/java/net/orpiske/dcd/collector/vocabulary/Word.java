@@ -15,21 +15,30 @@
  */
 package net.orpiske.dcd.collector.vocabulary;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Represents a word
  */
 public class Word {
     private String word;
-    private Context context;
+    private Set<Context> contexts = new HashSet<Context>();
 
     /**
      * Constructor
      * @param word the string representation of the word
+
+     */
+    public Word(String word) {
+        this.word = word;
+    }
+
+    /*
      * @param context the context where this word is valid
      */
-    public Word(String word, Context context) {
-        this.word = word;
-        this.context = context;
+    public void addContext(final Context context) {
+        contexts.add(context);
     }
 
     /**
@@ -40,12 +49,14 @@ public class Word {
         return word;
     }
 
+    public boolean existsInText(final String text) {
 
-    /**
-     * Gets the context where this word is valid/acceptable
-     * @return the context where this word is valid/acceptable
-     */
-    public Context getContext() {
-        return context;
+       for (Context context : contexts) {
+            if (context.isValid(getWord(), text)) {
+                return true;
+            }
+       }
+
+       return false;
     }
 }

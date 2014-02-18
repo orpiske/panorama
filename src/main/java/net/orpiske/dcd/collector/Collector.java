@@ -19,7 +19,9 @@ import net.orpiske.dcd.collector.dataset.DataSet;
 import net.orpiske.dcd.collector.metadata.MetaData;
 import net.orpiske.dcd.collector.vocabulary.Vocabulary;
 
+import java.util.Set;
+
 public interface Collector {
 
-    MetaData collect(DataSet dataSet, Vocabulary vocabulary);
+    Set<MetaData> collect(DataSet dataSet, Vocabulary vocabulary);
 }

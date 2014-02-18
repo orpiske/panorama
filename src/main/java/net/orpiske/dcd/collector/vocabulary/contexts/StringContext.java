@@ -13,9 +13,21 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-package net.orpiske.dcd.collector.vocabulary;
+package net.orpiske.dcd.collector.vocabulary.contexts;
 
-public interface Context {
+import net.orpiske.dcd.collector.vocabulary.Context;
 
-    boolean isValid(final String word, final String textData);
+public class StringContext implements Context {
+
+
+
+    @Override
+    public boolean isValid(final String word, final String textData) {
+
+        if (textData.indexOf(word) > 0) {
+            return true;
+        }
+
+        return false;
+    }
 }
