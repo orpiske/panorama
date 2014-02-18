@@ -47,6 +47,8 @@ public abstract class AbstractAction {
     protected void configureOutput(final String level) {
         if (level == null || level.isEmpty()) {
             LogConfigurator.silent();
+
+            return;
         }
 
         if (level.equals("verbose")) {
