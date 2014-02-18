@@ -23,13 +23,17 @@ import net.orpiske.dcd.collector.metadata.MetaData;
 import net.orpiske.dcd.collector.vocabulary.Vocabulary;
 import net.orpiske.dcd.collector.vocabulary.Word;
 import net.orpiske.dcd.collector.vocabulary.contexts.StringContext;
+import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+
 public class ParserRunner {
+    private static final Logger logger = Logger.getLogger(ParserRunner.class);
+
     private File file;
 
     public File getFile() {
@@ -45,7 +49,6 @@ public class ParserRunner {
     }
 
     public int run() {
-
         Collector collector = new StringCollector();
         DataSet dataSet;
         Vocabulary vocabulary = new Vocabulary() {
@@ -66,10 +69,13 @@ public class ParserRunner {
         Set<MetaData> metaDataSet;
 
         try {
+            logger.debug("Created mbox data set");
             dataSet = new MBoxDataSet(file);
 
+            logger.debug("Running data collector");
             metaDataSet = collector.collect(dataSet, vocabulary);
 
+            logger.debug("Printing results");
             for (MetaData metaData : metaDataSet) {
                 System.out.println(metaData.toString());
             }
