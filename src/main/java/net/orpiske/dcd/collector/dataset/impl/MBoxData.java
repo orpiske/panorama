@@ -17,9 +17,16 @@ package net.orpiske.dcd.collector.dataset.impl;
 
 import net.orpiske.dcd.collector.dataset.Data;
 
+/**
+ * A data implementation for a MBox-based message
+ */
 public class MBoxData implements Data {
     private String stringMessage;
 
+    /**
+     * Constructor
+     * @param stringMessage
+     */
     public MBoxData(final String stringMessage) {
         this.stringMessage = stringMessage;
     }
