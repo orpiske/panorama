@@ -25,7 +25,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-public class MBoxCollector implements Collector {
+public class StringCollector implements Collector {
 
     @Override
     public Set<MetaData> collect(final DataSet dataSet, final Vocabulary vocabulary) {

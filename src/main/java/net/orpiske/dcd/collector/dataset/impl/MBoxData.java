@@ -13,17 +13,19 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-package net.orpiske.dcd.collector.dataset;
+package net.orpiske.dcd.collector.dataset.impl;
 
-/**
- * An abstract representation of any data
- */
-public interface Data {
+import net.orpiske.dcd.collector.dataset.Data;
 
-    /**
-     * Converts the data to String in a processable format (do not confuse with
-     * toString())
-     * @return the data as a processable string format
-     */
-    String dataToString();
+public class MBoxData implements Data {
+    private String stringMessage;
+
+    public MBoxData(final String stringMessage) {
+        this.stringMessage = stringMessage;
+    }
+
+    @Override
+    public String dataToString() {
+        return stringMessage;
+    }
 }

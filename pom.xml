@@ -25,9 +25,9 @@
 
         <!-- MBox reader -->
         <dependency>
-            <groupId>org.apache.james</groupId>
-            <artifactId>apache-mime4j-core</artifactId>
-            <version>0.7.2</version>
+            <groupId>org.mnode.mstor</groupId>
+            <artifactId>mstor</artifactId>
+            <version>0.9.13</version>
         </dependency>
 
         <!-- Internal dependencies -->
