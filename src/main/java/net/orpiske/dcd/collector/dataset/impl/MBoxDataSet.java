@@ -24,9 +24,11 @@ import java.util.Properties;
 
 import javax.mail.*;
 
+/**
+ * An implementation of a MBox-based data set. It is capable of iterating through messages
+ * in a mbox file
+ */
 public class MBoxDataSet implements DataSet {
-
-    private File file;
     private Session session;
     private Store store;
     private Folder inbox;
@@ -34,9 +36,13 @@ public class MBoxDataSet implements DataSet {
     private int messageCount;
     private int currentMessage = 1;
 
-    public MBoxDataSet(final File file) throws MessagingException {
-        this.file = file;
 
+    /**
+     * Constructor
+     * @param file A File pointer to the MBox file
+     * @throws MessagingException if unable to read or process the file
+     */
+    public MBoxDataSet(final File file) throws MessagingException {
         Properties properties = new Properties();
 
         properties.setProperty("mail.store.protocol", "mstor");
@@ -56,6 +62,10 @@ public class MBoxDataSet implements DataSet {
     }
 
 
+    /**
+     * Loads the messages
+     * @throws MessagingException if unable to open the folder
+     */
     private void loadMessages() throws MessagingException {
 
         inbox = store.getDefaultFolder();
