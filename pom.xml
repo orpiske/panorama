@@ -23,18 +23,17 @@
             <version>1.2</version>
         </dependency>
 
+        <dependency>
+            <groupId>commons-configuration</groupId>
+            <artifactId>commons-configuration</artifactId>
+            <version>1.8</version>
+        </dependency>
+
         <!-- MBox reader -->
         <dependency>
             <groupId>org.mnode.mstor</groupId>
             <artifactId>mstor</artifactId>
             <version>0.9.13</version>
-        </dependency>
-
-        <!-- Internal dependencies -->
-        <dependency>
-            <groupId>net.orpiske</groupId>
-            <artifactId>safira</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
         </dependency>
 
     </dependencies>

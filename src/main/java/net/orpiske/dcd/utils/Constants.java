@@ -36,11 +36,15 @@ public final class Constants {
 	 */
 	public static final String HOME_PROPERTY = "net.orpiske.dcd.home";
 
+    public static final String HOME_DIR;
+
 	public static final String DCD_CONFIG_DIR;
 
 	static {
+        HOME_DIR = System.getProperty(HOME_PROPERTY);
+
         DCD_CONFIG_DIR = System.getProperty(HOME_PROPERTY) + File.separator
-				+ "conf";
+				+ "config";
 	}
 
 	/**

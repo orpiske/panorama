@@ -51,8 +51,7 @@ public class StringCollector implements Collector {
                Word word = metaData.getWord();
 
                if (word.existsInText(textData)) {
-                   metaData.setWord(word);
-                   metaData.addOccurrence();
+                    metaData.addOccurrence();
                }
            }
         }

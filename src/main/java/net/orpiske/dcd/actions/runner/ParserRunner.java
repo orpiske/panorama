@@ -22,7 +22,9 @@ import net.orpiske.dcd.collector.impl.StringCollector;
 import net.orpiske.dcd.collector.metadata.MetaData;
 import net.orpiske.dcd.collector.vocabulary.Vocabulary;
 import net.orpiske.dcd.collector.vocabulary.Word;
+import net.orpiske.dcd.collector.vocabulary.contexts.RegexContext;
 import net.orpiske.dcd.collector.vocabulary.contexts.StringContext;
+import net.orpiske.dcd.collector.vocabulary.impl.DefaultVocabulary;
 import org.apache.log4j.Logger;
 
 import java.io.File;
@@ -51,24 +53,12 @@ public class ParserRunner {
     public int run() {
         Collector collector = new StringCollector();
         DataSet dataSet;
-        Vocabulary vocabulary = new Vocabulary() {
-            private List<Word> words = new ArrayList<Word>();
-
-            @Override
-            public void addWord(Word word) {}
-
-            @Override
-            public List<Word> getWords() {
-                Word word = new Word("Virtua");
-                word.addContext(new StringContext());
-
-                words.add(word);
-                return words;
-            }
-        };
-        Set<MetaData> metaDataSet;
 
         try {
+            Vocabulary vocabulary = new DefaultVocabulary();
+
+            Set<MetaData> metaDataSet;
+
             logger.debug("Created mbox data set");
             dataSet = new MBoxDataSet(file);
 

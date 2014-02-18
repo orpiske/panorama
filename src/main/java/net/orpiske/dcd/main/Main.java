@@ -2,7 +2,6 @@ package net.orpiske.dcd.main;
 
 import net.orpiske.dcd.actions.ParseAction;
 import net.orpiske.dcd.utils.Constants;
-import net.orpiske.safira.utils.logger.LoggerUtils;
 
 import java.io.FileNotFoundException;
 import java.util.Arrays;
