@@ -85,7 +85,7 @@ public class MBoxDataSet implements DataSet {
 
     @Override
     public boolean hasNext() {
-        return currentMessage < messageCount;
+        return currentMessage <= messageCount;
     }
 
     @Override
