@@ -21,7 +21,16 @@ import net.orpiske.dcd.collector.vocabulary.Vocabulary;
 
 import java.util.Set;
 
+/**
+ * An abstraction of the metadata collector
+ */
 public interface Collector {
 
+    /**
+     * Collects metadata from a data set
+     * @param dataSet the data set to collect the data from
+     * @param vocabulary the vocabulary used to construct the metadata
+     * @return A set of Metadata objects
+     */
     Set<MetaData> collect(DataSet dataSet, Vocabulary vocabulary);
 }
