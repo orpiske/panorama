@@ -30,11 +30,6 @@ public class StringContext implements Context {
 
     @Override
     public boolean isValid(final String word, final String textData) {
-
-        if (textData.indexOf(word) > 0) {
-            return true;
-        }
-
-        return false;
+        return textData.indexOf(word) > 0;
     }
 }
