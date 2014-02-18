@@ -15,7 +15,19 @@
  */
 package net.orpiske.dcd.collector.vocabulary;
 
+/**
+ * An abstract of a context where the occurrence of an word is valid
+ * as part of a metadata collection
+ */
 public interface Context {
 
+    /**
+     * Checks whether 'word' is valid within textData - if existent - in the
+     * implemented context
+     * @param word the word to check
+     * @param textData the data to check agains
+     * @return true if the word if valid within textData in the implemented
+     * context or false otherwise
+     */
     boolean isValid(final String word, final String textData);
 }
