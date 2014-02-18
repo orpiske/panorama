@@ -17,7 +17,16 @@ package net.orpiske.dcd.collector.vocabulary.contexts;
 
 import net.orpiske.dcd.collector.vocabulary.Context;
 
+/**
+ * A string context that simply validates whether the word exists in a
+ * text or not
+ */
 public class StringContext implements Context {
+
+    @Override
+    public String getName() {
+        return "String occurrence";
+    }
 
     @Override
     public boolean isValid(final String word, final String textData) {
