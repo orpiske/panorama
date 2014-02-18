@@ -18,6 +18,7 @@ package net.orpiske.dcd.actions;
 
 
 import net.orpiske.dcd.actions.runner.ParserRunner;
+import net.orpiske.dcd.utils.LogConfigurator;
 import org.apache.commons.cli.*;
 
 public class ParseAction extends AbstractAction {
@@ -41,6 +42,8 @@ public class ParseAction extends AbstractAction {
 
         options.addOption("h", "help", false, "prints the help");
         options.addOption("f", "file", true, "the file to parse");
+        options.addOption(null, "log-level", true,
+                "sets log level (should be one of [ 'trace', 'debug', 'verbose'])");
 
         try {
             cmdLine = parser.parse(options, args);
@@ -56,6 +59,8 @@ public class ParseAction extends AbstractAction {
         }
         runner.setFile(fileName);
 
+
+        configureOutput(cmdLine.getOptionValue("log-level"));
     }
 
     @Override

@@ -15,9 +15,9 @@
 */
 package net.orpiske.dcd.actions;
 
+import net.orpiske.dcd.utils.LogConfigurator;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
-
 
 /**
  * Implements app specific actions
@@ -25,6 +25,7 @@ import org.apache.commons.cli.Options;
  *
  */
 public abstract class AbstractAction {
+
 	
 	/**
 	 * Prints the help for the action and exit
@@ -37,6 +38,35 @@ public abstract class AbstractAction {
 		formatter.printHelp("dcd", options);
 		System.exit(code);
 	}
+
+
+    /**
+     * Configures the logging level
+     * @param level the logging level
+     */
+    protected void configureOutput(final String level) {
+        if (level == null || level.isEmpty()) {
+            LogConfigurator.silent();
+        }
+
+        if (level.equals("verbose")) {
+            LogConfigurator.verbose();
+        }
+        else {
+            if (level.equals("debug")) {
+                LogConfigurator.debug();
+            }
+            else {
+                if (level.equals("trace")) {
+                    LogConfigurator.trace();
+                }
+                else {
+                    LogConfigurator.silent();
+                }
+            }
+        }
+    }
+
 	
 	/**
 	 * Process the command line arguments
