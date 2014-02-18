@@ -39,12 +39,6 @@ public class Main {
     }
 
 
-
-
-    private static void initLogger() throws FileNotFoundException {
-        //LoggerUtils.initLogger(Constants.DCD_CONFIG_DIR);
-    }
-
     /**
      * @param args
      */
@@ -57,13 +51,6 @@ public class Main {
 
         String first = args[0];
         String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
-
-        try {
-            initLogger();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            System.exit(-1);
-        }
 
 
         if (first.equals("fetch")) {
