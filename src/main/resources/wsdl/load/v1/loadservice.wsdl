@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions name="loadservice" targetNamespace="http://www.orpiske.net/exchange/loadservice" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.orpiske.net/exchange/loadservice" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <wsdl:import namespace="http://www.orpiske.net/exchange/loadservice" location="loadservice.xsd"></wsdl:import>
+    <wsdl:types>
+    <xsd:schema targetNamespace="http://www.orpiske.net/exchange/loadservice">
+      <xsd:element name="NewOperation">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="in" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="NewOperationResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="out" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+    </wsdl:types>
+  <wsdl:message name="LoadOperationRequest">
+    <wsdl:part element="tns:load" name="parameters" />
+  </wsdl:message>
+  <wsdl:message name="LoadOperationResponse">
+    <wsdl:part element="tns:loadResponse" name="parameters" />
+  </wsdl:message>
+  <wsdl:portType name="loadservice">
+    <wsdl:operation name="LoadOperation">
+      <wsdl:input message="tns:LoadOperationRequest"/>
+      <wsdl:output message="tns:LoadOperationResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="loadserviceSOAP" type="tns:loadservice">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="LoadOperation">
+      <soap:operation soapAction="http://www.orpiske.net/exchange/loadservice/NewOperation"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="loadservice">
+    <wsdl:port binding="tns:loadserviceSOAP" name="loadserviceSOAP">
+      <soap:address location="http://www.orpiske.net/exchange/loadservice"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
