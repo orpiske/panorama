@@ -17,7 +17,11 @@ package net.orpiske.mdm.broker.main;
 
 import net.orpiske.mdm.broker.main.actions.RunAction;
 import net.orpiske.mdm.broker.main.actions.runner.BrokerRunner;
+import net.orpiske.mdm.broker.utils.ConfigurationWrapper;
+import net.orpiske.mdm.broker.utils.Constants;
+import org.apache.commons.configuration.ConfigurationException;
 
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 
 public class Main {
@@ -38,6 +42,24 @@ public class Main {
 
         if (args.length == 0) {
             help(1);
+        }
+
+        try {
+            ConfigurationWrapper.initConfiguration(
+                Constants.MDM_BROKER_CONFIG_DIR,
+                Constants.CONFIG_FILE_NAME);
+        }
+        catch (ConfigurationException e) {
+            System.err.println("Unable to load configuration file " +
+                    "'mdm-broker.properties': " + e.getMessage());
+
+            System.exit(-1);
+        }
+        catch (FileNotFoundException e) {
+            System.err.println("Unable to find configuration file " +
+                    "'mdm-broker.properties': " + e.getMessage());
+
+            System.exit(-1);
         }
 
         String first = args[0];

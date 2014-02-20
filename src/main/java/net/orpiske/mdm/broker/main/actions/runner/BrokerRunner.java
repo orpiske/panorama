@@ -28,7 +28,7 @@ public class BrokerRunner {
         CamelContext camelContext = new DefaultCamelContext();
 
         logger.debug("Adding routes");
-        camelContext.addRoutes(new LoadServiceRoute());
+        camelContext.addRoutes(new LoadServiceRoute("LoadService"));
 
         logger.debug("Starting Apache Camel");
         camelContext.start();

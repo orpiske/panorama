@@ -17,11 +17,26 @@ package net.orpiske.mdn.broker.processors;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.apache.cxf.message.MessageContentsList;
 
 public class DummyProcessor implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
         System.out.println("Message received:");
-        System.out.println(exchange.getIn().getBody().toString());
+
+        Object object = exchange.getIn().getBody();
+
+        if (object instanceof MessageContentsList) {
+            // System.out.println(exchange.getIn().getBody().toString());
+
+            MessageContentsList messageContentsList = (MessageContentsList) object;
+
+            Object input = messageContentsList.get(0);
+
+            System.out.println("Type: " + input.getClass());
+
+        }
+
+
     }
 }
