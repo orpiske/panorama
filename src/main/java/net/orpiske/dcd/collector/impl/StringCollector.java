@@ -18,6 +18,7 @@ package net.orpiske.dcd.collector.impl;
 import net.orpiske.dcd.collector.Collector;
 import net.orpiske.dcd.collector.dataset.DataSet;
 import net.orpiske.dcd.collector.metadata.MetaData;
+import net.orpiske.dcd.collector.metadata.Occurrence;
 import net.orpiske.dcd.collector.vocabulary.Vocabulary;
 import net.orpiske.dcd.collector.vocabulary.Word;
 import org.apache.log4j.Logger;
@@ -51,7 +52,11 @@ public class StringCollector implements Collector {
                Word word = metaData.getWord();
 
                if (word.existsInText(textData)) {
-                    metaData.addOccurrence();
+                   Occurrence occurrence = new Occurrence();
+
+                   occurrence.setBody(textData);
+
+                    // metaData.addOccurrence();
                }
            }
         }

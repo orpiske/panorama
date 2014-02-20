@@ -13,29 +13,24 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-package net.orpiske.dcd.collector.dataset.impl;
+package net.orpiske.dcd.collector.metadata;
 
-import net.orpiske.dcd.collector.dataset.Data;
-
-/**
- * A data implementation for a MBox-based message
- */
-public class MBoxData implements Data {
-    private String stringMessage;
-
+public class Occurrence {
     private String originator;
     private String header;
     private String body;
+    private Object payload;
 
-    /**
-     * Constructor
-     * @param stringMessage the message
-     */
-    public MBoxData(final String stringMessage) {
-        this.stringMessage = stringMessage;
+    public Occurrence() {
+
     }
 
-    @Override
+    public Occurrence(String originator, String header, String body) {
+        this.originator = originator;
+        this.header = header;
+        this.body = body;
+    }
+
     public String getOriginator() {
         return originator;
     }
@@ -44,7 +39,6 @@ public class MBoxData implements Data {
         this.originator = originator;
     }
 
-    @Override
     public String getHeader() {
         return header;
     }
@@ -53,7 +47,6 @@ public class MBoxData implements Data {
         this.header = header;
     }
 
-    @Override
     public String getBody() {
         return body;
     }
@@ -62,8 +55,11 @@ public class MBoxData implements Data {
         this.body = body;
     }
 
-    @Override
-    public String dataToString() {
-        return stringMessage;
+    public Object getPayload() {
+        return payload;
+    }
+
+    public void setPayload(Object payload) {
+        this.payload = payload;
     }
 }

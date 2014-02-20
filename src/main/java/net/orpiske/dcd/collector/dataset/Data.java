@@ -20,6 +20,27 @@ package net.orpiske.dcd.collector.dataset;
  */
 public interface Data {
 
+
+    /**
+     * Gets the originator of the data or reference
+     * @return the originator of the data or reference
+     */
+    String getOriginator();
+
+
+    /**
+     * Gets the header of the data or reference
+     * @return the header of the data or reference
+     */
+    String getHeader();
+
+
+    /**
+     * Gets the body of the data or reference
+     * @return the body of the data or reference
+     */
+    String getBody();
+
     /**
      * Converts the data to String in a processable format (do not confuse with
      * toString())

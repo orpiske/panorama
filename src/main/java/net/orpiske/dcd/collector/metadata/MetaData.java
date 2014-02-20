@@ -17,12 +17,16 @@ package net.orpiske.dcd.collector.metadata;
 
 import net.orpiske.dcd.collector.vocabulary.Word;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A simple metadata representation
  */
 public class MetaData {
     private Word word;
-    private int occurrences = 0;
+    private List<Occurrence> occurrenceList = new
+            ArrayList<Occurrence>();
 
     /**
      * Constructor
@@ -54,23 +58,32 @@ public class MetaData {
      * Gets the number of occurrences of 'word' in the processed data set
      * @return the number of occurrences
      */
-    public int getOccurrences() {
-        return occurrences;
+    public int getOccurrenceCount() {
+        return occurrenceList.size();
     }
 
 
     /**
      * Adds an occurrence of 'word'
      */
-    public void addOccurrence() {
-        occurrences++;
+    public void addOccurrence(final Occurrence occurrence) {
+        occurrenceList.add(occurrence);
+    }
+
+
+    /**
+     * Gets the list of occurrences for the word
+     * @return a list object with all occurrences for this word
+     */
+    public List<Occurrence> getOccurrenceList() {
+        return occurrenceList;
     }
 
     @Override
     public String toString() {
         return "MetaData{" +
                 "word=" + word +
-                ", occurrences=" + occurrences +
+                ", occurrences=" + occurrenceList +
                 '}';
     }
 }

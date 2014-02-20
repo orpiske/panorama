@@ -22,6 +22,7 @@ import org.apache.log4j.Logger;
 import javax.mail.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.Properties;
 
 /**
@@ -107,6 +108,22 @@ public class MBoxDataSet implements DataSet {
             }
 
             mBoxData = new MBoxData(message.getContent().toString());
+            mBoxData.setBody(message.getContent().toString());
+
+            StringBuilder stringBuilder = new StringBuilder();
+            Enumeration<String> enumeration = message.getAllHeaders();
+            while (enumeration.hasMoreElements()) {
+                String header = enumeration.nextElement();
+
+                stringBuilder.append(header);
+                stringBuilder.append('\n');
+            }
+
+            mBoxData.setHeader(stringBuilder.toString());
+
+            for (Address address : message.getFrom()) {
+                mBoxData.setOriginator(address.toString());
+            }
         }
         catch (MessagingException e) {
             logger.error("Unable to process message " + currentMessage +
