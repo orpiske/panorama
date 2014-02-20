@@ -19,11 +19,10 @@ import net.orpiske.dcd.collector.dataset.Data;
 import net.orpiske.dcd.collector.dataset.DataSet;
 import org.apache.log4j.Logger;
 
+import javax.mail.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
-
-import javax.mail.*;
 
 /**
  * An implementation of a MBox-based data set. It is capable of iterating through messages
