@@ -40,12 +40,21 @@
             <version>0.9.13</version>
         </dependency>
 
+        <!-- Apache CXF -->
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxws</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-transports-http</artifactId>
             <version>${cxf.version}</version>
         </dependency>
 
+
+        <!-- MDM Broker -->
         <dependency>
             <groupId>net.orpiske</groupId>
             <artifactId>mdm-types</artifactId>

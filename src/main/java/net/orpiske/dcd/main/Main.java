@@ -1,7 +1,11 @@
 package net.orpiske.dcd.main;
 
 import net.orpiske.dcd.actions.ParseAction;
+import net.orpiske.dcd.utils.ConfigurationWrapper;
+import net.orpiske.dcd.utils.Constants;
+import org.apache.commons.configuration.ConfigurationException;
 
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 
 /**
@@ -49,6 +53,22 @@ public class Main {
         String first = args[0];
         String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
 
+
+        try {
+            ConfigurationWrapper.initConfiguration(Constants.DCD_CONFIG_DIR,
+                    Constants.CONFIG_FILE_NAME);
+        } catch (ConfigurationException e) {
+            System.err.println("Unable to load configuration file " +
+                    "'dcd.properties': " + e.getMessage());
+
+            System.exit(-1);
+        }
+        catch (FileNotFoundException e) {
+            System.err.println("Unable to find configuration file " +
+                    "'dcd.properties': " + e.getMessage());
+
+            System.exit(-1);
+        }
 
         if (first.equals("fetch")) {
 

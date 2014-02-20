@@ -19,6 +19,7 @@ package net.orpiske.dcd.actions;
 
 import net.orpiske.dcd.actions.runner.ParserRunner;
 import net.orpiske.dcd.dispatcher.impl.SimpleDispatcher;
+import net.orpiske.dcd.dispatcher.impl.WebServicesDispatcher;
 import org.apache.commons.cli.*;
 
 public class ParseAction extends AbstractAction {
@@ -63,6 +64,9 @@ public class ParseAction extends AbstractAction {
         boolean isDryRun = cmdLine.hasOption("dry-run");
         if (isDryRun) {
             runner.setDispatcher(new SimpleDispatcher());
+        }
+        else {
+            runner.setDispatcher(new WebServicesDispatcher());
         }
 
 

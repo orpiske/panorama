@@ -36,10 +36,10 @@ public class DefaultVocabulary implements Vocabulary {
     private List<Word> words = new ArrayList<Word>();
 
     public DefaultVocabulary() throws FileNotFoundException, ConfigurationException {
-        ConfigurationWrapper.initConfiguration(Constants.DCD_CONFIG_DIR,
+        DictionaryConfigurationWrapper.initConfiguration(Constants.DCD_CONFIG_DIR,
                 "vocabulary.properties");
 
-        config = ConfigurationWrapper.getConfig();
+        config = DictionaryConfigurationWrapper.getConfig();
 
 
         Iterator<String> it = config.getKeys();
