@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema targetNamespace="http://www.orpiske.net/exchange/header" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.orpiske.net/exchange/header">
+<schema targetNamespace="http://www.orpiske.net/exchange/header/v1" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.orpiske.net/exchange/header/v1">
 
     <element name="header" type="tns:HeaderType"></element>
     
