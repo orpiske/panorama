@@ -21,15 +21,11 @@ import net.orpiske.dcd.collector.dataset.impl.MBoxDataSet;
 import net.orpiske.dcd.collector.impl.StringCollector;
 import net.orpiske.dcd.collector.metadata.MetaData;
 import net.orpiske.dcd.collector.vocabulary.Vocabulary;
-import net.orpiske.dcd.collector.vocabulary.Word;
-import net.orpiske.dcd.collector.vocabulary.contexts.RegexContext;
-import net.orpiske.dcd.collector.vocabulary.contexts.StringContext;
 import net.orpiske.dcd.collector.vocabulary.impl.DefaultVocabulary;
+import net.orpiske.dcd.dispatcher.Dispatcher;
 import org.apache.log4j.Logger;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 
@@ -37,6 +33,7 @@ public class ParserRunner {
     private static final Logger logger = Logger.getLogger(ParserRunner.class);
 
     private File file;
+    private Dispatcher dispatcher;
 
     public File getFile() {
         return file;
@@ -44,6 +41,10 @@ public class ParserRunner {
 
     public void setFile(String fileName) {
         this.file = new File(fileName);
+    }
+
+    public void setDispatcher(Dispatcher dispatcher) {
+        this.dispatcher = dispatcher;
     }
 
     public void setFile(File file) {
@@ -65,10 +66,7 @@ public class ParserRunner {
             logger.debug("Running data collector");
             metaDataSet = collector.collect(dataSet, vocabulary);
 
-            logger.debug("Printing results");
-            for (MetaData metaData : metaDataSet) {
-                System.out.println(metaData.toString());
-            }
+            dispatcher.dispatch(metaDataSet);
         }
         catch (Exception e) {
             e.printStackTrace();

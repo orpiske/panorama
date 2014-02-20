@@ -18,7 +18,7 @@ package net.orpiske.dcd.actions;
 
 
 import net.orpiske.dcd.actions.runner.ParserRunner;
-import net.orpiske.dcd.utils.LogConfigurator;
+import net.orpiske.dcd.dispatcher.impl.SimpleDispatcher;
 import org.apache.commons.cli.*;
 
 public class ParseAction extends AbstractAction {
@@ -42,6 +42,7 @@ public class ParseAction extends AbstractAction {
 
         options.addOption("h", "help", false, "prints the help");
         options.addOption("f", "file", true, "the file to parse");
+        options.addOption(null, "dry-run", false, "does not dispatch the data");
         options.addOption(null, "log-level", true,
                 "sets log level (should be one of [ 'trace', 'debug', 'verbose'])");
 
@@ -58,6 +59,11 @@ public class ParseAction extends AbstractAction {
             help(options, -1);
         }
         runner.setFile(fileName);
+
+        boolean isDryRun = cmdLine.hasOption("dry-run");
+        if (isDryRun) {
+            runner.setDispatcher(new SimpleDispatcher());
+        }
 
 
         configureOutput(cmdLine.getOptionValue("log-level"));
