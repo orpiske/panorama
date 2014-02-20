@@ -20,7 +20,7 @@
 
 	<complexType name="SourceType">
 		<sequence>
-			<element name="email" type="tns:EmailType"></element>
+			<element name="emailList" type="tns:EmailListType"></element>
 		</sequence>
 	</complexType>
 
@@ -47,6 +47,12 @@
 		<sequence>
 			<element name="code" type="int"></element>
 			<element name="message" type="string"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="EmailListType">
+		<sequence>
+			<element name="email" type="tns:EmailType" minOccurs="0" maxOccurs="unbounded"></element>
 		</sequence>
 	</complexType>
 </schema>
