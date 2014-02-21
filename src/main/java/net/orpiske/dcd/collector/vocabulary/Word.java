@@ -65,8 +65,12 @@ public class Word {
 
         for (Context context : contexts) {
             if (context.isValid(getWord(), text)) {
-                logger.trace("The word '" + word + "' was considered valid "
+
+                if (logger.isTraceEnabled()) {
+                    logger.trace("The word '" + word + "' was considered valid "
                         + "within the " + context.getName() + " context");
+                }
+
                 return true;
             }
         }

@@ -104,6 +104,7 @@ public class WebServicesDispatcher implements Dispatcher {
             list.add(emailType);
         }
 
+
         sourceType.setEmailList(emailListType);
 
         return sourceType;

@@ -48,15 +48,9 @@ public class RegexContext implements Context {
 
         boolean ret = matcher.find();
 
-        if (ret) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("Matched: " + textData);
-            }
-        }
-        else {
-            if (logger.isTraceEnabled()) {
-                logger.trace("Not matched: " + textData);
-            }
+        if (logger.isTraceEnabled()) {
+            logger.trace(((ret == true) ? "Matched: " : "Not matched")
+                    + textData);
         }
 
         return ret;

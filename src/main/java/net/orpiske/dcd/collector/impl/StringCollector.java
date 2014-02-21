@@ -52,11 +52,11 @@ public class StringCollector implements Collector {
                Word word = metaData.getWord();
 
                if (word.existsInText(textData)) {
-                   Occurrence occurrence = new Occurrence();
+                    Occurrence occurrence = new Occurrence();
 
-                   occurrence.setBody(textData);
+                    occurrence.setBody(textData);
 
-                    // metaData.addOccurrence();
+                    metaData.addOccurrence(occurrence);
                }
            }
         }

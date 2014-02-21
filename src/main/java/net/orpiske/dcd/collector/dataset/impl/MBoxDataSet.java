@@ -111,19 +111,21 @@ public class MBoxDataSet implements DataSet {
             mBoxData.setBody(message.getContent().toString());
 
             StringBuilder stringBuilder = new StringBuilder();
-            Enumeration<String> enumeration = message.getAllHeaders();
+            Enumeration<Header> enumeration = message.getAllHeaders();
             while (enumeration.hasMoreElements()) {
-                String header = enumeration.nextElement();
+                Header header = enumeration.nextElement();
 
-                stringBuilder.append(header);
+                if (header.getName().equalsIgnoreCase("from")) {
+                    mBoxData.setOriginator(header.getValue());
+                }
+                else {
+                    stringBuilder.append(header.getValue());
+                }
+
                 stringBuilder.append('\n');
             }
 
             mBoxData.setHeader(stringBuilder.toString());
-
-            for (Address address : message.getFrom()) {
-                mBoxData.setOriginator(address.toString());
-            }
         }
         catch (MessagingException e) {
             logger.error("Unable to process message " + currentMessage +
