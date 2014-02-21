@@ -15,14 +15,18 @@
  */
 package net.orpiske.mdn.broker.processors;
 
+import net.orpiske.exchange.loadservice.v1.LoadServiceResponseType;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.apache.camel.component.cxf.CxfPayload;
 import org.apache.cxf.message.MessageContentsList;
+
+import javax.xml.ws.Holder;
 
 public class DummyProcessor implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
-        System.out.println("Message received:");
+        System.out.println("Message received");
 
         Object object = exchange.getIn().getBody();
 
@@ -35,6 +39,16 @@ public class DummyProcessor implements Processor {
 
             System.out.println("Type: " + input.getClass());
 
+
+            Holder<Integer> code = (Holder<Integer>) messageContentsList.get(4);
+            Holder<String> message = (Holder<String>) messageContentsList.get(5);
+
+            code.value = 0;
+            message.value = "Success";
+
+            System.out.println("Setting up reply message");
+
+            exchange.getOut().setBody(new Object[] { code, message });
         }
 
 
