@@ -13,17 +13,15 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-package net.orpiske.mdn.broker.processors;
+package net.orpiske.mdm.broker.processors;
 
-import net.orpiske.exchange.loadservice.v1.LoadServiceResponseType;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.apache.camel.component.cxf.CxfPayload;
 import org.apache.cxf.message.MessageContentsList;
 
 import javax.xml.ws.Holder;
 
-public class DummyProcessor implements Processor {
+public class LoadServiceProcessor implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
         System.out.println("Message received");
@@ -31,8 +29,6 @@ public class DummyProcessor implements Processor {
         Object object = exchange.getIn().getBody();
 
         if (object instanceof MessageContentsList) {
-            // System.out.println(exchange.getIn().getBody().toString());
-
             MessageContentsList messageContentsList = (MessageContentsList) object;
 
             Object input = messageContentsList.get(0);
