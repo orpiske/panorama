@@ -16,7 +16,7 @@
 package net.orpiske.mdm.broker.routes;
 
 import net.orpiske.mdm.broker.utils.ConfigurationWrapper;
-import net.orpiske.mdn.broker.processors.DummyProcessor;
+import net.orpiske.mdm.broker.processors.LoadServiceProcessor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.commons.configuration.PropertiesConfiguration;
 
@@ -71,6 +71,6 @@ public class LoadServiceRoute extends RouteBuilder {
                 "portName=" + portName + "&" +
                 "dataFormat=POJO&" +
                 "loggingFeatureEnabled=true")
-            .process(new DummyProcessor());
+            .process(new LoadServiceProcessor());
     }
 }
