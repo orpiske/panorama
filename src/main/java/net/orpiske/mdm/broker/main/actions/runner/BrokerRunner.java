@@ -32,9 +32,9 @@ public class BrokerRunner {
 
     private ActiveMQConfiguration getActiveMQConfiguration() {
         ActiveMQConfiguration configuration = new ActiveMQConfiguration();
-        String userName = config.getString("activemq.server.username");
-        String password = config.getString("activemq.server.password");
-        String url = config.getString("activemq.server.url",
+        String userName = config.getString("sas.server.username");
+        String password = config.getString("sas.server.password");
+        String url = config.getString("sas.server.url",
                 "tcp://broker:61616");
 
 
