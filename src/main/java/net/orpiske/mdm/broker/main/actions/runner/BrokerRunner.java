@@ -15,20 +15,48 @@
  */
 package net.orpiske.mdm.broker.main.actions.runner;
 
+import net.orpiske.mdm.broker.routes.InternalRoute;
 import net.orpiske.mdm.broker.routes.LoadServiceRoute;
+import net.orpiske.mdm.broker.utils.ConfigurationWrapper;
 import org.apache.camel.CamelContext;
 import org.apache.camel.impl.DefaultCamelContext;
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.log4j.Logger;
+
+import org.apache.activemq.camel.component.ActiveMQConfiguration;
+import org.apache.activemq.camel.component.ActiveMQComponent;
 
 public class BrokerRunner {
     private static final Logger logger = Logger.getLogger(BrokerRunner.class);
+    private static final PropertiesConfiguration config = ConfigurationWrapper.getConfig();
+
+    private ActiveMQConfiguration getActiveMQConfiguration() {
+        ActiveMQConfiguration configuration = new ActiveMQConfiguration();
+        String userName = config.getString("activemq.server.username");
+        String password = config.getString("activemq.server.password");
+        String url = config.getString("activemq.server.url",
+                "tcp://broker:61616");
+
+
+        configuration.setUserName(userName);
+        configuration.setPassword(password);
+        configuration.setBrokerURL(url);
+
+        return configuration;
+    }
 
     private void initializeCamel() throws Exception {
         logger.debug("Initializing broker engine");
         CamelContext camelContext = new DefaultCamelContext();
 
+        logger.debug("Setting up ActiveMQ component");
+        ActiveMQConfiguration activeMQConfiguration = getActiveMQConfiguration();
+        ActiveMQComponent component = new ActiveMQComponent(activeMQConfiguration);
+        camelContext.addComponent("activemq", component);
+
         logger.debug("Adding routes");
         camelContext.addRoutes(new LoadServiceRoute("LoadService"));
+        camelContext.addRoutes(new InternalRoute("InternalRoute"));
 
         logger.debug("Starting Apache Camel");
         camelContext.start();
