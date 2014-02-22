@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.orpiske.net/exchange/sas/eval/v1"
+	elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:tns="http://www.orpiske.net/exchange/sas/eval/v1"
+	xmlns:pref="http://www.example.org/header" xmlns:pref1="http://www.orpiske.net/exchange/sas/common/v1">
+
+	<import schemaLocation="../../common/v1/common.xsd" namespace="http://www.orpiske.net/exchange/sas/common/v1"></import>
+	<element name="request" type="tns:RequestType"></element>
+
+	<complexType name="RequestType">
+		<complexContent>
+			<extension base="pref1:AbstractRequest">
+				<sequence>
+					<element name="evalRequest" type="tns:EvalRequestType"></element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="EvalRequestType">
+		<sequence>
+			<element name="phrase" type="string"></element>
+		</sequence>
+	</complexType>
+
+	<element name="response" type="tns:ResponseType"></element>
+
+	<complexType name="ResponseType">
+		<complexContent>
+			<extension base="pref1:AbstractResponse">
+				<sequence>
+					<element name="evalResponse"
+						type="tns:EvalResponseType">
+					</element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="EvalResponseType">
+		<sequence>
+			<element name="score" type="int"></element>
+		</sequence>
+	</complexType>
+</schema>
