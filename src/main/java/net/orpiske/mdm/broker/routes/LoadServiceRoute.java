@@ -56,6 +56,9 @@ public class LoadServiceRoute extends RouteBuilder {
         return "{http://www.orpiske.net/exchange/" + name.toLowerCase() + "/v1}" + "loadServiceSOAP";
     }
 
+
+
+
     @Override
     public void configure() throws Exception {
         String address = getListenAddress();
@@ -64,6 +67,15 @@ public class LoadServiceRoute extends RouteBuilder {
         String serviceName = getServiceName();
         String portName = getPortName();
 
+        /**
+         * In this point, we are defining a static recipient list. We route
+         * the request coming from the web service interface to two internal
+         * routes: the first one 'direct:loadservice' is a synchronous route
+         * that will process the request and sent an acknowledgement response
+         * to the client. The second 'seda://BROKER.INTERNAL' is an
+         * asynchronous SEDA* route that is used internally to dispatch the
+         * request to the application down streams.
+         */
         from("cxf://" + address + "/mdm/broker/loadservice?" +
                 "serviceClass=" + serviceClass + "&" +
                 "wsdlURL=" + wsdlURL + "&" +
@@ -71,6 +83,12 @@ public class LoadServiceRoute extends RouteBuilder {
                 "portName=" + portName + "&" +
                 "dataFormat=POJO&" +
                 "loggingFeatureEnabled=true")
+                .routeId(name)
+                .multicast()
+                    .to("direct:loadservice",
+                            "seda://BROKER.INTERNAL?waitForTaskToComplete=Never");
+
+        from("direct:loadservice")
             .process(new LoadServiceProcessor());
     }
 }
