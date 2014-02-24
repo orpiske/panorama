@@ -45,6 +45,18 @@ public class InternalProcessor implements Processor {
 
             logger.debug("Setting up reply message");
             exchange.getOut().setBody(wrapper);
+
+            /**
+             * We enrich the exchange header with additional data because some
+             * of the messages we will exchange won't contain that information.
+             * This will allow us to easily route and aggregate the messages in
+             * some scenarios.
+             */
+            logger.debug("Enriching the message");
+            exchange.getOut().setHeader("CSP.NAME",
+                    wrapper.getCspType().getName());
+            exchange.getOut().setHeader("CSP.REFERENCE_COUNT",
+                    wrapper.getCspType().getOccurrences());
         }
         else {
             /*
