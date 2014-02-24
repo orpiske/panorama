@@ -86,7 +86,7 @@ public class SasRequestConversor {
             StringWriter writer = new StringWriter();
 
             String ns = "http://www.orpiske.net/exchange/sas/eval/v1";
-            JAXBElement<RequestType> element = XmlWriterUtils.newJAXBElement(ns, "tns", RequestType.class, requestType);
+            JAXBElement<RequestType> element = XmlWriterUtils.newJAXBElement(ns, "request", RequestType.class, requestType);
 
             try {
                 XmlWriterUtils.marshal(element, requestType, writer);
