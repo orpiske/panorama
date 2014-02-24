@@ -16,6 +16,7 @@
 package net.orpiske.sas.commons.xml;
 
 import java.io.InputStream;
+import java.io.Reader;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -36,6 +37,29 @@ public class XmlParserUtils {
      * Restricted constructor
      */
     private XmlParserUtils() {}
+
+
+    /**
+     * Unmarshal a XML document building a new "JAXB" object out of it
+     * @param docClass the document class
+     * @param reader the reader pointing to the XML document
+     * @return A "JAXB object" of type T.
+     * @throws JAXBException if unable to parse the document
+     */
+    public static <T> T unmarshal(final Class<T> docClass,
+                                  final Reader reader)
+            throws JAXBException
+    {
+        logger.trace("Unmarshalling the XML data");
+
+        String packageName = docClass.getPackage().getName();
+        JAXBContext jc = JAXBContext.newInstance(packageName);
+        Unmarshaller u = jc.createUnmarshaller();
+        @SuppressWarnings("unchecked")
+        JAXBElement<T> doc = (JAXBElement<T>) u.unmarshal(reader);
+
+        return doc.getValue();
+    }
 
 
     /**
