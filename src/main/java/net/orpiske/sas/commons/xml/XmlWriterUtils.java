@@ -43,14 +43,14 @@ public class XmlWriterUtils {
      * Utility method that creates a new JAXBElement, which is used to marshal
      * the object
      * @param ns the name space
-     * @param prefix the name space prefix
+     * @param elementName the name element
      * @param clazz the class of the object to marshal
      * @param obj the object to marshal
      * @param <T> the type of the object
      * @return A JAXBElement that can be used to marshal the object
      */
-    public static <T> JAXBElement<T> newJAXBElement(String ns, String prefix, Class<T> clazz, T obj) {
-        QName qName = new QName(ns, prefix);
+    public static <T> JAXBElement<T> newJAXBElement(String ns, String elementName, Class<T> clazz, T obj) {
+        QName qName = new QName(ns, elementName);
 
         return new JAXBElement<T>(qName, clazz, obj);
     }
