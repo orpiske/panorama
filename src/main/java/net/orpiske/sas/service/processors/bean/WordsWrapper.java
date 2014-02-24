@@ -19,7 +19,7 @@ import java.util.Set;
 
 public abstract class WordsWrapper {
 
-    private static Set<String> wordSet;
+    private Set<String> wordSet;
     private int wordCount;
 
 

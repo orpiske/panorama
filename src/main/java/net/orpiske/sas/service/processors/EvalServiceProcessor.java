@@ -43,7 +43,7 @@ public class EvalServiceProcessor implements Processor {
     private String serializeResponse(ResponseType responseType) {
         StringWriter writer = new StringWriter();
 
-        String ns = "http://www.orpiske.net/exchange/sas/eval/v1/";
+        String ns = "http://www.orpiske.net/exchange/sas/eval/v1";
         JAXBElement<ResponseType> element = XmlWriterUtils.newJAXBElement(ns,
                 "response", ResponseType.class, responseType);
 

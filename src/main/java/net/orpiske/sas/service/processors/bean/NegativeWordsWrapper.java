@@ -33,6 +33,9 @@ public class NegativeWordsWrapper extends WordsWrapper {
         stringSet.add("horrivel");
         stringSet.add("pessimo");
         stringSet.add("lixo");
+        stringSet.add("problema");
+        stringSet.add("problemas");
+
 
         return stringSet;
     }
