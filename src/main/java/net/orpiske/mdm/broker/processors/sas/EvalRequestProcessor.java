@@ -20,9 +20,9 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.log4j.Logger;
 
-public class SasRequestProcessor implements Processor {
+public class EvalRequestProcessor implements Processor {
     private static final Logger logger =
-            Logger.getLogger(SasRequestProcessor.class);
+            Logger.getLogger(EvalRequestProcessor.class);
 
     @Override
     public void process(Exchange exchange) throws Exception {

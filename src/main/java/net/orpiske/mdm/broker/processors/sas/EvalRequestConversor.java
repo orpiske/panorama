@@ -29,7 +29,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SasRequestConversor {
+public class EvalRequestConversor {
 
     private HeaderType newHeader() {
         HeaderType headerType = new HeaderType();

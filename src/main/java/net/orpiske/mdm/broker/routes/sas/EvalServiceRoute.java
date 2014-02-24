@@ -13,51 +13,38 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-package net.orpiske.mdm.broker.routes;
+package net.orpiske.mdm.broker.routes.sas;
 
-import net.orpiske.mdm.broker.processors.InternalProcessor;
+import net.orpiske.mdm.broker.processors.sas.EvalRequestConversor;
+import net.orpiske.mdm.broker.processors.sas.EvalResponseProcessor;
 import net.orpiske.mdm.broker.utils.ConfigurationWrapper;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.commons.configuration.PropertiesConfiguration;
 
-public class InternalRoute extends RouteBuilder {
+public class EvalServiceRoute extends RouteBuilder {
     private static final PropertiesConfiguration config =
             ConfigurationWrapper.getConfig();
     private String name;
 
-    public InternalRoute(final String name) {
+    public EvalServiceRoute(final String name) {
         this.name = name;
     }
 
+
     @Override
     public void configure() throws Exception {
+        String sasRequestQueue = config.getString("sas.request.queue");
+        String sasResponseQueue = config.getString("sas.response.queue");
 
-
-
-        from("seda://BROKER.INTERNAL")
-                .routeId(name)
-                .process(new InternalProcessor())
-                .multicast()
-                .to("direct:sas.prepare", "mock:abc.prepare", "mock:zyz.prepare");
-
-
-
-
-
-        /*
         from("direct:sas.prepare")
-                .process(new EvalRequestProcessor())
-                .to("activemq:queue:" + sasRequestQueue + "?replyTo=" + sasResponseQueue);
-        */
-
-        /*
-        from("direct:abc.prepare")
-                .process(null)
-                .to("direct:broker.aggregator");
-
-        from("direct:zyz.prepare")
-                .process(null)
-                .to("direct:broker.aggregator");
-        */
+                .split()
+                    .method(EvalRequestConversor.class, "split")
+                .to("activemq:queue:" + sasRequestQueue + "?replyTo=" + sasResponseQueue)
+                    .aggregate(property("CSP.NAME"))
+                    .ignoreInvalidCorrelationKeys()
+                    .completionSize(property("CSP.REFERENCE_COUNT"))
+                    .groupExchanges()
+                    .process(new EvalResponseProcessor())
+                    .to("mock:sas.processed");
     }
 }

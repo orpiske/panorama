@@ -28,7 +28,7 @@ public class InternalProcessor implements Processor {
 
     @Override
     public void process(Exchange exchange) throws Exception {
-        logger.debug("Processing a load service message");
+        logger.info("Processing a load service message");
         Object object = exchange.getIn().getBody();
 
         if (object instanceof MessageContentsList) {
@@ -53,9 +53,9 @@ public class InternalProcessor implements Processor {
              * some scenarios.
              */
             logger.debug("Enriching the message");
-            exchange.getOut().setHeader("CSP.NAME",
+            exchange.setProperty("CSP.NAME",
                     wrapper.getCspType().getName());
-            exchange.getOut().setHeader("CSP.REFERENCE_COUNT",
+            exchange.setProperty("CSP.REFERENCE_COUNT",
                     wrapper.getCspType().getOccurrences());
         }
         else {

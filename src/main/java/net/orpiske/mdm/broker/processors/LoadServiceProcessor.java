@@ -32,7 +32,7 @@ public class LoadServiceProcessor implements Processor {
 
     @Override
     public void process(Exchange exchange) throws Exception {
-        logger.debug("Processing a load service message");
+        logger.info("Processing a load service message");
         Object object = exchange.getIn().getBody();
 
         if (object instanceof MessageContentsList) {
