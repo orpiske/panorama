@@ -31,13 +31,17 @@ public class ServiceRunner {
     private static final PropertiesConfiguration config =
             ConfigurationWrapper.getConfig();
 
+    /**
+     * Creates a new ActiveMQConfiguration object by reading
+     * some values from the configuration file.
+     * @return
+     */
     private ActiveMQConfiguration getActiveMQConfiguration() {
         ActiveMQConfiguration configuration = new ActiveMQConfiguration();
         String userName = config.getString("activemq.server.username");
         String password = config.getString("activemq.server.password");
         String url = config.getString("activemq.server.url",
                 "tcp://broker:61616");
-
 
         configuration.setUserName(userName);
         configuration.setPassword(password);
@@ -47,14 +51,31 @@ public class ServiceRunner {
     }
 
     private void initializeCamel() throws Exception {
+        /**
+         * Creates a new Camel Context - a set of routing rules
+         */
         logger.debug("Initializing broker engine");
         CamelContext camelContext = new DefaultCamelContext();
 
+        /**
+         * The active MQ component is not provided by the default Camel
+         * distribution, therefore we need to setup it's own component
+         * for that.
+         */
         logger.debug("Setting up ActiveMQ component");
         ActiveMQConfiguration activeMQConfiguration = getActiveMQConfiguration();
+
+        /**
+         * Creates the component using the ActiveMQConfiguration settings and
+         * adds it to the Camel context
+         */
         ActiveMQComponent component = new ActiveMQComponent(activeMQConfiguration);
         camelContext.addComponent("activemq", component);
 
+        /**
+         * All defined routes must be added to the context as well. For SAS
+         * we only have a single route.
+         */
         logger.debug("Adding routes");
         camelContext.addRoutes(new EvalServiceRoute(""));
 

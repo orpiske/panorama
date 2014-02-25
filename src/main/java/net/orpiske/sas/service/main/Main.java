@@ -64,7 +64,6 @@ public class Main {
         String first = args[0];
         String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
 
-
         if (first.equals("run")) {
             RunAction runAction = new RunAction(newArgs);
 

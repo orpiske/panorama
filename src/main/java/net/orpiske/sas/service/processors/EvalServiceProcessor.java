@@ -29,10 +29,21 @@ import javax.xml.bind.JAXBException;
 import java.io.StringReader;
 import java.io.StringWriter;
 
+/**
+ * A processor implementation. This is the class that it is
+ * actually responsible for handling or transforming the incoming
+ * messages.
+ */
 public class EvalServiceProcessor implements Processor {
     private static final Logger logger =
             Logger.getLogger(EvalServiceProcessor.class);
 
+    /**
+     * Parses the request message
+     * @param message the request message as a String
+     * @return
+     * @throws JAXBException
+     */
     private RequestType parseMessage(final String message) throws JAXBException {
         StringReader reader = new StringReader(message);
 
@@ -40,6 +51,11 @@ public class EvalServiceProcessor implements Processor {
     }
 
 
+    /**
+     * Serializes the response message
+     * @param responseType
+     * @return
+     */
     private String serializeResponse(ResponseType responseType) {
         StringWriter writer = new StringWriter();
 
@@ -50,32 +66,52 @@ public class EvalServiceProcessor implements Processor {
         try {
             XmlWriterUtils.marshal(element, responseType, writer);
         } catch (JAXBException e) {
-            // TODO: needs better handling
-            e.printStackTrace();
+            logger.error("Unable to serialize response message: " +
+                    e.getMessage(), e);
         }
 
         return writer.toString();
     }
 
+
+    /**
+     * This is the method that actually works with the messages.
+     * @param exchange The in/out exchange messages
+     * @throws Exception
+     */
     @Override
     public void process(Exchange exchange) throws Exception {
+        /*
+         * Access to the message is usually done by obtaining the message
+         * body as a String object, which can be parsed.
+         */
         String message = exchange.getIn().getBody().toString();
         logger.info("Message received: " + message);
 
+        EvalServiceBean bean = new EvalServiceBean();
+        ResponseType responseType;
         try {
+            /*
+             * Either handles the request ...
+             */
             RequestType requestType = parseMessage(message);
 
-            EvalServiceBean bean = new EvalServiceBean();
-            ResponseType responseType = bean.eval(requestType);
-
-            String response = serializeResponse(responseType);
-            exchange.getOut().setBody(response,
-                    String.class);
+            responseType = bean.eval(requestType);
         }
         catch (JAXBException e) {
-            e.printStackTrace();
+            /**
+             * ... or any error that might occur
+             */
+            logger.error("Unable to process the request: " + e.getMessage(), e);
 
-            // TODO: handle error
+            responseType = bean.createError();
         }
+
+        /**
+         * In any case, try to always send a message - unless it fails to
+         * serialize it.
+         */
+        String response = serializeResponse(responseType);
+        exchange.getOut().setBody(response, String.class);
     }
 }

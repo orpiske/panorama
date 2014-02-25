@@ -16,16 +16,15 @@
 package net.orpiske.sas.service.processors.bean;
 
 
+import net.orpiske.exchange.sas.common.error.v1.ReturnType;
 import net.orpiske.exchange.sas.eval.v1.EvalResponseType;
 import net.orpiske.exchange.sas.eval.v1.RequestType;
 import net.orpiske.exchange.sas.eval.v1.ResponseType;
 
+/**
+ * Just a simple bean for performing some mock business rules
+ */
 public class EvalServiceBean {
-
-    private static final int NEGATIVE = -1;
-    private static final int NEUTRAL = 0;
-    private static final int POSITIVE = 1;
-
 
 
     private int getIndividualScore(final WordsWrapper wrapper, final String phrase) {
@@ -45,6 +44,12 @@ public class EvalServiceBean {
     }
 
 
+    /**
+     * Calculates the sentiment of the phrase based on the existence of
+     * certain words in the text
+     * @param requestType the request object
+     * @return A response object
+     */
     public ResponseType eval(RequestType requestType) {
         ResponseType responseType = new ResponseType();
         String phrase = requestType.getEvalRequest().getPhrase();
@@ -54,6 +59,23 @@ public class EvalServiceBean {
         EvalResponseType evalResponseType = new EvalResponseType();
         evalResponseType.setScore(score);
         responseType.setEvalResponse(evalResponseType);
+
+        return responseType;
+    }
+
+
+    /**
+     * Setups an error message
+     * @return a response type containing an error
+     */
+    public ResponseType createError() {
+        ResponseType responseType = new ResponseType();
+
+        ReturnType returnType = new ReturnType();
+        returnType.setCode(-1);
+        returnType.setMessage("Unable to process the request");
+
+        responseType.setReturn(returnType);
 
         return responseType;
     }

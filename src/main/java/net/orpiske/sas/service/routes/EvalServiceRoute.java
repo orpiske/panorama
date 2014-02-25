@@ -18,6 +18,11 @@ package net.orpiske.sas.service.routes;
 import net.orpiske.sas.service.processors.EvalServiceProcessor;
 import org.apache.camel.builder.RouteBuilder;
 
+/**
+ * A route declares a routing rule, tying 1 or more endpoints together
+ * and making it possible to define the routing and processing for the
+ * exchanges passing through the route
+ */
 public class EvalServiceRoute extends RouteBuilder {
 
 

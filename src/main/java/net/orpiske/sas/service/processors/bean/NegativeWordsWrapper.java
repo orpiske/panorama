@@ -18,6 +18,10 @@ package net.orpiske.sas.service.processors.bean;
 import java.util.HashSet;
 import java.util.Set;
 
+
+/**
+ * Wrapper to calculate the negativity index
+ */
 public class NegativeWordsWrapper extends WordsWrapper {
     @Override
     protected Set<String> loadWords() {

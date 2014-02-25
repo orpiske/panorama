@@ -18,6 +18,9 @@ package net.orpiske.sas.service.processors.bean;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Wrapper to calculate the positivity index
+ */
 public class PositiveWordsWrapper extends WordsWrapper {
     @Override
     protected Set<String> loadWords() {

@@ -17,6 +17,9 @@ package net.orpiske.sas.service.processors.bean;
 
 import java.util.Set;
 
+/**
+ * A wrapper for the negativity/positivity score calculation
+ */
 public abstract class WordsWrapper {
 
     private Set<String> wordSet;
