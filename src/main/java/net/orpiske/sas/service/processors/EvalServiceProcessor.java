@@ -23,6 +23,7 @@ import net.orpiske.sas.service.processors.bean.EvalServiceBean;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.log4j.Logger;
+import org.apache.log4j.MDC;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
@@ -87,6 +88,15 @@ public class EvalServiceProcessor implements Processor {
          */
         String message = exchange.getIn().getBody().toString();
         logger.info("Message received: " + message);
+
+
+        /**
+         * This adds the exchange ID, when available, to the logs
+         * which makes it easier to correlate request, processing
+         * and response.
+         */
+        String id = exchange.getExchangeId();
+        MDC.put("id", id);
 
         EvalServiceBean bean = new EvalServiceBean();
         ResponseType responseType;
