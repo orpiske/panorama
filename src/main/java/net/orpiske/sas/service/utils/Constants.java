@@ -43,8 +43,7 @@ public final class Constants {
 	static {
         HOME_DIR = System.getProperty(HOME_PROPERTY);
 
-        SAS_SERVICE_CONFIG_DIR = System.getProperty(HOME_PROPERTY) + File.separator
-				+ "config";
+        SAS_SERVICE_CONFIG_DIR = HOME_DIR + File.separator + "config";
 	}
 
 	/**

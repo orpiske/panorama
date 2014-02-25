@@ -35,7 +35,7 @@ public abstract class AbstractAction {
 	protected void help(final Options options, int code) {
 		HelpFormatter formatter = new HelpFormatter();
 
-		formatter.printHelp("dcd", options);
+		formatter.printHelp("sas-service", options);
 		System.exit(code);
 	}
 

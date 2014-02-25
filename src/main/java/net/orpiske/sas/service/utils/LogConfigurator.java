@@ -15,8 +15,11 @@
  */
 package net.orpiske.sas.service.utils;
 
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.log4j.PropertyConfigurator;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Properties;
 
 /**
@@ -56,9 +59,11 @@ public class LogConfigurator {
     }
 
     private static void configureSilent(Properties properties) {
-        properties.setProperty("log4j.rootLogger", "ERROR, stdout");
-    }
+        String configDir = Constants.SAS_SERVICE_CONFIG_DIR;
 
+        PropertyConfigurator.configure(configDir + File.separator
+                + "log4j.properties");
+    }
 
     /**
      * Configure the output to be at trace level
@@ -100,14 +105,14 @@ public class LogConfigurator {
 
 
     /**
-     * Configure the output to be as silent as possible
+     * Configure the output to be as silent as possible. All
+     * log read from the log4j.properties file which is configured
+     * to redirect logging to separate files. This is the default
+     * behavior
      */
     public static void silent() {
         Properties properties = new Properties();
 
-        configureCommon(properties);
         configureSilent(properties);
-
-        PropertyConfigurator.configure(properties);
     }
 }
