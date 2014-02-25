@@ -22,4 +22,4 @@ if %OS%=="WINNT" @setlocal
 
 for %%i in ("%SAS_HOME%"\bin\sas-service-*) do set SAS_JAR="%%i"
 
-@java -classpath %SDM_JAR% -Dnet.orpiske.sas.service.home=%SAS_HOME% net.orpiske.sas.service.main.Main %*
+@java -classpath %SAS_JAR% -Dnet.orpiske.sas.service.home=%SAS_HOME% net.orpiske.sas.service.main.Main %*
