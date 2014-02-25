@@ -17,6 +17,7 @@ package net.orpiske.mdm.broker.utils;
 
 import org.apache.log4j.PropertyConfigurator;
 
+import java.io.File;
 import java.util.Properties;
 
 /**
@@ -55,8 +56,9 @@ public class LogConfigurator {
         properties.setProperty("log4j.rootLogger", "INFO, stdout");
     }
 
-    private static void configureSilent(Properties properties) {
-        properties.setProperty("log4j.rootLogger", "ERROR, stdout");
+    private static void configureSilent() {
+        PropertyConfigurator.configure(Constants.MDM_BROKER_CONFIG_DIR
+                + File.separator + "log4j.properties");
     }
 
 
@@ -103,11 +105,6 @@ public class LogConfigurator {
      * Configure the output to be as silent as possible
      */
     public static void silent() {
-        Properties properties = new Properties();
-
-        configureCommon(properties);
-        configureSilent(properties);
-
-        PropertyConfigurator.configure(properties);
+        configureSilent();
     }
 }

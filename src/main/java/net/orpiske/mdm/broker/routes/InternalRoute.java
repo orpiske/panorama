@@ -31,33 +31,10 @@ public class InternalRoute extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
-
-
-
         from("seda://BROKER.INTERNAL")
                 .routeId(name)
                 .process(new InternalProcessor())
                 .multicast()
-                .to("direct:sas.prepare", "mock:abc.prepare", "mock:zyz.prepare");
-
-
-
-
-
-        /*
-        from("direct:sas.prepare")
-                .process(new EvalRequestProcessor())
-                .to("activemq:queue:" + sasRequestQueue + "?replyTo=" + sasResponseQueue);
-        */
-
-        /*
-        from("direct:abc.prepare")
-                .process(null)
-                .to("direct:broker.aggregator");
-
-        from("direct:zyz.prepare")
-                .process(null)
-                .to("direct:broker.aggregator");
-        */
+                .to("direct:sas.prepare");
     }
 }

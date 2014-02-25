@@ -19,6 +19,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.cxf.message.MessageContentsList;
 import org.apache.log4j.Logger;
+import org.apache.log4j.MDC;
 
 import javax.xml.ws.Holder;
 
@@ -35,6 +36,17 @@ public class LoadServiceProcessor implements Processor {
         logger.info("Processing a load service message");
         Object object = exchange.getIn().getBody();
 
+
+        /**
+         * This adds the exchange ID, when available, to the logs
+         * which makes it easier to correlate request, processing
+         * and response.
+         */
+        String id = exchange.getExchangeId();
+        if (id != null) {
+            MDC.put("id", id);
+        }
+        
         if (object instanceof MessageContentsList) {
             MessageContentsList messageContentsList = (MessageContentsList) object;
 
