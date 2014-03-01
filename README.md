@@ -11,7 +11,7 @@ It is implemented on the simplest way possible. Some of the key concepts, approa
 used in this example:
 * [Request and Reply](http://camel.apache.org/request-reply.html)
 * [Data Format](http://camel.apache.org/data-format.html)
-** [JaxbDataFormat](http://camel.apache.org/jaxb.html)
+  * [JaxbDataFormat](http://camel.apache.org/jaxb.html)
 * [Exception Clause](http://camel.apache.org/exception-clause)
 
 
