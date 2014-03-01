@@ -1,4 +1,4 @@
-Otavio's Apache Camel Examples: Sas Service
+Otavio's Apache Camel Examples: SAS Service
 ============
 
 This example project shows a simple request/response service in Apache Camel using
