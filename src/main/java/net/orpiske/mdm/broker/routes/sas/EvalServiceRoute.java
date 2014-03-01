@@ -36,6 +36,14 @@ public class EvalServiceRoute extends RouteBuilder {
         String sasRequestQueue = config.getString("sas.request.queue");
         String sasResponseQueue = config.getString("sas.response.queue");
 
+        /*
+        from("direct:sas.prepare")
+                .setBody(body().append("abcdddd"))
+                .to("log:net.orpiske.mdm.broker.exchanges.evalservice?level=INFO")
+                .to("activemq:queue:" + sasRequestQueue + "?replyTo=" + sasResponseQueue)
+                .to("log:net.orpiske.mdm.broker.exchanges.evalservice?level=INFO");
+        */
+
         from("direct:sas.prepare")
                 .split()
                     .method(EvalRequestConversor.class, "split")
@@ -48,5 +56,6 @@ public class EvalServiceRoute extends RouteBuilder {
                     .groupExchanges()
                     .process(new EvalResponseProcessor())
                     .to("mock:sas.processed");
+
     }
 }

@@ -46,7 +46,7 @@ public class LoadServiceProcessor implements Processor {
         if (id != null) {
             MDC.put("id", id);
         }
-        
+
         if (object instanceof MessageContentsList) {
             MessageContentsList messageContentsList = (MessageContentsList) object;
 
@@ -66,7 +66,7 @@ public class LoadServiceProcessor implements Processor {
         }
         else {
             /*
-             * A CXF in POJO modo should give us a MessageContentsList object.
+             * A CXF in POJO mode should give us a MessageContentsList object.
              * If that's not the case, then it's an unhandled error.
              *
              * Obs.: this is not a production-ready code since it should return

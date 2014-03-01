@@ -31,6 +31,11 @@ public class BrokerRunner {
     private static final Logger logger = Logger.getLogger(BrokerRunner.class);
     private static final PropertiesConfiguration config = ConfigurationWrapper.getConfig();
 
+    /**
+     * Creates a new ActiveMQConfiguration object by reading
+     * some values from the configuration file.
+     * @return A properly configured ActiveMQConfiguration object
+     */
     private ActiveMQConfiguration getActiveMQConfiguration() {
         ActiveMQConfiguration configuration = new ActiveMQConfiguration();
         String userName = config.getString("sas.server.username");
@@ -46,20 +51,28 @@ public class BrokerRunner {
         return configuration;
     }
 
+    /**
+     * Initializes Camel
+     * @throws Exception
+     */
     private void initializeCamel() throws Exception {
         logger.debug("Initializing broker engine");
         CamelContext camelContext = new DefaultCamelContext();
 
+        // Sets up the Active MQ component
         logger.debug("Setting up ActiveMQ component");
         ActiveMQConfiguration activeMQConfiguration = getActiveMQConfiguration();
         ActiveMQComponent component = new ActiveMQComponent(activeMQConfiguration);
         camelContext.addComponent("activemq", component);
 
+
+        // Adds new routes
         logger.debug("Adding routes");
         camelContext.addRoutes(new LoadServiceRoute("LoadService"));
         camelContext.addRoutes(new InternalRoute("InternalRoute"));
         camelContext.addRoutes(new EvalServiceRoute("EvalService"));
 
+        // Starts Apache Camel
         logger.debug("Starting Apache Camel");
         camelContext.start();
         Thread.currentThread().join();
