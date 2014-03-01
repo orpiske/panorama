@@ -30,7 +30,7 @@
 			<extension base="pref1:AbstractResponse">
 				<sequence>
 					<element name="evalResponse"
-						type="tns:EvalResponseType">
+						type="tns:EvalResponseType" minOccurs="0" maxOccurs="1">
 					</element>
 				</sequence>
 			</extension>
