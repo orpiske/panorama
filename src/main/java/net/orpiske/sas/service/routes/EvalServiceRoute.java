@@ -15,8 +15,13 @@
  */
 package net.orpiske.sas.service.routes;
 
+import net.orpiske.sas.service.processors.EvalServiceErrorProcessor;
 import net.orpiske.sas.service.processors.EvalServiceProcessor;
+import net.orpiske.sas.service.type.formats.FormatBuilder;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.converter.jaxb.JaxbDataFormat;
+
+import javax.xml.bind.JAXBException;
 
 /**
  * A route declares a routing rule, tying 1 or more endpoints together
@@ -24,8 +29,6 @@ import org.apache.camel.builder.RouteBuilder;
  * exchanges passing through the route
  */
 public class EvalServiceRoute extends RouteBuilder {
-
-
     private String name;
 
     public EvalServiceRoute(final String name) {
@@ -35,9 +38,33 @@ public class EvalServiceRoute extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
+        JaxbDataFormat readerFormat = FormatBuilder.getReaderFormat();
+        JaxbDataFormat writerFormat = FormatBuilder.getWriterFormat();
+
+        /**
+         * If it fails to unmarshal the message, it will throw a JABXException
+         * excpetion. We use the onException mechanism to trap it and send a
+         * custom error response saying we were unable to process. We also log
+         * the exchange
+         */
+        onException(JAXBException.class)
+                .handled(true)
+                .to("log:net.orpiske.sas.service.exchanges.evalservice?level=ERROR")
+                .process(new EvalServiceErrorProcessor())
+                .marshal(writerFormat);
+
+        /**
+         * This is the default exchange declaration. We start from our sas.request
+         * queue with 2 concurrent consumers (maxing out at 4), unmarshal the request
+         * and declare the processor
+         */
         from("activemq:queue:sas.request?" +
                 "concurrentConsumers=2&" +
                 "maxConcurrentConsumers=4")
-                .process(new EvalServiceProcessor());
+                // We could log it if we want.
+                // .to("log:net.orpiske.sas.service.exchanges.evalservice?level=INFO")
+                .unmarshal(readerFormat)
+                .process(new EvalServiceProcessor())
+                .marshal(writerFormat);
     }
 }

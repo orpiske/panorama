@@ -15,7 +15,6 @@
  */
 package net.orpiske.sas.service.processors;
 
-import net.orpiske.exchange.sas.eval.v1.RequestType;
 import net.orpiske.exchange.sas.eval.v1.ResponseType;
 import net.orpiske.sas.service.processors.bean.EvalServiceBean;
 import org.apache.camel.Exchange;
@@ -23,36 +22,25 @@ import org.apache.camel.Processor;
 import org.apache.log4j.Logger;
 import org.apache.log4j.MDC;
 
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import java.io.StringReader;
-import java.io.StringWriter;
-
 /**
- * A processor implementation. This is the class that it is
- * actually responsible for handling or transforming the incoming
- * messages.
+ * This is a processor for service errors.
  */
-public class EvalServiceProcessor implements Processor {
-    /**
-     * This is the method that actually works with the messages.
-     * @param exchange The in/out exchange messages
-     * @throws Exception
-     */
+public class EvalServiceErrorProcessor implements Processor {
+    private static final Logger logger =
+            Logger.getLogger(EvalServiceErrorProcessor.class);
+
     @Override
     public void process(Exchange exchange) throws Exception {
-        /**
-         * This adds the exchange ID, when available, to the logs
-         * which makes it easier to correlate request, processing
-         * and response.
-         */
         String id = exchange.getExchangeId();
         MDC.put("id", id);
 
-        RequestType requestType = exchange.getIn().getBody(RequestType.class);
+        Exception e = exchange.getException();
+        if (e != null) {
+            logger.error("Unable to process the request: " + e.getMessage(), e);
+        }
 
         EvalServiceBean bean = new EvalServiceBean();
-        ResponseType responseType = bean.eval(requestType);
+        ResponseType responseType = bean.createError();
 
         exchange.getOut().setBody(responseType);
     }

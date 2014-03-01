@@ -26,6 +26,11 @@ public class PositiveWordsWrapper extends WordsWrapper {
     protected Set<String> loadWords() {
         Set<String> stringSet = new HashSet<String>();
 
+
+        /**
+         * This is a set of (portuguese) words that are somehow related to
+         * good service.
+         */
         stringSet.add("boa");
         stringSet.add("estavel");
         stringSet.add("rapido");

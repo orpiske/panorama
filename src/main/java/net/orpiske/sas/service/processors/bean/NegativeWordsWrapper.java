@@ -27,6 +27,10 @@ public class NegativeWordsWrapper extends WordsWrapper {
     protected Set<String> loadWords() {
         Set<String> stringSet = new HashSet<String>();
 
+        /**
+         * This is a set of (portuguese) words that are somehow related to
+         * poor service.
+         */
         stringSet.add("ruim");
         stringSet.add("instavel");
         stringSet.add("lento");
@@ -39,7 +43,6 @@ public class NegativeWordsWrapper extends WordsWrapper {
         stringSet.add("lixo");
         stringSet.add("problema");
         stringSet.add("problemas");
-
 
         return stringSet;
     }

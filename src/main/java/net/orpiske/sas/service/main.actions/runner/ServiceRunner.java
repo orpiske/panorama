@@ -17,14 +17,12 @@ package net.orpiske.sas.service.main.actions.runner;
 
 import net.orpiske.sas.service.routes.EvalServiceRoute;
 import net.orpiske.sas.service.utils.ConfigurationWrapper;
-
+import org.apache.activemq.camel.component.ActiveMQComponent;
+import org.apache.activemq.camel.component.ActiveMQConfiguration;
 import org.apache.camel.CamelContext;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.log4j.Logger;
-
-import org.apache.activemq.camel.component.ActiveMQConfiguration;
-import org.apache.activemq.camel.component.ActiveMQComponent;
 
 public class ServiceRunner {
     private static final Logger logger = Logger.getLogger(ServiceRunner.class);
@@ -71,6 +69,17 @@ public class ServiceRunner {
          */
         ActiveMQComponent component = new ActiveMQComponent(activeMQConfiguration);
         camelContext.addComponent("activemq", component);
+
+        /**
+         * Adding type converters. We don't use it here, but we could if we want
+         * to do things like exchange.getIn().getBody(RequestType.class) without
+         * relying on a data format. We do want to rely on a data format,
+         * because it's simpler.
+         *
+         */
+        //camelContext.getTypeConverterRegistry().addTypeConverter(RequestType.class,
+        //        String.class, new RequestTypeConverter());
+
 
         /**
          * All defined routes must be added to the context as well. For SAS
