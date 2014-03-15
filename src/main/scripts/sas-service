@@ -47,4 +47,4 @@ fi
 
 mainclass=net.orpiske.sas.service.main.Main
 
-java -classpath "$installdir"/bin/sas-service-*.jar -Dnet.orpiske.sas.service.home="$installdir" "$mainclass" $@
+java -classpath "$installdir"/bin/sas-service-*.jar -Dnet.orpiske.sas.service.home="$installdir" $JAVA_OPTS "$mainclass" $@
