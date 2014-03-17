@@ -70,6 +70,7 @@ public class Main {
             System.exit(-1);
         }
 
+        // TODO: add a fetching action
         if (first.equals("fetch")) {
 
         }
