@@ -16,7 +16,7 @@
     <dependencies>
         <dependency>
             <groupId>net.orpiske</groupId>
-            <artifactId>tcs-utils</artifactId>
+            <artifactId>tcs-domain</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
 
