@@ -1,4 +1,4 @@
-Otavio's Apache Camel Examples: TCS Persistence
+Otavio's Examples: TCS Persistence
 ============
 
 This project implements a simple Cassandra persistence layer used by the TCS
