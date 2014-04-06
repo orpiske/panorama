@@ -28,10 +28,15 @@
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
 
-
         <dependency>
             <groupId>net.orpiske</groupId>
             <artifactId>sas-commons</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.orpiske</groupId>
+            <artifactId>tcs-domain</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
 
@@ -84,6 +89,13 @@
         </dependency>
 
 
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-restlet</artifactId>
+            <version>${camel.version}</version>
+        </dependency>
+
+
         <!-- Apache CXF -->
         <dependency>
             <groupId>org.apache.cxf</groupId>
@@ -114,6 +126,13 @@
                 </exclusion>
 
             </exclusions>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-jackson</artifactId>
+            <version>${camel.version}</version>
         </dependency>
     </dependencies>
 

@@ -18,6 +18,7 @@ package net.orpiske.mdm.broker.main.actions.runner;
 import net.orpiske.mdm.broker.routes.InternalRoute;
 import net.orpiske.mdm.broker.routes.LoadServiceRoute;
 import net.orpiske.mdm.broker.routes.sas.EvalServiceRoute;
+import net.orpiske.mdm.broker.routes.tcs.TcsRoute;
 import net.orpiske.mdm.broker.utils.ConfigurationWrapper;
 import org.apache.camel.CamelContext;
 import org.apache.camel.impl.DefaultCamelContext;
@@ -71,6 +72,7 @@ public class BrokerRunner {
         camelContext.addRoutes(new LoadServiceRoute("LoadService"));
         camelContext.addRoutes(new InternalRoute("InternalRoute"));
         camelContext.addRoutes(new EvalServiceRoute("EvalService"));
+        camelContext.addRoutes(new TcsRoute("TcsService"));
 
         // Starts Apache Camel
         logger.debug("Starting Apache Camel");

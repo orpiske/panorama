@@ -13,28 +13,33 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-package net.orpiske.mdm.broker.routes;
+package net.orpiske.mdm.broker.processors.tcs;
 
-import net.orpiske.mdm.broker.processors.InternalProcessor;
 import net.orpiske.mdm.broker.utils.ConfigurationWrapper;
-import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.Exchange;
+import org.apache.camel.Processor;
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.restlet.data.MediaType;
 
-public class InternalRoute extends RouteBuilder {
+public class TcsEndpointResolver implements Processor {
     private static final PropertiesConfiguration config =
             ConfigurationWrapper.getConfig();
-    private String name;
-
-    public InternalRoute(final String name) {
-        this.name = name;
-    }
 
     @Override
-    public void configure() throws Exception {
-        from("seda://BROKER.INTERNAL")
-                .routeId(name)
-                .process(new InternalProcessor())
-                .multicast()
-                .to("direct:sas.prepare", "direct:tcs.prepare");
+    public void process(Exchange exchange) throws Exception {
+        String url = config.getString("tcs.service.url");
+        String csp = exchange.getProperty("CSP.NAME", String.class);
+
+
+        String tcsEndpoint = "restlet:" + url + "/references/"
+                + "?restletMethod=post";
+
+        exchange.getOut().setBody(exchange.getIn().getBody());
+        exchange.getOut().setHeader(Exchange.CONTENT_TYPE,
+                MediaType.APPLICATION_JSON);
+
+        exchange.setProperty("TCS.ENDPOINT", tcsEndpoint);
     }
+
+
 }
