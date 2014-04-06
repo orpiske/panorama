@@ -26,6 +26,7 @@ import net.orpiske.tcs.service.core.service.TagCloudService;
 
 import net.orpiske.tcs.service.utils.LogConfigurator;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,16 +38,13 @@ import java.io.IOException;
 
 import static org.junit.Assert.*;
 
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {CoreConfig.class})
 public class CoreDomainIntegrationTest {
 
     @Autowired
     TagCloudService tagCloudService;
-
-    static {
-        LogConfigurator.trace();
-    }
 
     @Before
     public void setup() {

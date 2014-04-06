@@ -16,10 +16,9 @@
 package net.orpiske.tcs.service.config;
 
 import net.orpiske.tcs.service.core.domain.Text;
-import net.orpiske.tcs.service.core.events.request.RequestCreateReference;
-import net.orpiske.tcs.service.core.events.response.ReferenceCreateEvent;
 import net.orpiske.tcs.service.utils.LogConfigurator;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +30,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import static net.orpiske.tcs.service.rest.controller.fixtures.RestDataFixtures.customReferenceRequestData;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = {CoreConfig.class, MVCConfig.class})
@@ -52,7 +51,6 @@ public class RestDomainIntegrationTest {
     private static String REQUEST_JSON;
 
     static {
-        LogConfigurator.trace();
 
         try {
             text = Text.fromString("this is a sample string");
