@@ -53,7 +53,6 @@ public class TagCloudIntegrationTest {
      */
     @Before
     public void setup() {
-        LogConfigurator.trace();
         MockitoAnnotations.initMocks(this);
 
         this.mockMvc = standaloneSetup(tagCloudQueriesController,
