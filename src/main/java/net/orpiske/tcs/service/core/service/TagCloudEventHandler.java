@@ -44,12 +44,6 @@ public class TagCloudEventHandler implements TagCloudService {
     @Autowired
     private TagRepository tagRepository;
 
-    /*
-    public TagCloudEventHandler(CspRepository cspRepository, ReferenceRepository tagRepository) {
-        this.cspRepository = cspRepository;
-        this.refRepository = tagRepository;
-    }
-    */
 
     @Override
     public CspListEvent requestCspList(RequestCspListEvent requestCspListEvent) {
@@ -86,6 +80,9 @@ public class TagCloudEventHandler implements TagCloudService {
         ReferenceCreateEvent event = new ReferenceCreateEvent();
 
         try {
+            Csp csp = data.getCsp();
+            cspRepository.save(csp);
+
             Reference reference = data.toReference();
             refRepository.add(reference);
         }
