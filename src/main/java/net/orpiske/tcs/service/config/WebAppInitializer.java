@@ -15,6 +15,7 @@
  */
 package net.orpiske.tcs.service.config;
 
+import net.orpiske.tcs.service.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
@@ -66,6 +67,7 @@ public class WebAppInitializer implements WebApplicationInitializer {
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
+        LogConfigurator.debug();
         WebApplicationContext rootContext = createRootContext(servletContext);
 
         configureSpringMvc(servletContext, rootContext);

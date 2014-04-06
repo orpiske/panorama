@@ -17,7 +17,6 @@ package net.orpiske.tcs.service.utils;
 
 import org.apache.log4j.PropertyConfigurator;
 
-import java.io.File;
 import java.util.Properties;
 
 /**
@@ -32,28 +31,28 @@ public class LogConfigurator {
 
 
     private static void configureCommon(Properties properties) {
-        properties.setProperty("log4j.appender.stdout",
-                "org.apache.log4j.ConsoleAppender");
+        properties.setProperty("log4j.appender.core",
+                "org.apache.log4j.FileAppender");
 
-        properties.setProperty("log4j.appender.stdout.Target",
-                "System.out");
-        properties.setProperty("log4j.appender.stdout.layout",
+        properties.setProperty("log4j.appender.core.File",
+                "${catalina.base}/logs/tcs.log");
+        properties.setProperty("log4j.appender.core.layout",
                 "org.apache.log4j.PatternLayout");
         properties.setProperty(
-                "log4j.appender.stdout.layout.ConversionPattern",
-                "%m%n");
+                "log4j.appender.core.layout.ConversionPattern",
+                "%-4r [%t] %-5p %c %x %m%n");
     }
 
     private static void configureTrace(Properties properties) {
-        properties.setProperty("log4j.rootLogger", "TRACE, stdout");
+        properties.setProperty("log4j.rootLogger", "TRACE, core");
     }
 
     private static void configureDebug(Properties properties) {
-        properties.setProperty("log4j.rootLogger", "DEBUG, stdout");
+        properties.setProperty("log4j.rootLogger", "DEBUG, core");
     }
 
     private static void configureVerbose(Properties properties) {
-        properties.setProperty("log4j.rootLogger", "INFO, stdout");
+        properties.setProperty("log4j.rootLogger", "INFO, core");
     }
 
 
