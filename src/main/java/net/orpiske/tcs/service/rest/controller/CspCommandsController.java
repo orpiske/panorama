@@ -40,6 +40,11 @@ public class CspCommandsController {
     @RequestMapping(value = "/{csp}", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<Csp> createCspTagCloud(@RequestBody final Csp csp, UriComponentsBuilder builder) {
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("CSP command controller handling a create CSP request for " + csp);
+        }
+
         CspCreateEvent tagCloudEvent = tagCloudService.createCsp(
                 new RequestCreateCspEvent(csp));
 

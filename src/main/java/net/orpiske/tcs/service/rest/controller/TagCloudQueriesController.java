@@ -40,6 +40,10 @@ public class TagCloudQueriesController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public TagCloud requestTagCloud() {
+        if (logger.isDebugEnabled()) {
+            logger.debug("TagCloud command controller handling a tag cloud request");
+        }
+
         TagCloudEvent tagCloudEvent = tagCloudService.requestTagCloud(new RequestTagCloudEvent());
 
         return tagCloudEvent.getCspTagCloud();
@@ -49,7 +53,11 @@ public class TagCloudQueriesController {
     @RequestMapping(value = "/{csp}", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<TagCloud> requestCspTagCloud(@RequestBody final Csp csp) {
-        logger.debug("Requesting the CSP tag cloud");
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("Requesting the CSP tag cloud for " + csp);
+        }
+
         TagCloudEvent tagCloudEvent = tagCloudService.requestTagCloud(
                 new RequestTagCloudEvent(csp));
 

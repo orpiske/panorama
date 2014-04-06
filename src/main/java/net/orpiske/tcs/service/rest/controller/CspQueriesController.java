@@ -40,7 +40,10 @@ public class CspQueriesController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public CspList requestCspList() {
-        System.out.println("Handling the request");
+        if (logger.isDebugEnabled()) {
+            logger.debug("CSP query controller handling a create CSP request");
+        }
+
         CspListEvent cspListEvent = tagCloudService.requestCspList(new RequestCspListEvent());
 
         return cspListEvent.getCspList();
