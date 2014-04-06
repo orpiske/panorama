@@ -48,12 +48,4 @@ public class Text {
 
         return text;
     }
-
-
-    public String getDecompressedText() throws IOException {
-        String encodedText = getEncodedText();
-        byte[] encodedBytes = Base64.decodeBase64(encodedText);
-
-        return Decompressor.decompress(encodedBytes);
-    }
 }

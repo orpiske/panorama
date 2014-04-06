@@ -16,6 +16,7 @@
 package net.orpiske.tcs.service.core.domain;
 
 import net.orpiske.tcs.service.core.exception.ReferenceConversionException;
+import net.orpiske.tcs.service.core.utils.TextUtils;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.IOException;
@@ -52,7 +53,7 @@ public class ReferenceCreateData {
         reference.setDomain(csp.getDomain());
 
         try {
-            String decompressed = text.getDecompressedText();
+            String decompressed = TextUtils.getDecompressedText(text);
 
             reference.setHash(DigestUtils.sha256Hex(decompressed));
             reference.setReferenceText(decompressed);
