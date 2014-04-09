@@ -20,15 +20,24 @@ import com.google.common.base.Splitter;
 
 import java.util.Iterator;
 
+/**
+ * Abstracts a dictionary entry
+ */
 public final class DictionaryEntry implements Comparable<DictionaryEntry> {
 
 	/**
-	 * There are many more ... I won't even list them all here ...
+	 * The category of the entry ... There are many more ... I won't even list them all here ...
 	 */
 	public enum Category {
 		ADJECTIVE,
 		OTHER;
 
+
+		/**
+		 * Creates an entry from a string
+		 * @param string a category string within the dictionary file
+		 * @return ADJECTIVE if the word is an adjective or OTHER if other
+		 */
 		public static Category fromString(final String string) {
 			if (string == null) {
 				return OTHER;
@@ -57,12 +66,22 @@ public final class DictionaryEntry implements Comparable<DictionaryEntry> {
 	private String word;
 	private Category category;
 
+	/**
+	 * Constructs a new dictionary entry
+	 * @param word
+	 * @param category
+	 */
 	private DictionaryEntry(final String word, final Category category) {
 		this.word = word;
 		this.category = category;
 	}
 
 
+	/**
+	 * Creates a new dictionary entry from a line in the .dic file
+	 * @param string the line
+	 * @return
+	 */
 	public static DictionaryEntry fromString(final String string) {
 		if (string.trim().isEmpty()) {
 			return null;

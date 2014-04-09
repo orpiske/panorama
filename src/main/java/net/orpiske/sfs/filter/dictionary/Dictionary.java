@@ -16,7 +16,15 @@
 
 package net.orpiske.sfs.filter.dictionary;
 
+/**
+ * Dictionary interface
+ */
 public interface Dictionary {
 
+	/**
+	 * Looks up a term in the dictionary
+	 * @param word the term to lookup
+	 * @return the entry or null if not found
+	 */
 	DictionaryEntry lookup(final String word);
 }
