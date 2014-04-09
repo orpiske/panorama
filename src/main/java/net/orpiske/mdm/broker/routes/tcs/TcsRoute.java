@@ -37,7 +37,7 @@ public class TcsRoute extends RouteBuilder {
                 .marshal().json(JsonLibrary.Jackson)
                 .to("log:net.orpiske.mdm.broker.exchanges.evalservice?level=INFO")
                 .process(new TcsEndpointResolver())
-                .throttle(10).timePeriodMillis(5000)
+                .throttle(500).timePeriodMillis(5000)
                 .dynamicRouter(header("TCS.ENDPOINT"));
     }
 }
