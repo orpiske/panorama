@@ -1,0 +1,60 @@
+/**
+ Copyright 2014 Otavio Rodolfo Piske
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
+package net.orpiske.tcs.wc.map;
+
+import org.apache.cassandra.db.Column;
+import org.apache.cassandra.utils.ByteBufferUtil;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapred.MapReduceBase;
+import org.apache.hadoop.mapreduce.Mapper;
+import org.apache.hadoop.mapred.OutputCollector;
+import org.apache.hadoop.mapred.Reporter;
+import org.apache.log4j.Logger;
+
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.StringTokenizer;
+
+public class WordMapper extends Mapper<ByteBuffer, SortedMap<ByteBuffer, Column>, Text, IntWritable> {
+    private static final Logger logger = Logger.getLogger(WordMapper.class);
+
+    private final static IntWritable one = new IntWritable(1);
+    private Text word = new Text();
+
+    public void map(ByteBuffer key, SortedMap<ByteBuffer, Column> columns, Context context) throws IOException, InterruptedException {
+        ByteBuffer refTextByteBuffer = Text.encode("reference_text");
+
+        Column column = columns.get(refTextByteBuffer);
+
+        logger.info("read " + key + ":" + ByteBufferUtil.string(column.name()) + " from cassandra");
+
+        String referenceText = ByteBufferUtil.string(column.value());
+
+        StringTokenizer tokenizer = new StringTokenizer(referenceText);
+        while (tokenizer.hasMoreTokens()) {
+            String token = tokenizer.nextToken();
+
+            word.set(token);
+
+            context.write(word, one);
+        }
+    }
+
+}
