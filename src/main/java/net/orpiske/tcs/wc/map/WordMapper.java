@@ -15,20 +15,22 @@
  */
 package net.orpiske.tcs.wc.map;
 
+import net.orpiske.sfs.filter.dictionary.DictionaryFilter;
+import net.orpiske.sfs.filter.runner.DefaultFilterRunner;
+import net.orpiske.sfs.filter.runner.FilterRunner;
+import net.orpiske.sfs.filter.simple.CharacterFilter;
+import net.orpiske.sfs.filter.Filter;
+import net.orpiske.sfs.filter.simple.StringSizeFilter;
 import org.apache.cassandra.db.Column;
 import org.apache.cassandra.utils.ByteBufferUtil;
 import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapred.MapReduceBase;
 import org.apache.hadoop.mapreduce.Mapper;
-import org.apache.hadoop.mapred.OutputCollector;
-import org.apache.hadoop.mapred.Reporter;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.util.Map;
+import java.util.ArrayList;
 import java.util.SortedMap;
 import java.util.StringTokenizer;
 
@@ -37,8 +39,25 @@ public class WordMapper extends Mapper<ByteBuffer, SortedMap<ByteBuffer, Column>
 
     private final static IntWritable one = new IntWritable(1);
     private Text word = new Text();
+	private static final FilterRunner runner;
 
-    public void map(ByteBuffer key, SortedMap<ByteBuffer, Column> columns, Context context) throws IOException, InterruptedException {
+	static {
+		ArrayList<Filter> filters = new ArrayList<Filter>();
+
+		filters.add(new CharacterFilter());
+		filters.add(new StringSizeFilter(2));
+		filters.add(new DictionaryFilter());
+
+		runner = new DefaultFilterRunner(filters);
+	}
+
+	public WordMapper() {
+		super();
+
+
+	}
+
+	public void map(ByteBuffer key, SortedMap<ByteBuffer, Column> columns, Context context) throws IOException, InterruptedException {
         ByteBuffer refTextByteBuffer = Text.encode("reference_text");
 
         Column column = columns.get(refTextByteBuffer);
@@ -50,10 +69,14 @@ public class WordMapper extends Mapper<ByteBuffer, SortedMap<ByteBuffer, Column>
         StringTokenizer tokenizer = new StringTokenizer(referenceText);
         while (tokenizer.hasMoreTokens()) {
             String token = tokenizer.nextToken();
+			String filteredToken = runner.run(token);
 
-            word.set(token);
+			if (!filteredToken.isEmpty()) {
+				word.set(filteredToken);
+				context.write(word, one);
+			}
 
-            context.write(word, one);
+
         }
     }
 
