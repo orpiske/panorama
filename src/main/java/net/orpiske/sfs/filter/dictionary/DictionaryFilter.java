@@ -18,16 +18,18 @@ package net.orpiske.sfs.filter.dictionary;
 
 import net.orpiske.sfs.filter.Filter;
 import net.orpiske.sfs.filter.dictionary.spell.DefaultDictionary;
+import org.apache.log4j.Logger;
 
 
 import java.io.IOException;
 
 
 public class DictionaryFilter implements Filter {
+	private static final Logger logger = Logger.getLogger(DictionaryFilter.class);
 
 	private static Dictionary dictionary;
 
-	public DictionaryFilter() throws IOException {
+	public DictionaryFilter() {
 		synchronized (this) {
 			if (dictionary == null) {
 				dictionary = new DefaultDictionary();
@@ -40,7 +42,9 @@ public class DictionaryFilter implements Filter {
 		DictionaryEntry entry = dictionary.lookup(source);
 
 		if (entry == null) {
-			System.out.println("Input word " + source + " was not found in the dictionary");
+			if (logger.isTraceEnabled()) {
+				logger.trace("Input word " + source + " was not found in the dictionary");
+			}
 
 			return "";
 		}

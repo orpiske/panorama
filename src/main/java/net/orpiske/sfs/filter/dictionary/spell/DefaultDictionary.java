@@ -18,7 +18,9 @@ package net.orpiske.sfs.filter.dictionary.spell;
 
 import net.orpiske.sfs.filter.dictionary.Dictionary;
 import net.orpiske.sfs.filter.dictionary.DictionaryEntry;
+import net.orpiske.sfs.filter.dictionary.exception.DictionaryReadException;
 import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,11 +29,12 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 
 public class DefaultDictionary implements Dictionary {
+	private static final Logger logger = Logger.getLogger(DefaultDictionary.class);
 
 	private static final LinkedHashSet<DictionaryEntry> hashSet =
 			new LinkedHashSet<DictionaryEntry>(30000);
 
-	public DefaultDictionary() throws IOException {
+	public DefaultDictionary() {
 		InputStream stream = getClass().getResourceAsStream("/dictionaries/pt/port-big.dic");
 
 		Iterator<String> i = null;
@@ -55,10 +58,21 @@ public class DefaultDictionary implements Dictionary {
 					continue;
 				}
 
-				System.out.println("Adding entry " + entry.getWord() + " to the cache");
+				if (logger.isTraceEnabled()) {
+					logger.trace("Adding entry " + entry.getWord() + " to the cache");
+				}
+
 				hashSet.add(entry);
 			}
+		}
+		catch (IOException e) {
+			/*
+			 * We all know this is not really true, but this should never
+			 * actually happen. If it does, we're screwed o.O
+			 */
+			logger.error("Unhandled I/O exception: " + e.getMessage(), e);
 
+			throw new DictionaryReadException(e);
 		}
 		finally {
 			IOUtils.closeQuietly(stream);
