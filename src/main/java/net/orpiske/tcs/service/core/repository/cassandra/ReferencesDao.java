@@ -19,6 +19,7 @@ import com.netflix.astyanax.entitystore.EntityManager;
 import net.orpiske.tcs.service.core.domain.Csp;
 import net.orpiske.tcs.service.core.domain.Reference;
 import net.orpiske.tcs.service.core.domain.Text;
+import net.orpiske.tcs.service.core.utils.TextUtils;
 import net.orpiske.tcs.service.persistence.exception.PersistenceException;
 import net.orpiske.tcs.service.persistence.utils.EntityManagerWrapper;
 import net.orpiske.tcs.service.persistence.utils.PersistenceProperties;
@@ -54,7 +55,7 @@ public class ReferencesDao extends AbstractDao {
         reference.setDomain(csp.getDomain());
 
         try {
-            String decompressed = text.getDecompressedText();
+            String decompressed = TextUtils.getDecompressedText(text);
             reference.setHash(DigestUtils.sha256Hex(decompressed));
             reference.setReferenceText(decompressed);
         }
