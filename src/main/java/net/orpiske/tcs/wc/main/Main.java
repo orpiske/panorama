@@ -19,7 +19,10 @@ import net.orpiske.tcs.wc.map.WordMapper;
 import net.orpiske.tcs.wc.reduce.CountReducer;
 import net.orpiske.tcs.wc.io.OccurrenceWritable;
 import org.apache.cassandra.hadoop.ColumnFamilyInputFormat;
+import org.apache.cassandra.hadoop.ColumnFamilyOutputFormat;
 import org.apache.cassandra.hadoop.ConfigHelper;
+import org.apache.cassandra.hadoop.cql3.CqlConfigHelper;
+import org.apache.cassandra.hadoop.cql3.CqlOutputFormat;
 import org.apache.cassandra.thrift.SlicePredicate;
 import org.apache.cassandra.thrift.SliceRange;
 import org.apache.cassandra.utils.ByteBufferUtil;
@@ -35,6 +38,7 @@ import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
 import java.io.IOException;
+import java.util.List;
 
 public class Main extends Configured implements Tool {
 
@@ -47,8 +51,8 @@ public class Main extends Configured implements Tool {
         job.setMapperClass(WordMapper.class);
         job.setReducerClass(CountReducer.class);
 
-        job.setOutputKeyClass(OccurrenceWritable.class);
-        job.setOutputValueClass(IntWritable.class);
+        job.setOutputKeyClass(List.class);
+        job.setOutputValueClass(List.class);
 
         job.setInputFormatClass(ColumnFamilyInputFormat.class);
 
@@ -67,7 +71,13 @@ public class Main extends Configured implements Tool {
                         setCount(100));
         ConfigHelper.setInputSlicePredicate(configuration, predicate);
 
-        job.setOutputFormatClass(TextOutputFormat.class);
+        ConfigHelper.setOutputColumnFamily(configuration, "tcs", "word_cloud");
+        job.getConfiguration().set("row_key", "domain, word");
+
+        String query = "UPDATE tcs.reference SET occurrences = ?, reference_date = ? ";
+        CqlConfigHelper.setOutputCql(job.getConfiguration(), query);
+
+        job.setOutputFormatClass(ColumnFamilyOutputFormat.class);
 
         FileOutputFormat.setOutputPath(job, new Path(args[0]));
 
