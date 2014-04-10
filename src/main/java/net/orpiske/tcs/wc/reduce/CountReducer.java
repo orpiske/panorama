@@ -15,30 +15,34 @@
  */
 package net.orpiske.tcs.wc.reduce;
 
+import net.orpiske.tcs.wc.io.OccurrenceWritable;
 import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapred.MapReduceBase;
-import org.apache.hadoop.mapred.OutputCollector;
 import org.apache.hadoop.mapreduce.Reducer;
-import org.apache.hadoop.mapred.Reporter;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.util.Iterator;
 
-public class CountReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
+public class CountReducer extends Reducer<OccurrenceWritable, IntWritable, OccurrenceWritable, IntWritable> {
     private static final Logger logger = Logger.getLogger(CountReducer.class);
 
+
     @Override
-    protected void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
+    protected void reduce(OccurrenceWritable key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
         int sum = 0;
 
         Iterator<IntWritable> it = values.iterator();
         while (it.hasNext()) {
             sum += it.next().get();
-            logger.info("Total occurrences of " +  key + " so far: " + sum);
+
+            String word = key.getText();
+
+            if (logger.isTraceEnabled()) {
+                logger.trace("Total occurrences of " + word + " for CSP " + key + " so far: " + sum);
+            }
         }
-        logger.info("Iterated over " + sum + " records for key " + key.toString());
+
+        logger.info("Iterated over " + sum + " records for domain '" + key.toString() + "");
 
         context.write(key, new IntWritable(sum));
     }

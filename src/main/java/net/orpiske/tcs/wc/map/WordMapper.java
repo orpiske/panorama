@@ -21,6 +21,7 @@ import net.orpiske.sfs.filter.runner.FilterRunner;
 import net.orpiske.sfs.filter.simple.CharacterFilter;
 import net.orpiske.sfs.filter.Filter;
 import net.orpiske.sfs.filter.simple.StringSizeFilter;
+import net.orpiske.tcs.wc.io.OccurrenceWritable;
 import org.apache.cassandra.db.Column;
 import org.apache.cassandra.utils.ByteBufferUtil;
 import org.apache.hadoop.io.IntWritable;
@@ -34,7 +35,7 @@ import java.util.ArrayList;
 import java.util.SortedMap;
 import java.util.StringTokenizer;
 
-public class WordMapper extends Mapper<ByteBuffer, SortedMap<ByteBuffer, Column>, Text, IntWritable> {
+public class WordMapper extends Mapper<ByteBuffer, SortedMap<ByteBuffer, Column>, OccurrenceWritable, IntWritable> {
     private static final Logger logger = Logger.getLogger(WordMapper.class);
 
     private final static IntWritable one = new IntWritable(1);
@@ -74,18 +75,19 @@ public class WordMapper extends Mapper<ByteBuffer, SortedMap<ByteBuffer, Column>
             logger.debug("read " + keyText + "->reference_text from cassandra");
         }
 
+        String domainText = getColumnValue(columns, "domain");
+
         StringTokenizer tokenizer = new StringTokenizer(referenceText);
         while (tokenizer.hasMoreTokens()) {
             String token = tokenizer.nextToken();
-			String filteredToken = runner.run(token);
+			String word = runner.run(token);
 
-			if (!filteredToken.isEmpty()) {
-				word.set(filteredToken);
+			if (!word.isEmpty()) {
+                OccurrenceWritable occurrenceWritable =
+                        new OccurrenceWritable(domainText, word);
 
-				context.write(word, one);
+				context.write(occurrenceWritable, one);
 			}
-
-
         }
     }
 

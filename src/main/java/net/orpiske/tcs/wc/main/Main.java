@@ -17,9 +17,9 @@ package net.orpiske.tcs.wc.main;
 
 import net.orpiske.tcs.wc.map.WordMapper;
 import net.orpiske.tcs.wc.reduce.CountReducer;
+import net.orpiske.tcs.wc.io.OccurrenceWritable;
 import org.apache.cassandra.hadoop.ColumnFamilyInputFormat;
 import org.apache.cassandra.hadoop.ConfigHelper;
-import org.apache.cassandra.hadoop.cql3.CqlPagingInputFormat;
 import org.apache.cassandra.thrift.SlicePredicate;
 import org.apache.cassandra.thrift.SliceRange;
 import org.apache.cassandra.utils.ByteBufferUtil;
@@ -27,57 +27,63 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapred.JobClient;
-import org.apache.hadoop.mapred.JobConf;
 import org.apache.hadoop.mapreduce.Job;
+;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Main extends Configured implements Tool {
+
+
+    private Job getCSPWordJob(String[] args) throws IOException {
+        Job job = new Job(getConf(), "tagcloud");
+
+        job.setJarByClass(Main.class);
+
+        job.setMapperClass(WordMapper.class);
+        job.setReducerClass(CountReducer.class);
+
+        job.setOutputKeyClass(OccurrenceWritable.class);
+        job.setOutputValueClass(IntWritable.class);
+
+        job.setInputFormatClass(ColumnFamilyInputFormat.class);
+
+        Configuration configuration = job.getConfiguration();
+
+        ConfigHelper.setInputRpcPort(configuration, "9160");
+        ConfigHelper.setInputInitialAddress(configuration, "localhost");
+        ConfigHelper.setInputPartitioner(configuration,
+                "org.apache.cassandra.dht.Murmur3Partitioner");
+        ConfigHelper.setInputColumnFamily(configuration, "tcs", "references");
+
+        SlicePredicate predicate = new SlicePredicate().setSlice_range(
+                new SliceRange().
+                        setStart(ByteBufferUtil.EMPTY_BYTE_BUFFER).
+                        setFinish(ByteBufferUtil.EMPTY_BYTE_BUFFER).
+                        setCount(100));
+        ConfigHelper.setInputSlicePredicate(configuration, predicate);
+
+        job.setOutputFormatClass(TextOutputFormat.class);
+
+        FileOutputFormat.setOutputPath(job, new Path(args[0]));
+
+        return job;
+    }
 
     @Override
     public int run(String[] args) throws Exception {
 
         try {
-            Job job = new Job(getConf(), "tagcloud");
-
-            job.setJarByClass(Main.class);
-
-            job.setMapperClass(WordMapper.class);
-            job.setReducerClass(CountReducer.class);
-
-            job.setOutputKeyClass(Text.class);
-            job.setOutputValueClass(IntWritable.class);
-
-            job.setInputFormatClass(ColumnFamilyInputFormat.class);
-
-            Configuration configuration = job.getConfiguration();
-
-            ConfigHelper.setInputRpcPort(configuration, "9160");
-            ConfigHelper.setInputInitialAddress(configuration, "localhost");
-            ConfigHelper.setInputPartitioner(configuration,
-                    "org.apache.cassandra.dht.Murmur3Partitioner");
-            ConfigHelper.setInputColumnFamily(configuration, "tcs", "references");
-
-            SlicePredicate predicate = new SlicePredicate().setSlice_range(
-                    new SliceRange().
-                            setStart(ByteBufferUtil.EMPTY_BYTE_BUFFER).
-                            setFinish(ByteBufferUtil.EMPTY_BYTE_BUFFER).
-                            setCount(100));
-            ConfigHelper.setInputSlicePredicate(configuration, predicate);
-
-            job.setOutputFormatClass(TextOutputFormat.class);
-
-            FileOutputFormat.setOutputPath(job, new Path(args[0]));
+            Job job = getCSPWordJob(args);
 
             job.waitForCompletion(true);
+
+            // org.apache.hadoop.mapreduce.lib.chain.ChainMapper.ad
+            //ChainMapper.addMapper();
             return 0;
         }
         catch (IOException e) {
