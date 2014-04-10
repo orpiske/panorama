@@ -53,18 +53,26 @@ public class WordMapper extends Mapper<ByteBuffer, SortedMap<ByteBuffer, Column>
 
 	public WordMapper() {
 		super();
-
-
 	}
 
+    private String getColumnValue(SortedMap<ByteBuffer, Column> columns, final String name) throws IOException, InterruptedException  {
+        ByteBuffer byteBuffer = Text.encode(name);
+
+        Column column = columns.get(byteBuffer);
+
+        String ret = ByteBufferUtil.string(column.value());
+
+        return ret;
+    }
+
 	public void map(ByteBuffer key, SortedMap<ByteBuffer, Column> columns, Context context) throws IOException, InterruptedException {
-        ByteBuffer refTextByteBuffer = Text.encode("reference_text");
+        String referenceText = getColumnValue(columns, "reference_text");
 
-        Column column = columns.get(refTextByteBuffer);
+        if (logger.isDebugEnabled()) {
+            String keyText = ByteBufferUtil.string(key);
 
-        logger.info("read " + key + ":" + ByteBufferUtil.string(column.name()) + " from cassandra");
-
-        String referenceText = ByteBufferUtil.string(column.value());
+            logger.debug("read " + keyText + "->reference_text from cassandra");
+        }
 
         StringTokenizer tokenizer = new StringTokenizer(referenceText);
         while (tokenizer.hasMoreTokens()) {
@@ -73,6 +81,7 @@ public class WordMapper extends Mapper<ByteBuffer, SortedMap<ByteBuffer, Column>
 
 			if (!filteredToken.isEmpty()) {
 				word.set(filteredToken);
+
 				context.write(word, one);
 			}
 
