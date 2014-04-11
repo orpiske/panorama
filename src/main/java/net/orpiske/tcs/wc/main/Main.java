@@ -38,21 +38,32 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-;
-
 public class Main extends Configured implements Tool {
+
+	/*
+	 * TODO: most of these constants need to be replaced with
+	 * configurable values.
+	 */
+	private static final String JOB_NAME = "tagcloud";
+	private static final String DB_PORT = "9160";
+	private static final String DB_HOST = "localhost";
+
+	private static final String KEYSPACE = "tcs";
+	private static final String INPUT_TABLE = "references";
+	private static final String OUTPUT_TABLE = "tag_cloud";
+
+	private static final String PARTITIONER = "org.apache.cassandra.dht.Murmur3Partitioner";
 
     /**
      * Setup the M/R job to read from the references table from Cassandra
      * @param configuration
      */
     private void inputConfiguration(Configuration configuration) {
-        ConfigHelper.setInputRpcPort(configuration, "9160");
-        ConfigHelper.setInputInitialAddress(configuration, "localhost");
-        ConfigHelper.setInputPartitioner(configuration,
-                "org.apache.cassandra.dht.Murmur3Partitioner");
+        ConfigHelper.setInputRpcPort(configuration, DB_PORT);
+        ConfigHelper.setInputInitialAddress(configuration, DB_HOST);
+        ConfigHelper.setInputPartitioner(configuration, PARTITIONER);
 
-        ConfigHelper.setInputColumnFamily(configuration, "tcs", "references");
+        ConfigHelper.setInputColumnFamily(configuration, KEYSPACE, INPUT_TABLE);
 
         List<ByteBuffer> columns = Arrays.asList(
                 ByteBufferUtil.bytes("reference_text"),
@@ -70,18 +81,18 @@ public class Main extends Configured implements Tool {
      * @param configuration
      */
     private void outputConfiguration(Configuration configuration) {
-        ConfigHelper.setOutputInitialAddress(configuration, "localhost");
-        ConfigHelper.setOutputColumnFamily(configuration, "tcs", "word_cloud");
-        ConfigHelper.setOutputPartitioner(configuration,
-                "org.apache.cassandra.dht.Murmur3Partitioner");
+        ConfigHelper.setOutputInitialAddress(configuration, DB_HOST);
+        ConfigHelper.setOutputColumnFamily(configuration, KEYSPACE, OUTPUT_TABLE);
+        ConfigHelper.setOutputPartitioner(configuration, PARTITIONER);
 
-        String query = "UPDATE tcs.word_cloud SET hash = ?, domain = ?, word = ?, occurrences = ?, reference_date = ? ";
+        String query = "UPDATE " + KEYSPACE + "." + OUTPUT_TABLE +
+				" SET hash = ?, domain = ?, word = ?, occurrences = ?, reference_date = ? ";
         CqlConfigHelper.setOutputCql(configuration, query);
     }
 
 
     private Job getCSPWordJob(String[] args) throws IOException {
-        Job job = new Job(getConf(), "tagcloud");
+        Job job = new Job(getConf(), JOB_NAME);
 
         job.setJarByClass(Main.class);
 
@@ -146,6 +157,5 @@ public class Main extends Configured implements Tool {
             e.printStackTrace();
             System.exit(1);
         }
-
     }
 }
