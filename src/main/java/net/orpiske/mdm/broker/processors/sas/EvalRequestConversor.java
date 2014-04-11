@@ -16,7 +16,9 @@
 package net.orpiske.mdm.broker.processors.sas;
 
 import net.orpiske.exchange.loadservice.v1.EmailType;
-import net.orpiske.exchange.sas.common.header.v1.*;
+import net.orpiske.exchange.sas.common.header.v1.ApiType;
+import net.orpiske.exchange.sas.common.header.v1.CallerType;
+import net.orpiske.exchange.sas.common.header.v1.HeaderType;
 import net.orpiske.exchange.sas.eval.v1.EvalRequestType;
 import net.orpiske.exchange.sas.eval.v1.RequestType;
 import net.orpiske.mdm.broker.types.wrapper.LoadServiceWrapper;
@@ -24,7 +26,6 @@ import net.orpiske.sas.commons.xml.XmlWriterUtils;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
-import javax.xml.namespace.QName;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
