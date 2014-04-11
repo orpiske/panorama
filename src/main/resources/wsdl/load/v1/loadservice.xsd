@@ -27,9 +27,17 @@
 	<complexType name="EmailType">
 		<sequence>
 			<element name="name" type="string"></element>
-            <element name="header" type="string"></element>
-            <element name="body" type="string"></element>
+			<element name="header" type="string"></element>
+			<element name="body" type="string"></element>
 		</sequence>
+		<attribute name="compressed" type="boolean" use="optional"></attribute>
+		<attribute name="format" use="optional">
+			<simpleType>
+				<restriction base="string">
+					<enumeration value="GZB64"></enumeration>
+				</restriction>
+			</simpleType>
+		</attribute>
 	</complexType>
 
 	<complexType name="CspType">
@@ -37,9 +45,14 @@
 			<element name="name" type="string" minOccurs="1"
 				maxOccurs="1">
 			</element>
-            <element name="domain" type="string" minOccurs="0" maxOccurs="1"></element>
-            <element name="occurrences" type="int" minOccurs="1"
+			<element name="domain" type="string" minOccurs="0"
 				maxOccurs="1">
+			</element>
+			<element name="occurrences" type="int" minOccurs="1"
+				maxOccurs="1">
+			</element>
+			<element name="location" type="tns:LocationType"
+				minOccurs="0" maxOccurs="1">
 			</element>
 		</sequence>
 	</complexType>
@@ -58,6 +71,12 @@
 	<complexType name="EmailListType">
 		<sequence>
 			<element name="email" type="tns:EmailType" minOccurs="0" maxOccurs="unbounded"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="LocationType">
+		<sequence>
+			<element name="country" type="string"></element>
 		</sequence>
 	</complexType>
 </schema>
