@@ -92,9 +92,9 @@ public class CountReducerTable extends Reducer<OccurrenceWritable, IntWritable, 
     private static Mutation getMutation(String name, String obj) {
         org.apache.cassandra.thrift.Column c = new org.apache.cassandra.thrift.Column();
 
+        // We really, really need to filter this, otherwise we save the
+        // data with lots of invisible chars in the DB
         CharMatcher legalChars = CharMatcher.INVISIBLE;
-
-
         String filtered = legalChars.removeFrom(obj);
 
         c.setName(ByteBufferUtil.bytes(name));
