@@ -17,16 +17,12 @@ package net.orpiske.mdm.broker.processors.tcs;
 
 import net.orpiske.exchange.loadservice.v1.EmailType;
 import net.orpiske.mdm.broker.types.wrapper.LoadServiceWrapper;
-import net.orpiske.sas.commons.xml.XmlWriterUtils;
 import net.orpiske.tcs.service.core.domain.Csp;
 import net.orpiske.tcs.service.core.domain.ReferenceCreateData;
 import net.orpiske.tcs.service.core.domain.Text;
 import org.apache.log4j.Logger;
 
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
