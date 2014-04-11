@@ -20,6 +20,10 @@ import net.orpiske.exchange.sas.common.error.v1.ReturnType;
 import net.orpiske.exchange.sas.eval.v1.EvalResponseType;
 import net.orpiske.exchange.sas.eval.v1.RequestType;
 import net.orpiske.exchange.sas.eval.v1.ResponseType;
+import net.orpiske.tcs.utils.compression.Decompressor;
+import org.apache.commons.codec.binary.Base64;
+
+import java.io.IOException;
 
 /**
  * Just a simple bean for performing some mock business rules
@@ -50,9 +54,19 @@ public class EvalServiceBean {
      * @param requestType the request object
      * @return A response object
      */
-    public ResponseType eval(RequestType requestType) {
+    public ResponseType eval(RequestType requestType) throws IOException {
         ResponseType responseType = new ResponseType();
-        String phrase = requestType.getEvalRequest().getPhrase();
+        String phrase;
+
+        if (requestType.getEvalRequest().isCompressed()) {
+            String encodedText = requestType.getEvalRequest().getPhrase();
+            byte[] encodedBytes = Base64.decodeBase64(encodedText);
+
+            phrase = Decompressor.decompress(encodedBytes);
+        }
+        else {
+            phrase = requestType.getEvalRequest().getPhrase();
+        }
 
         int score = getScore(phrase);
 
