@@ -76,7 +76,6 @@ public class Main extends Configured implements Tool {
                 "org.apache.cassandra.dht.Murmur3Partitioner");
 
         String query = "UPDATE tcs.word_cloud SET hash = ?, domain = ?, word = ?, occurrences = ?, reference_date = ? ";
-        // String query = " insert into tcs.word_cloud(hash,domain,word,occurrences,reference_date) values(?, ?, ?, ?, ?)";
         CqlConfigHelper.setOutputCql(configuration, query);
     }
 
