@@ -21,4 +21,6 @@ import net.orpiske.tcs.service.core.domain.TagCloud;
 public interface TagRepository {
 
     TagCloud findByCsp(final Csp csp);
+
+	TagCloud findAll();
 }

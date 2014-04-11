@@ -15,6 +15,7 @@
  */
 package net.orpiske.tcs.service.config;
 
+import net.orpiske.tcs.service.core.domain.TagCloud;
 import net.orpiske.tcs.service.core.repository.ReferenceRepository;
 import net.orpiske.tcs.service.core.repository.cassandra.*;
 import net.orpiske.tcs.service.persistence.utils.EntityManagerWrapper;
@@ -62,6 +63,8 @@ public class CoreConfig {
         return new ReferencesDao(new DefaultPersistenceProperties());
     }
 
-
-
+	@Bean
+	public TagCloudDao createTagCloudDao() {
+		return new TagCloudDao(new DefaultPersistenceProperties());
+	}
 }

@@ -24,8 +24,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class TagRepositoryCassandra implements TagRepository {
 
+	@Autowired
+	private TagCloudDao dao;
+
     @Override
     public TagCloud findByCsp(Csp csp) {
         return null;
     }
+
+	@Override
+	public TagCloud findAll() {
+		return dao.findAll();
+	}
 }

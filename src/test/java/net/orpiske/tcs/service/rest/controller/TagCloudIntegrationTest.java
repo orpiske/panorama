@@ -76,17 +76,17 @@ public class TagCloudIntegrationTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(jsonPath("$.tagCloud[0].word").value("ruim"))
-                .andExpect(jsonPath("$.tagCloud[0].count").value(5))
+                .andExpect(jsonPath("$.tagCloud[0].occurrences").value(5))
                 .andExpect(jsonPath("$.tagCloud[1].word").value("instavel"))
-                .andExpect(jsonPath("$.tagCloud[1].count").value(3))
+                .andExpect(jsonPath("$.tagCloud[1].occurrences").value(3))
                 .andExpect(jsonPath("$.tagCloud[2].word").value("caiu"))
-                .andExpect(jsonPath("$.tagCloud[2].count").value(10))
+                .andExpect(jsonPath("$.tagCloud[2].occurrences").value(10))
                 .andExpect(jsonPath("$.tagCloud[3].word").value("lento"))
-                .andExpect(jsonPath("$.tagCloud[3].count").value(40))
+                .andExpect(jsonPath("$.tagCloud[3].occurrences").value(40))
                 .andExpect(jsonPath("$.tagCloud[4].word").value("bom"))
-                .andExpect(jsonPath("$.tagCloud[4].count").value(7))
+                .andExpect(jsonPath("$.tagCloud[4].occurrences").value(7))
                 .andExpect(jsonPath("$.tagCloud[5].word").value("rapido"))
-                .andExpect(jsonPath("$.tagCloud[5].count").value(6))
+                .andExpect(jsonPath("$.tagCloud[5].occurrences").value(6))
                 .andExpect(status().isOk());
     }
 
@@ -108,11 +108,11 @@ public class TagCloudIntegrationTest {
         )
                 .andDo(print())
                 .andExpect(jsonPath("$.tagCloud[0].word").value("ruim"))
-                .andExpect(jsonPath("$.tagCloud[0].count").value(5))
+                .andExpect(jsonPath("$.tagCloud[0].occurrences").value(5))
                 .andExpect(jsonPath("$.tagCloud[1].word").value("bom"))
-                .andExpect(jsonPath("$.tagCloud[1].count").value(7))
+                .andExpect(jsonPath("$.tagCloud[1].occurrences").value(7))
                 .andExpect(jsonPath("$.tagCloud[2].word").value("rapido"))
-                .andExpect(jsonPath("$.tagCloud[2].count").value(6))
+                .andExpect(jsonPath("$.tagCloud[2].occurrences").value(6))
                 .andExpect(status().isOk());
     }
 

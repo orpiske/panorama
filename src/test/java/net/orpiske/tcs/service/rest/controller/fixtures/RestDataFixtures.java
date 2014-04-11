@@ -17,8 +17,11 @@ package net.orpiske.tcs.service.rest.controller.fixtures;
 
 import net.orpiske.tcs.service.core.domain.*;
 import net.orpiske.tcs.utils.compression.Compressor;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 public class RestDataFixtures {
 
@@ -32,28 +35,60 @@ public class RestDataFixtures {
         return cspList;
     }
 
+	private static Tag tag(final String csp, final String word) {
+		Tag tag = new Tag()
+				.setDomain(csp)
+				.setHash(DigestUtils.sha1Hex(word))
+				.setWord(word);
+
+		return tag;
+	}
+
+
+
     public static TagCloud customCspTagCloud() {
-        TagCloud cspTagCloud = new TagCloud("CSP");
+		final String domain = "HomeMadeISP";
 
-        cspTagCloud.add("ruim", 5);
-        cspTagCloud.add("instavel", 3);
-        cspTagCloud.add("caiu", 10);
-        cspTagCloud.add("lento", 40);
-        cspTagCloud.add("bom", 7);
-        cspTagCloud.add("rapido", 6);
+		Tag ruim = tag(domain, "ruim")
+					.setOccurrences(5);
 
-        return cspTagCloud;
+
+		Tag instavel = tag(domain, "instavel")
+					.setOccurrences(3);
+
+		Tag caiu = tag(domain, "caiu")
+				.setOccurrences(10);
+
+		Tag lento = tag(domain, "lento")
+				.setOccurrences(40);
+
+		Tag bom = tag(domain, "bom")
+				.setOccurrences(7);
+
+		Tag rapido = tag(domain, "rapido")
+				.setOccurrences(6);
+
+		List<Tag> list = Arrays.asList(ruim, instavel, caiu, lento, bom, rapido);
+
+       	return new TagCloud(list);
     }
 
 
     public static TagCloud customSmallCspTagCloud() {
-        TagCloud cspTagCloud = new TagCloud("CSP");
+		final String domain = "HomeMadeISP";
 
-        cspTagCloud.add("ruim", 5);
-        cspTagCloud.add("bom", 7);
-        cspTagCloud.add("rapido", 6);
+		Tag ruim = tag(domain, "ruim")
+				.setOccurrences(5);
 
-        return cspTagCloud;
+		Tag bom = tag(domain, "bom")
+				.setOccurrences(7);
+
+		Tag rapido = tag(domain, "rapido")
+				.setOccurrences(6);
+
+		List<Tag> list = Arrays.asList(ruim, bom, rapido);
+
+        return new TagCloud(list);
     }
 
 
@@ -82,10 +117,9 @@ public class RestDataFixtures {
 
             Csp csp = new Csp("HomeMadeCSP", "www.home.com.br");
 
-            ReferenceCreateData data = new ReferenceCreateData();
-
-            data.setCsp(csp);
-            data.setText(text);
+            ReferenceCreateData data = new ReferenceCreateData()
+						.setCsp(csp)
+						.setText(text);
 
             return data;
 

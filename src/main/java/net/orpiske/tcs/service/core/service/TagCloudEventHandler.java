@@ -67,7 +67,14 @@ public class TagCloudEventHandler implements TagCloudService {
     @Override
     public TagCloudEvent requestTagCloud(RequestTagCloudEvent requestTagCloudEvent) {
         Csp csp = requestTagCloudEvent.getCsp();
-        TagCloud tagCloud = tagRepository.findByCsp(csp);
+        TagCloud tagCloud;
+
+		if (csp != null) {
+			tagCloud = tagRepository.findByCsp(csp);
+		}
+		else {
+			tagCloud = tagRepository.findAll();
+		}
 
         TagCloudEvent tagCloudEvent = new TagCloudEvent(tagCloud);
         return tagCloudEvent;
