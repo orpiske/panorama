@@ -23,22 +23,27 @@ import net.orpiske.exchange.header.v1.ApiType;
 import net.orpiske.exchange.header.v1.CallerType;
 import net.orpiske.exchange.header.v1.HeaderType;
 import net.orpiske.exchange.loadservice.v1.*;
+import net.orpiske.tcs.utils.compression.Compressor;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.cxf.interceptor.LoggingInInterceptor;
 import org.apache.cxf.interceptor.LoggingOutInterceptor;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
+import org.apache.log4j.Logger;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Holder;
+import java.io.IOException;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Set;
 
 public class WebServicesDispatcher implements Dispatcher {
+    private static final Logger logger = Logger.getLogger(WebServicesDispatcher.class);
     private static final PropertiesConfiguration config =
             ConfigurationWrapper.getConfig();
 
@@ -97,17 +102,43 @@ public class WebServicesDispatcher implements Dispatcher {
         for (Occurrence occurrence : metaData.getOccurrenceList()) {
             EmailType emailType = new EmailType();
 
-            emailType.setBody(occurrence.getBody());
+            String body = occurrence.getBody();
+
+            boolean compress = config.getBoolean("request.data.compress", true);
+            if (compress) {
+                try {
+                    setCompressedBody(emailType, body);
+                }
+                catch (IOException e) {
+                    logger.error("Unable to compress data (the data will be sent " +
+                            "uncompressed: " + e.getMessage(), e);
+
+                    emailType.setCompressed(false);
+                    emailType.setBody(body);
+                }
+             }
+            else {
+                emailType.setBody(body);
+            }
+
             emailType.setHeader(occurrence.getOriginator());
             emailType.setName("Caiu");
 
             list.add(emailType);
         }
 
-
         sourceType.setEmailList(emailListType);
 
         return sourceType;
+    }
+
+    private void setCompressedBody(EmailType emailType, String body) throws IOException {
+        emailType.setCompressed(true);
+
+        byte[] compressedBytes = Compressor.compress(body);
+        String encoded = Base64.encodeBase64String(compressedBytes);
+
+        emailType.setBody(encoded);
     }
 
 

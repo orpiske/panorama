@@ -13,6 +13,13 @@
     </properties>
 
     <dependencies>
+        <!-- Compressing -->
+        <dependency>
+            <groupId>net.orpiske</groupId>
+            <artifactId>tcs-utils</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+
         <!-- Logging Support -->
         <dependency>
             <groupId>log4j</groupId>
