@@ -40,7 +40,7 @@ CREATE TABLE domain (
 ) WITH COMPACT STORAGE ;
 
 
-CREATE TABLE word_cloud (
+CREATE TABLE tag_cloud (
   hash text PRIMARY KEY,
   domain text,
   word text,
@@ -48,8 +48,8 @@ CREATE TABLE word_cloud (
   reference_date timestamp
 ) WITH COMPACT STORAGE ;
 
-CREATE INDEX domain_key ON word_cloud (domain);
-CREATE INDEX word_key ON word_cloud (word);
+CREATE INDEX domain_key ON tag_cloud (domain);
+CREATE INDEX word_key ON tag_cloud (word);
 
 
 ```
