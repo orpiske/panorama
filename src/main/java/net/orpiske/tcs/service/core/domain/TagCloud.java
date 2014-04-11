@@ -23,24 +23,24 @@ import java.util.List;
  * A tag cloud
  */
 public class TagCloud {
-    private String cspName;
-    private List<Tag> tagList = new LinkedList<Tag>();
+    private List<Tag> tagList;
+
+	public TagCloud() {
+		tagList = new LinkedList<Tag>();
+	}
 
 
-    public TagCloud(final String cspName) {
-        this.cspName = cspName;
-    }
+	public TagCloud(List<Tag> tagList) {
+		this.tagList = tagList;
+	}
 
-
+	/**
+	 * Adds a tag to the cloud
+	 * @param tag the tag to add
+	 */
     public void add(final Tag tag) {
         tagList.add(tag);
     }
-
-
-    public void add(final String tag, final Integer count) {
-        add(new Tag(tag, count));
-    }
-
 
     public List<Tag> getTagCloud() {
         return tagList;

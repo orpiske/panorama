@@ -15,31 +15,84 @@
  */
 package net.orpiske.tcs.service.core.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.util.Date;
+
+
+/**
+ * A Tag represents a single entry in the tag cloud database
+ */
+@Table(name = "tag_cloud", schema = "tcs@cassandra_pu")
+@Entity
 public class Tag {
-    private String word;
-    private int count;
+	@Id
+	@Column(name = "hash")
+	private String hash;
+
+	@Column(name = "domain")
+	private String domain;
+
+	@Column(name = "occurrences")
+	private int occurrences;
+
+	@Column(name = "reference_date")
+	private Date referenceDate;
+
+	@Column(name = "word")
+	private String word;
 
     public Tag() {}
 
+	public String getHash() {
+		return hash;
+	}
 
-    public Tag(String word, int count) {
-        this.word = word;
-        this.count = count;
-    }
+	public Tag setHash(String hash) {
+		this.hash = hash;
 
-    public String getWord() {
+		return this;
+	}
+
+	public String getDomain() {
+		return domain;
+	}
+
+	public Tag setDomain(String domain) {
+		this.domain = domain;
+
+		return this;
+	}
+
+	public int getOccurrences() {
+		return occurrences;
+	}
+
+	public Tag setOccurrences(int occurrences) {
+		this.occurrences = occurrences;
+
+		return this;
+	}
+
+	public Date getReferenceDate() {
+		return referenceDate;
+	}
+
+	public Tag setReferenceDate(Date referenceDate) {
+		this.referenceDate = referenceDate;
+
+		return this;
+	}
+
+	public String getWord() {
         return word;
     }
 
-    public void setWord(String word) {
+    public Tag setWord(String word) {
         this.word = word;
-    }
 
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
+		return this;
     }
 }
