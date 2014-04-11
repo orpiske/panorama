@@ -35,7 +35,6 @@ public class EvalRequestConversor {
         HeaderType headerType = new HeaderType();
         ApiType apiType = new ApiType();
 
-
         apiType.setVersion("1.0.0");
         headerType.setApi(apiType);
 
@@ -50,9 +49,16 @@ public class EvalRequestConversor {
 
     private EvalRequestType getText(EmailType emailType) {
         EvalRequestType evalRequestType = new EvalRequestType();
-        String phrase = emailType.getBody();
 
+        Boolean compressed = emailType.isCompressed();
+        evalRequestType.setCompressed(compressed);
+
+        String format = emailType.getFormat();
+        evalRequestType.setFormat(format);
+
+        String phrase = emailType.getBody();
         evalRequestType.setPhrase(phrase);
+
         return evalRequestType;
     }
 
