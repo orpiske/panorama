@@ -53,6 +53,13 @@
             <version>1.7.5</version>
         </dependency>
 
+        <!-- Utilities (string, internet, etc) -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>16.0.1</version>
+        </dependency>
+
         <!-- Apache Commons: CLI -->
         <dependency>
             <groupId>commons-cli</groupId>
