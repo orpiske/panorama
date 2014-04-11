@@ -33,15 +33,30 @@ CREATE TABLE references (
 ) WITH COMPACT STORAGE;
 
 
-CREATE TABLE csp (
+CREATE TABLE domain (
   name text,
   domain text,
   PRIMARY KEY (domain)
 ) WITH COMPACT STORAGE ;
 
+
+CREATE TABLE word_cloud (
+  hash text PRIMARY KEY,
+  domain text,
+  word text,
+  occurrences int,
+  reference_date timestamp
+) WITH COMPACT STORAGE ;
+
+CREATE INDEX domain_key ON word_cloud (domain);
+CREATE INDEX word_key ON word_cloud (word);
+
+
 ```
 
-Obs.: the compact storage is required so that it works w/ pre CQL3 applications.
+Obs.: the compact storage is required so that it works w/ pre CQL3 applications and prevents problems with
+hadoop jobs (ie.: "Not enough bytes to read value of component 0") which seem to rely on Thrift (which requires
+COMPACT STORAGE).
 
 - After running you can clean it up with:
 
