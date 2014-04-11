@@ -21,6 +21,14 @@
 		<sequence>
 			<element name="phrase" type="string"></element>
 		</sequence>
+		<attribute name="compressed" type="boolean"></attribute>
+		<attribute name="format" use="optional">
+			<simpleType>
+				<restriction base="string">
+					<enumeration value="GZB64"></enumeration>
+				</restriction>
+			</simpleType>
+		</attribute>
 	</complexType>
 
 	<element name="response" type="tns:ResponseType"></element>
