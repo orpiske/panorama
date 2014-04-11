@@ -43,7 +43,7 @@ public class EvalServiceRoute extends RouteBuilder {
 
         /**
          * If it fails to unmarshal the message, it will throw a JABXException
-         * excpetion. We use the onException mechanism to trap it and send a
+         * exception. We use the onException mechanism to trap it and send a
          * custom error response saying we were unable to process. We also log
          * the exchange
          */
