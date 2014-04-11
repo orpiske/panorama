@@ -43,15 +43,19 @@ public class Csp {
         return domain;
     }
 
-    public void setDomain(String domain) {
+    public Csp setDomain(String domain) {
         this.domain = domain;
+
+		return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public Csp setName(String name) {
         this.name = name;
+
+		return this;
     }
 }

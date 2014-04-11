@@ -33,16 +33,20 @@ public class ReferenceCreateData {
         return csp;
     }
 
-    public void setCsp(Csp csp) {
+    public ReferenceCreateData setCsp(Csp csp) {
         this.csp = csp;
+
+		return this;
     }
 
     public Text getText() {
         return text;
     }
 
-    public void setText(Text text) {
+    public ReferenceCreateData setText(Text text) {
         this.text = text;
+
+		return this;
     }
 
     public Reference toReference() throws ReferenceConversionException {

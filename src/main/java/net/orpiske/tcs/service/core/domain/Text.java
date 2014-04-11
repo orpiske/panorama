@@ -28,8 +28,10 @@ public class Text {
         return encodedText;
     }
 
-    public void setEncodedText(String encodedText) {
+    public Text setEncodedText(String encodedText) {
         this.encodedText = encodedText;
+
+		return this;
     }
 
 

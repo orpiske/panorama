@@ -45,39 +45,49 @@ public class Reference {
         return hash;
     }
 
-    public void setHash(String hash) {
+    public Reference setHash(String hash) {
         this.hash = hash;
+
+		return this;
     }
 
     public String getDomain() {
         return domain;
     }
 
-    public void setDomain(String domain) {
+    public Reference setDomain(String domain) {
         this.domain = domain;
+
+		return this;
     }
 
     public Date getReferenceDate() {
         return referenceDate;
     }
 
-    public void setReferenceDate(Date referenceDate) {
+    public Reference setReferenceDate(Date referenceDate) {
         this.referenceDate = referenceDate;
+
+		return this;
     }
 
     public Date getInclusionDate() {
         return inclusionDate;
     }
 
-    public void setInclusionDate(Date inclusionDate) {
+    public Reference setInclusionDate(Date inclusionDate) {
         this.inclusionDate = inclusionDate;
+
+		return this;
     }
 
     public String getReferenceText() {
         return referenceText;
     }
 
-    public void setReferenceText(String referenceText) {
+    public Reference setReferenceText(String referenceText) {
         this.referenceText = referenceText;
+
+		return this;
     }
 }
