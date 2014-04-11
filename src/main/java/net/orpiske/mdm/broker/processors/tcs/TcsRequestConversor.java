@@ -15,6 +15,7 @@
  */
 package net.orpiske.mdm.broker.processors.tcs;
 
+import com.google.common.net.InternetDomainName;
 import net.orpiske.exchange.loadservice.v1.EmailType;
 import net.orpiske.mdm.broker.types.wrapper.LoadServiceWrapper;
 import net.orpiske.tcs.service.core.domain.Csp;
@@ -28,7 +29,37 @@ import java.util.List;
 
 public class TcsRequestConversor {
     private static final Logger logger = Logger.getLogger(TcsRequestConversor.class);
+    private static final String INVALID_DOMAIN = ".csp";
 
+    /**
+     * Gets a CSP object out of data from the request
+     * @param wrapper the request wrapper
+     * @return a CSP object
+     */
+    private Csp getCspFromRequest(LoadServiceWrapper wrapper) {
+        Csp csp = new Csp();
+
+        String cspName = wrapper.getCspType().getName();
+        String domain = wrapper.getCspType().getDomain();
+
+        csp.setName(cspName);
+        if (domain == null) {
+            logger.warn("The requester did not inform a domain, defaulting to .csp " +
+                    " for further processing");
+
+            csp.setDomain(cspName + INVALID_DOMAIN);
+        }
+        else {
+            InternetDomainName d = InternetDomainName.from(domain);
+
+            if (!d.isPublicSuffix()) {
+                logger.warn("Input domain " + domain + " is not a public suffix");
+            }
+
+            csp.setDomain(domain);
+        }
+        return csp;
+    }
 
     public List<ReferenceCreateData> split(LoadServiceWrapper wrapper) {
         List<ReferenceCreateData> requestTypeList = new ArrayList<ReferenceCreateData>();
@@ -63,11 +94,7 @@ public class TcsRequestConversor {
             }
 
 
-            String cspName = wrapper.getCspType().getName();
-
-            Csp csp = new Csp(cspName,  cspName.toLowerCase() + ".csp");
-
-
+            Csp csp = getCspFromRequest(wrapper);
             data.setCsp(csp);
 
             requestTypeList.add(data);
@@ -75,4 +102,6 @@ public class TcsRequestConversor {
 
         return requestTypeList;
     }
+
+
 }
