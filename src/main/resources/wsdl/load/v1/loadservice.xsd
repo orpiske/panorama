@@ -34,8 +34,13 @@
 
 	<complexType name="CspType">
 		<sequence>
-			<element name="name" type="string" minOccurs="1" maxOccurs="1"></element>
-			<element name="occurrences" type="int" minOccurs="1" maxOccurs="1"></element>
+			<element name="name" type="string" minOccurs="1"
+				maxOccurs="1">
+			</element>
+            <element name="domain" type="string" minOccurs="0" maxOccurs="1"></element>
+            <element name="occurrences" type="int" minOccurs="1"
+				maxOccurs="1">
+			</element>
 		</sequence>
 	</complexType>
 
