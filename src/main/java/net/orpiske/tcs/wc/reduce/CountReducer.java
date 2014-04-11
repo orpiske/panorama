@@ -23,6 +23,9 @@ import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.util.Iterator;
 
+/**
+ * This reducer saves the output to the FS. It's available for testing purposes only
+ */
 public class CountReducer extends Reducer<OccurrenceWritable, IntWritable, OccurrenceWritable, IntWritable> {
     private static final Logger logger = Logger.getLogger(CountReducer.class);
 

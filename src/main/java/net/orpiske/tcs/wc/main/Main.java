@@ -15,32 +15,70 @@
  */
 package net.orpiske.tcs.wc.main;
 
-import net.orpiske.tcs.wc.map.WordMapper;
-import net.orpiske.tcs.wc.reduce.CountReducer;
 import net.orpiske.tcs.wc.io.OccurrenceWritable;
+import net.orpiske.tcs.wc.map.WordMapper;
+import net.orpiske.tcs.wc.reduce.CountReducerTable;
 import org.apache.cassandra.hadoop.ColumnFamilyInputFormat;
 import org.apache.cassandra.hadoop.ColumnFamilyOutputFormat;
 import org.apache.cassandra.hadoop.ConfigHelper;
 import org.apache.cassandra.hadoop.cql3.CqlConfigHelper;
-import org.apache.cassandra.hadoop.cql3.CqlOutputFormat;
 import org.apache.cassandra.thrift.SlicePredicate;
-import org.apache.cassandra.thrift.SliceRange;
 import org.apache.cassandra.utils.ByteBufferUtil;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
-import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.mapreduce.Job;
-;
-import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+
+;
 
 public class Main extends Configured implements Tool {
+
+    /**
+     * Setup the M/R job to read from the references table from Cassandra
+     * @param configuration
+     */
+    private void inputConfiguration(Configuration configuration) {
+        ConfigHelper.setInputRpcPort(configuration, "9160");
+        ConfigHelper.setInputInitialAddress(configuration, "localhost");
+        ConfigHelper.setInputPartitioner(configuration,
+                "org.apache.cassandra.dht.Murmur3Partitioner");
+
+        ConfigHelper.setInputColumnFamily(configuration, "tcs", "references");
+
+        List<ByteBuffer> columns = Arrays.asList(
+                ByteBufferUtil.bytes("reference_text"),
+                ByteBufferUtil.bytes("domain"));
+
+        SlicePredicate predicate = new SlicePredicate()
+                .setColumn_names(columns);
+
+        ConfigHelper.setInputSlicePredicate(configuration, predicate);
+    }
+
+    /**
+     * Setup the output to dump the M/R result to word_cloud table on
+     * Cassandra
+     * @param configuration
+     */
+    private void outputConfiguration(Configuration configuration) {
+        ConfigHelper.setOutputInitialAddress(configuration, "localhost");
+        ConfigHelper.setOutputColumnFamily(configuration, "tcs", "word_cloud");
+        ConfigHelper.setOutputPartitioner(configuration,
+                "org.apache.cassandra.dht.Murmur3Partitioner");
+
+        String query = "UPDATE tcs.word_cloud SET hash = ?, domain = ?, word = ?, occurrences = ?, reference_date = ? ";
+        // String query = " insert into tcs.word_cloud(hash,domain,word,occurrences,reference_date) values(?, ?, ?, ?, ?)";
+        CqlConfigHelper.setOutputCql(configuration, query);
+    }
 
 
     private Job getCSPWordJob(String[] args) throws IOException {
@@ -48,38 +86,26 @@ public class Main extends Configured implements Tool {
 
         job.setJarByClass(Main.class);
 
+        /**
+         * This is related to what comes _out_ of the map process
+         */
         job.setMapperClass(WordMapper.class);
-        job.setReducerClass(CountReducer.class);
-
-        job.setOutputKeyClass(List.class);
-        job.setOutputValueClass(List.class);
+        job.setReducerClass(CountReducerTable.class);
 
         job.setInputFormatClass(ColumnFamilyInputFormat.class);
 
-        Configuration configuration = job.getConfiguration();
+        job.setMapOutputKeyClass(OccurrenceWritable.class);
+        job.setMapOutputValueClass(IntWritable.class);
 
-        ConfigHelper.setInputRpcPort(configuration, "9160");
-        ConfigHelper.setInputInitialAddress(configuration, "localhost");
-        ConfigHelper.setInputPartitioner(configuration,
-                "org.apache.cassandra.dht.Murmur3Partitioner");
-        ConfigHelper.setInputColumnFamily(configuration, "tcs", "references");
-
-        SlicePredicate predicate = new SlicePredicate().setSlice_range(
-                new SliceRange().
-                        setStart(ByteBufferUtil.EMPTY_BYTE_BUFFER).
-                        setFinish(ByteBufferUtil.EMPTY_BYTE_BUFFER).
-                        setCount(100));
-        ConfigHelper.setInputSlicePredicate(configuration, predicate);
-
-        ConfigHelper.setOutputColumnFamily(configuration, "tcs", "word_cloud");
-        job.getConfiguration().set("row_key", "domain, word");
-
-        String query = "UPDATE tcs.reference SET occurrences = ?, reference_date = ? ";
-        CqlConfigHelper.setOutputCql(job.getConfiguration(), query);
+        job.setOutputKeyClass(Map.class);
+        job.setOutputValueClass(ArrayList.class);
 
         job.setOutputFormatClass(ColumnFamilyOutputFormat.class);
 
-        FileOutputFormat.setOutputPath(job, new Path(args[0]));
+        Configuration configuration = job.getConfiguration();
+
+        inputConfiguration(configuration);
+        outputConfiguration(configuration);
 
         return job;
     }
@@ -92,8 +118,6 @@ public class Main extends Configured implements Tool {
 
             job.waitForCompletion(true);
 
-            // org.apache.hadoop.mapreduce.lib.chain.ChainMapper.ad
-            //ChainMapper.addMapper();
             return 0;
         }
         catch (IOException e) {

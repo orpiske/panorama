@@ -39,14 +39,23 @@ public class WordMapper extends Mapper<ByteBuffer, SortedMap<ByteBuffer, Column>
     private static final Logger logger = Logger.getLogger(WordMapper.class);
 
     private final static IntWritable one = new IntWritable(1);
-    private Text word = new Text();
+
 	private static final FilterRunner runner;
 
 	static {
+        /**
+         * Setup an array of filters that we run on each
+         * token we analyze
+         */
 		ArrayList<Filter> filters = new ArrayList<Filter>();
 
+        // To remove anything that it's not a letter
 		filters.add(new CharacterFilter());
+
+        // ... and is smaller than 2
 		filters.add(new StringSizeFilter(2));
+
+        // ... and it's not an adjective
 		filters.add(new DictionaryFilter());
 
 		runner = new DefaultFilterRunner(filters);
@@ -66,13 +75,22 @@ public class WordMapper extends Mapper<ByteBuffer, SortedMap<ByteBuffer, Column>
         return ret;
     }
 
+
+    /**
+     * Runs the map part of the M/R job
+     * @param key
+     * @param columns
+     * @param context
+     * @throws IOException
+     * @throws InterruptedException
+     */
 	public void map(ByteBuffer key, SortedMap<ByteBuffer, Column> columns, Context context) throws IOException, InterruptedException {
         String referenceText = getColumnValue(columns, "reference_text");
 
         if (logger.isDebugEnabled()) {
             String keyText = ByteBufferUtil.string(key);
 
-            logger.debug("read " + keyText + "->reference_text from cassandra");
+            logger.debug("read " + keyText + " reference_text from cassandra");
         }
 
         String domainText = getColumnValue(columns, "domain");
@@ -80,6 +98,11 @@ public class WordMapper extends Mapper<ByteBuffer, SortedMap<ByteBuffer, Column>
         StringTokenizer tokenizer = new StringTokenizer(referenceText);
         while (tokenizer.hasMoreTokens()) {
             String token = tokenizer.nextToken();
+
+            /**
+             * We filter the data so that we can ignore IPs, non-words, etc.
+             * Please check the code from string-filter-utils for details
+             */
 			String word = runner.run(token);
 
 			if (!word.isEmpty()) {

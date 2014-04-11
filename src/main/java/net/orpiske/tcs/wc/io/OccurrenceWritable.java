@@ -26,6 +26,10 @@ import java.io.DataOutput;
 import java.io.IOException;
 import java.util.Iterator;
 
+
+/**
+ * A pretty boring composite key for the mapper
+ */
 public class OccurrenceWritable implements WritableComparable {
     private static final Logger logger = Logger.getLogger(OccurrenceWritable.class);
 
@@ -53,6 +57,8 @@ public class OccurrenceWritable implements WritableComparable {
     @Override
     public void write(DataOutput dataOutput) throws IOException {
         dataOutput.writeChars(domain);
+        // ... without this, it saves the text as domaintext, which
+        // makes it impossible to parse o.O
         dataOutput.writeChars(" ");
         dataOutput.writeChars(text);
     }
@@ -60,7 +66,6 @@ public class OccurrenceWritable implements WritableComparable {
     @Override
     public void readFields(DataInput dataInput) throws IOException {
         String line = dataInput.readLine();
-
 
         Iterable<String> iterable = Splitter.on(" ").split(line);
         Iterator<String> it = iterable.iterator();
