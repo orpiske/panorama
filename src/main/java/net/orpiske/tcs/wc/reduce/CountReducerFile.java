@@ -26,6 +26,7 @@ import java.util.Iterator;
 /**
  * This reducer saves the output to the FS. It's available for testing purposes only
  */
+@Deprecated
 public class CountReducerFile extends Reducer<OccurrenceWritable, IntWritable, OccurrenceWritable, IntWritable> {
     private static final Logger logger = Logger.getLogger(CountReducerFile.class);
 
