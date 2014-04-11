@@ -43,7 +43,18 @@ public class TcsRequestConversor {
             ReferenceCreateData data = new ReferenceCreateData();
 
             try {
-                Text text = Text.fromString(phrase);
+                Text text;
+
+                // We only need to compress data if it isn't already compressed
+                if (emailType.isCompressed()) {
+                    text = new Text();
+
+                    text.setEncodedText(phrase);
+                }
+                else {
+                    text = Text.fromString(phrase);
+                }
+
                 data.setText(text);
             }
             catch (IOException e) {
