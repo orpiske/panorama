@@ -17,6 +17,8 @@ package net.orpiske.dcd.collector.dataset.impl;
 
 import net.orpiske.dcd.collector.dataset.Data;
 
+import java.util.Date;
+
 /**
  * A data implementation for a MBox-based message
  */
@@ -26,6 +28,8 @@ public class MBoxData implements Data {
     private String originator;
     private String header;
     private String body;
+
+    private Date date;
 
     /**
      * Constructor
@@ -65,5 +69,14 @@ public class MBoxData implements Data {
     @Override
     public String dataToString() {
         return stringMessage;
+    }
+
+    @Override
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

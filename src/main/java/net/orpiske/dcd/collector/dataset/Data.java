@@ -15,6 +15,8 @@
  */
 package net.orpiske.dcd.collector.dataset;
 
+import java.util.Date;
+
 /**
  * An abstract representation of any data
  */
@@ -27,13 +29,11 @@ public interface Data {
      */
     String getOriginator();
 
-
     /**
      * Gets the header of the data or reference
      * @return the header of the data or reference
      */
     String getHeader();
-
 
     /**
      * Gets the body of the data or reference
@@ -47,4 +47,10 @@ public interface Data {
      * @return the data as a processable string format
      */
     String dataToString();
+
+    /**
+     * Gets an associated date with the data
+     * @return a Date object with data or null if none
+     */
+    Date getDate();
 }

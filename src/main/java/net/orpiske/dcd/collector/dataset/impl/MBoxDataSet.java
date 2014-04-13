@@ -17,11 +17,17 @@ package net.orpiske.dcd.collector.dataset.impl;
 
 import net.orpiske.dcd.collector.dataset.Data;
 import net.orpiske.dcd.collector.dataset.DataSet;
+import org.apache.commons.lang3.time.FastDateFormat;
+import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.commons.lang3.time.DateUtils;
+import org.apache.commons.lang3.time.FastDateParser;
 import org.apache.log4j.Logger;
 
 import javax.mail.*;
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.Properties;
 
@@ -120,6 +126,25 @@ public class MBoxDataSet implements DataSet {
                 }
                 else {
                     stringBuilder.append(header.getValue());
+                }
+
+                if (header.getName().equalsIgnoreCase("date")) {
+                    String strDate = header.getValue();
+
+                    if (strDate != null) {
+                        strDate = strDate.substring(0, strDate.length() - 6);
+
+                        try {
+                            Date date = DateUtils.parseDate(strDate,
+                                    "EEE, dd MMM yyyy HH:mm:ss Z");
+
+                            mBoxData.setDate(date);
+                        } catch (ParseException e) {
+                            logger.error("Unable to parse date " + strDate + ": "
+                                    + e.getMessage(), e);
+                        }
+                    }
+
                 }
 
                 stringBuilder.append('\n');

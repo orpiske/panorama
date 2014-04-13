@@ -180,21 +180,6 @@ public class WebServicesDispatcher implements Dispatcher {
 
         servicePort.loadService(headerType, sourceType, cspType, reportDate,
                 code, message);
-
-		/*
-		 * Call the service and handle the response
-		 */
-        // XMLGregorianCalendar ret = servicePort.loadService();
-
-        /*
-        if (ret != null) {
-            System.out.println("Ret = " + ret.toGregorianCalendar().toString());
-        }
-        else {
-            System.out.println("No response from the server");
-        }
-        */
-
     }
 
 
