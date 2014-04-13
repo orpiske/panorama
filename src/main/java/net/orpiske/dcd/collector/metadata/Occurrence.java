@@ -15,11 +15,15 @@
  */
 package net.orpiske.dcd.collector.metadata;
 
+import java.util.Date;
+
 public class Occurrence {
     private String originator;
     private String header;
     private String body;
+    private Date date;
     private Object payload;
+
 
     public Occurrence() {
 
@@ -53,6 +57,14 @@ public class Occurrence {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public Object getPayload() {

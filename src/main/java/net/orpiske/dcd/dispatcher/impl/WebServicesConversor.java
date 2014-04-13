@@ -40,7 +40,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
- * Converts the metadata into the types used by the webservice
+ * Converts the metadata into the types
  */
 public class WebServicesConversor {
     private static final Logger logger = Logger.getLogger(WebServicesConversor.class);
@@ -62,6 +62,22 @@ public class WebServicesConversor {
         headerType.setCaller(callerType);
 
         return headerType;
+    }
+
+    private static XMLGregorianCalendar newXmlGregorianCalendar(final Date date) {
+        GregorianCalendar reportDate = new GregorianCalendar();
+        reportDate.setTime(date);
+
+        XMLGregorianCalendar ret = null;
+
+        try {
+            ret = DatatypeFactory.newInstance().newXMLGregorianCalendar(reportDate);
+        } catch (DatatypeConfigurationException e) {
+            logger.error("Unable to properly transform a date for XML data transfer: " +
+                e.getMessage(), e);
+        }
+
+        return ret;
     }
 
 
@@ -96,6 +112,10 @@ public class WebServicesConversor {
             emailType.setHeader(occurrence.getOriginator());
             emailType.setName("Caiu");
 
+
+            XMLGregorianCalendar date = newXmlGregorianCalendar(occurrence.getDate());
+            emailType.setDate(date);
+
             list.add(emailType);
         }
 
@@ -125,19 +145,6 @@ public class WebServicesConversor {
     }
 
     public static XMLGregorianCalendar newReportDate(final MetaData metaData) {
-        GregorianCalendar reportDate = new GregorianCalendar();
-        reportDate.setTime(new Date());
-
-        XMLGregorianCalendar ret = null;
-
-        try {
-            ret = DatatypeFactory.newInstance().newXMLGregorianCalendar(reportDate);
-
-            return ret;
-        } catch (DatatypeConfigurationException e) {
-            e.printStackTrace();
-        }
-
-        return null;
+        return newXmlGregorianCalendar(new Date());
     }
 }

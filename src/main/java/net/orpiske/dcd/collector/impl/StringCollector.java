@@ -16,6 +16,7 @@
 package net.orpiske.dcd.collector.impl;
 
 import net.orpiske.dcd.collector.Collector;
+import net.orpiske.dcd.collector.dataset.Data;
 import net.orpiske.dcd.collector.dataset.DataSet;
 import net.orpiske.dcd.collector.metadata.MetaData;
 import net.orpiske.dcd.collector.metadata.Occurrence;
@@ -45,16 +46,19 @@ public class StringCollector implements Collector {
         }
 
         while (dataSet.hasNext()) {
-           logger.trace("Processing next data in the data set");
-           String textData = dataSet.next().dataToString();
+            logger.trace("Processing next data in the data set");
 
-           for (MetaData metaData : metaDataSet) {
+            Data data = dataSet.next();
+            String textData = data.dataToString();
+
+            for (MetaData metaData : metaDataSet) {
                Word word = metaData.getWord();
 
                if (word.existsInText(textData)) {
                     Occurrence occurrence = new Occurrence();
 
                     occurrence.setBody(textData);
+                    occurrence.setDate(data.getDate());
 
                     metaData.addOccurrence(occurrence);
                }
