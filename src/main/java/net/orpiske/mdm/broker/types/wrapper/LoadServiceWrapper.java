@@ -28,7 +28,7 @@ public class LoadServiceWrapper {
     private HeaderType headerType;
     private SourceType sourceType;
     private CspType cspType;
-    private XMLGregorianCalendar xmlGregorianCalendar;
+    private XMLGregorianCalendar reportDate;
 
     public void set(final Object object) {
         if (object instanceof HeaderType) {
@@ -44,7 +44,7 @@ public class LoadServiceWrapper {
                 }
                 else {
                     if (object instanceof XMLGregorianCalendar) {
-                        setXmlGregorianCalendar((XMLGregorianCalendar) object);
+                        setReportDate((XMLGregorianCalendar) object);
                     }
                     else {
                         logger.error("Unhandled type conversion: " +
@@ -80,11 +80,11 @@ public class LoadServiceWrapper {
         this.cspType = cspType;
     }
 
-    public XMLGregorianCalendar getXmlGregorianCalendar() {
-        return xmlGregorianCalendar;
+    public XMLGregorianCalendar getReportDate() {
+        return reportDate;
     }
 
-    public void setXmlGregorianCalendar(XMLGregorianCalendar xmlGregorianCalendar) {
-        this.xmlGregorianCalendar = xmlGregorianCalendar;
+    public void setReportDate(XMLGregorianCalendar xmlGregorianCalendar) {
+        this.reportDate = xmlGregorianCalendar;
     }
 }

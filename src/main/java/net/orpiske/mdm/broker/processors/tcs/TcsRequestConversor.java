@@ -23,6 +23,7 @@ import net.orpiske.tcs.service.core.domain.ReferenceCreateData;
 import net.orpiske.tcs.service.core.domain.Text;
 import org.apache.log4j.Logger;
 
+import javax.xml.datatype.XMLGregorianCalendar;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +74,11 @@ public class TcsRequestConversor {
 
             ReferenceCreateData data = new ReferenceCreateData();
 
+            XMLGregorianCalendar cal = emailType.getDate();
+            if (cal != null) {
+                data.setDate(cal.toGregorianCalendar().getTime());
+            }
+
             try {
                 Text text;
 
@@ -96,6 +102,7 @@ public class TcsRequestConversor {
 
             Csp csp = getCspFromRequest(wrapper);
             data.setCsp(csp);
+
 
             requestTypeList.add(data);
         }
