@@ -29,6 +29,7 @@
 			<element name="name" type="string"></element>
 			<element name="header" type="string"></element>
 			<element name="body" type="string"></element>
+			<element name="date" type="dateTime" minOccurs="0" maxOccurs="1"></element>
 		</sequence>
 		<attribute name="compressed" type="boolean" use="optional"></attribute>
 		<attribute name="format" use="optional">
