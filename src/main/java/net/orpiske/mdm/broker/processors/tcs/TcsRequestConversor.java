@@ -18,7 +18,7 @@ package net.orpiske.mdm.broker.processors.tcs;
 import com.google.common.net.InternetDomainName;
 import net.orpiske.exchange.loadservice.v1.EmailType;
 import net.orpiske.mdm.broker.types.wrapper.LoadServiceWrapper;
-import net.orpiske.tcs.service.core.domain.Csp;
+import net.orpiske.tcs.service.core.domain.Domain;
 import net.orpiske.tcs.service.core.domain.ReferenceCreateData;
 import net.orpiske.tcs.service.core.domain.Text;
 import org.apache.log4j.Logger;
@@ -33,12 +33,12 @@ public class TcsRequestConversor {
     private static final String INVALID_DOMAIN = ".csp";
 
     /**
-     * Gets a CSP object out of data from the request
+     * Gets a domain object out of data from the request
      * @param wrapper the request wrapper
-     * @return a CSP object
+     * @return a Domain object
      */
-    private Csp getCspFromRequest(LoadServiceWrapper wrapper) {
-        Csp csp = new Csp();
+    private Domain getCspFromRequest(LoadServiceWrapper wrapper) {
+        Domain csp = new Domain();
 
         String cspName = wrapper.getCspType().getName();
         String domain = wrapper.getCspType().getDomain();
@@ -100,15 +100,12 @@ public class TcsRequestConversor {
             }
 
 
-            Csp csp = getCspFromRequest(wrapper);
-            data.setCsp(csp);
-
+            Domain domain = getCspFromRequest(wrapper);
+            data.setDomain(domain);
 
             requestTypeList.add(data);
         }
 
         return requestTypeList;
     }
-
-
 }

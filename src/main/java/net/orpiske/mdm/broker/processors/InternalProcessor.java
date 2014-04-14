@@ -55,6 +55,8 @@ public class InternalProcessor implements Processor {
             logger.debug("Enriching the message");
             exchange.setProperty("CSP.NAME",
                     wrapper.getCspType().getName());
+            exchange.setProperty("CSP.DOMAIN",
+                    wrapper.getCspType().getDomain());
             exchange.setProperty("CSP.REFERENCE_COUNT",
                     wrapper.getCspType().getOccurrences());
         }
