@@ -65,7 +65,7 @@ public class ReferenceCreateIntegrationTest {
 
         REQUEST_JSON = "{ \"csp\" : { \"name\" : \"HomeMadeISP\"," +
                 "\"domain\" : \"www.hmi.com.br\" }, \"text\" : { \"encodedText\" : \""
-                + text.getEncodedText() + "\"} }";
+                + text.getEncodedText() + "\"}, \"date\": 1392310268000 }";
     }
 
     /**
