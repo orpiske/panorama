@@ -101,8 +101,8 @@ public class TagCloudIntegrationTest {
                 .thenReturn(tagCloudCspEvent());
 
         this.mockMvc.perform(
-                post("/tagcloud/{csp}", "GVT")
-                        .content("{ \"name\" : \"GVT\" , \"domain\" : \"www.gvt.com.br\" }")
+                post("/tagcloud/{domain}", "gvt.com.br")
+                        .content("{ \"name\" : \"GVT\" , \"domain\" : \"gvt.com.br\" }")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
         )
@@ -128,8 +128,8 @@ public class TagCloudIntegrationTest {
 
 
         this.mockMvc.perform(
-                post("/tagcloud/{csp}", "HomeMadeISP")
-                        .content("{ \"name\" : \"HomeMadeISP\" , \"domain\" : \"www.hmi.com.br\" }")
+                post("/tagcloud/{domain}", "hmi.com.br")
+                        .content("{ \"name\" : \"HomeMadeISP\" , \"domain\" : \"hmi.com.br\" }")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
         )

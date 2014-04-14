@@ -15,32 +15,27 @@
  */
 package net.orpiske.tcs.service.config;
 
-import net.orpiske.tcs.service.core.domain.TagCloud;
+import net.orpiske.tcs.service.core.repository.DomainRepository;
 import net.orpiske.tcs.service.core.repository.ReferenceRepository;
 import net.orpiske.tcs.service.core.repository.cassandra.*;
-import net.orpiske.tcs.service.persistence.utils.EntityManagerWrapper;
-import net.orpiske.tcs.service.core.repository.CspRepository;
 import net.orpiske.tcs.service.core.repository.TagRepository;
 import net.orpiske.tcs.service.core.service.TagCloudEventHandler;
 import net.orpiske.tcs.service.core.service.TagCloudService;
-import net.orpiske.tcs.service.persistence.utils.PersistenceProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import javax.persistence.EntityManager;
 
 @Configuration
 public class CoreConfig {
 
 
     @Bean
-    public TagCloudService createCsp(CspRepository cspRepository, TagRepository tagRepository) {
+    public TagCloudService createTagCloudService() {
         return new TagCloudEventHandler();
     }
 
     @Bean
-    public CspRepository createCspRepository() {
-        return new CspRepositoryCassandra();
+    public DomainRepository createDomainRepository() {
+        return new DomainRepositoryCassandra();
     }
 
     @Bean
@@ -54,8 +49,8 @@ public class CoreConfig {
     }
 
     @Bean
-    public CspDao createCspDao() {
-       return new CspDao(new DefaultPersistenceProperties());
+    public DomainDao createCspDao() {
+       return new DomainDao(new DefaultPersistenceProperties());
     }
 
     @Bean

@@ -15,12 +15,12 @@
  */
 package net.orpiske.tcs.service.core.repository;
 
-import net.orpiske.tcs.service.core.domain.Csp;
+import net.orpiske.tcs.service.core.domain.Domain;
 import net.orpiske.tcs.service.core.domain.TagCloud;
 
 public interface TagRepository {
 
-    TagCloud findByCsp(final Csp csp);
+    TagCloud findByCsp(final Domain domain);
 
 	TagCloud findAll();
 }

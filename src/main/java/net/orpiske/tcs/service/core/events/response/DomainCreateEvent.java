@@ -15,27 +15,23 @@
  */
 package net.orpiske.tcs.service.core.events.response;
 
-import net.orpiske.tcs.service.core.domain.Csp;
-import net.orpiske.tcs.service.core.domain.CspList;
-import net.orpiske.tcs.service.core.events.ReadEvent;
+import net.orpiske.tcs.service.core.domain.Domain;
+import net.orpiske.tcs.service.core.events.CreateEvent;
 
-import java.util.List;
+public class DomainCreateEvent extends CreateEvent {
+    private Domain domain;
 
-public class CspListEvent extends ReadEvent {
+    public DomainCreateEvent() {}
 
-    private CspList cspList;
-
-    public CspListEvent() {}
-
-    public CspListEvent(CspList cspList) {
-        this.cspList = cspList;
+    public DomainCreateEvent(Domain domain) {
+        this.domain = domain;
     }
 
-    public CspListEvent(List<Csp> list) {
-        cspList = new CspList(list);
+    public Domain getDomain() {
+        return domain;
     }
 
-    public CspList getCspList() {
-        return cspList;
+    public void setDomain(Domain domain) {
+        this.domain = domain;
     }
 }

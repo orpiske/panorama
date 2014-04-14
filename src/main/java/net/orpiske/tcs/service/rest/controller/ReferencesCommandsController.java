@@ -40,7 +40,7 @@ public class ReferencesCommandsController {
     @ResponseBody
     public ResponseEntity updateCloud(@RequestBody ReferenceCreateData data) {
         if (logger.isDebugEnabled()) {
-            logger.debug("References command controller handling a create CSP request for " + data);
+            logger.debug("References command controller handling a create request for " + data);
         }
 
         ReferenceCreateEvent tagCloudEvent = tagCloudService.createReference(

@@ -16,23 +16,21 @@
 package net.orpiske.tcs.service.rest.controller.fixtures;
 
 import net.orpiske.tcs.service.core.domain.*;
-import net.orpiske.tcs.utils.compression.Compressor;
 import org.apache.commons.codec.digest.DigestUtils;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
 public class RestDataFixtures {
 
-    public static CspList customCspList() {
-        CspList cspList = new CspList();
+    public static DomainList customDomainList() {
+        DomainList domainList = new DomainList();
 
-        cspList.add("GVT", "www.gvt.com.br");
-        cspList.add("NET", "www.netvirtua.com.br");
-        cspList.add("Oi", "www.oi.com.br");
+        domainList.add("GVT", "gvt.com.br");
+        domainList.add("NET", "netvirtua.com.br");
+        domainList.add("Oi", "oi.com.br");
 
-        return cspList;
+        return domainList;
     }
 
 	private static Tag tag(final String csp, final String word) {
@@ -92,8 +90,8 @@ public class RestDataFixtures {
     }
 
 
-    public static Csp customCsp() {
-        return new Csp("Terra", "www.terra.com.br");
+    public static Domain customCsp() {
+        return new Domain("Terra", "www.terra.com.br");
     }
 
     public static Text customText() {
@@ -115,10 +113,10 @@ public class RestDataFixtures {
        try {
             Text text = Text.fromString("Bad, bad ISP");
 
-            Csp csp = new Csp("HomeMadeCSP", "www.home.com.br");
+            Domain domain = new Domain("HomeMadeCSP", "home.com.br");
 
             ReferenceCreateData data = new ReferenceCreateData()
-						.setCsp(csp)
+						.setDomain(domain)
 						.setText(text);
 
             return data;

@@ -13,25 +13,17 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-package net.orpiske.tcs.service.core.events.request;
+package net.orpiske.tcs.service.core.repository;
 
-import net.orpiske.tcs.service.core.domain.Csp;
+import net.orpiske.tcs.service.core.domain.Domain;
 
-public class RequestCreateCspEvent {
-    private Csp csp;
+import java.util.List;
 
-    public RequestCreateCspEvent() {
-    }
+public interface DomainRepository {
 
-    public RequestCreateCspEvent(final Csp csp) {
-        this.csp = csp;
-    }
+    Domain save(final Domain domain);
 
-    public Csp getCsp() {
-        return csp;
-    }
+    Domain findByName(final String name);
 
-    public void setCsp(Csp csp) {
-        this.csp = csp;
-    }
+    List<Domain> findAll();
 }

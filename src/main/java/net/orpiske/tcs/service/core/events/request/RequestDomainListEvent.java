@@ -17,5 +17,5 @@ package net.orpiske.tcs.service.core.events.request;
 
 import net.orpiske.tcs.service.core.events.RequestReadEvent;
 
-public class RequestCspListEvent extends RequestReadEvent {
+public class RequestDomainListEvent extends RequestReadEvent {
 }

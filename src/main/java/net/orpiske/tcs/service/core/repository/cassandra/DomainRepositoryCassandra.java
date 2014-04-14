@@ -15,28 +15,28 @@
  */
 package net.orpiske.tcs.service.core.repository.cassandra;
 
-import net.orpiske.tcs.service.core.domain.Csp;
-import net.orpiske.tcs.service.core.repository.CspRepository;
+import net.orpiske.tcs.service.core.domain.Domain;
+import net.orpiske.tcs.service.core.repository.DomainRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-public class CspRepositoryCassandra implements CspRepository {
+public class DomainRepositoryCassandra implements DomainRepository {
     @Autowired
-    private CspDao dao;
+    private DomainDao dao;
 
     @Override
-    public Csp save(Csp csp) {
-        return dao.save(csp);
+    public Domain save(Domain domain) {
+        return dao.save(domain);
     }
 
     @Override
-    public Csp findByName(String name) {
+    public Domain findByName(String name) {
         return dao.findByName(name);
     }
 
     @Override
-    public List<Csp> findAll() {
+    public List<Domain> findAll() {
         return dao.findAll();
     }
 }

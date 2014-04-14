@@ -15,23 +15,23 @@
  */
 package net.orpiske.tcs.service.core.events.request;
 
-import net.orpiske.tcs.service.core.domain.Csp;
+import net.orpiske.tcs.service.core.domain.Domain;
 import net.orpiske.tcs.service.core.events.ReadEvent;
 
 public class RequestTagCloudEvent extends ReadEvent {
-    private Csp csp;
+    private Domain domain;
 
     public RequestTagCloudEvent() {}
 
-    public RequestTagCloudEvent(Csp csp) {
-        this.csp = csp;
+    public RequestTagCloudEvent(Domain domain) {
+        this.domain = domain;
     }
 
-    public Csp getCsp() {
-        return csp;
+    public Domain getDomain() {
+        return domain;
     }
 
-    public void setCsp(Csp csp) {
-        this.csp = csp;
+    public void setDomain(Domain domain) {
+        this.domain = domain;
     }
 }

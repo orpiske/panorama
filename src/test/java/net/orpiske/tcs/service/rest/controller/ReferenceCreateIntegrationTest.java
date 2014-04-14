@@ -18,7 +18,6 @@ package net.orpiske.tcs.service.rest.controller;
 import net.orpiske.tcs.service.core.domain.Text;
 import net.orpiske.tcs.service.core.events.request.RequestCreateReference;
 import net.orpiske.tcs.service.core.service.TagCloudService;
-import net.orpiske.tcs.service.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,7 +45,7 @@ public class ReferenceCreateIntegrationTest {
     MockMvc mockMvc;
 
     @InjectMocks
-    ReferencesCommandsController tagCloudCommandsController;
+    ReferencesCommandsController referencesCommandsController;
 
     @Mock
     TagCloudService tagCloudService;
@@ -63,8 +62,8 @@ public class ReferenceCreateIntegrationTest {
             fail("Unable to create a Text object: " + e.getMessage());
         }
 
-        REQUEST_JSON = "{ \"csp\" : { \"name\" : \"HomeMadeISP\"," +
-                "\"domain\" : \"www.hmi.com.br\" }, \"text\" : { \"encodedText\" : \""
+        REQUEST_JSON = "{ \"domain\" : { \"name\" : \"HomeMadeISP\"," +
+                "\"domain\" : \"hmi.com.br\" }, \"text\" : { \"encodedText\" : \""
                 + text.getEncodedText() + "\"}, \"date\": 1392310268000 }";
     }
 
@@ -75,7 +74,7 @@ public class ReferenceCreateIntegrationTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
 
-        this.mockMvc = standaloneSetup(tagCloudCommandsController,
+        this.mockMvc = standaloneSetup(referencesCommandsController,
                 new MappingJackson2HttpMessageConverter())
                 .build();
     }
@@ -93,7 +92,7 @@ public class ReferenceCreateIntegrationTest {
 
         logger.debug("Sending JSON = " + REQUEST_JSON);
 
-        mockMvc.perform(post("/references/")
+        mockMvc.perform(post("/references")
                     .content(REQUEST_JSON)
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON))

@@ -15,9 +15,8 @@
  */
 package net.orpiske.tcs.service.rest.controller;
 
-import net.orpiske.tcs.service.core.events.request.RequestCreateCspEvent;
+import net.orpiske.tcs.service.core.events.request.RequestDomainListEvent;
 import net.orpiske.tcs.service.core.service.TagCloudService;
-import net.orpiske.tcs.service.utils.LogConfigurator;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -27,20 +26,21 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static net.orpiske.tcs.service.rest.controller.fixtures.RestEventFixtures.cspCreateEvent;
-import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
-public class CspCreateIntegrationTest {
+import static net.orpiske.tcs.service.rest.controller.fixtures.RestEventFixtures.*;
+
+public class DomainListIntegrationTest {
+
     MockMvc mockMvc;
 
     @InjectMocks
-    CspCommandsController cspCommandsController;
+    DomainQueriesController domainQueriesController;
 
     @Mock
     TagCloudService tagCloudService;
@@ -49,28 +49,30 @@ public class CspCreateIntegrationTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
 
-        this.mockMvc = standaloneSetup(cspCommandsController,
-                new MappingJackson2HttpMessageConverter())
+        this.mockMvc = standaloneSetup(domainQueriesController,
+                    new MappingJackson2HttpMessageConverter())
                 .build();
+
+
     }
 
 
     /**
-     * Tests the ability to add a new CSP to the system
+     * Tests the ability to obtain a list of existing CSPs
      * @throws Exception
      */
     @Test
-    public void testCspTagCloudCreateNewCSP() throws Exception {
-        when(tagCloudService.createCsp(any(RequestCreateCspEvent.class)))
-                .thenReturn(cspCreateEvent());
-
+    public void testCspList() throws Exception {
+        when(tagCloudService.requestDomainList(any(RequestDomainListEvent.class)))
+                .thenReturn(domainListEvent());
 
         this.mockMvc.perform(
-                post("/csp/{csp}", "Terra")
-                        .content("{ \"name\": \"Terra\" } ")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+                get("/domain")
+                .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
+                .andExpect(jsonPath("$.domainList[0].name").value("GVT"))
+                .andExpect(jsonPath("$.domainList[1].name").value("NET"))
+                .andExpect(jsonPath("$.domainList[2].name").value("Oi"))
                 .andExpect(status().isOk());
     }
 }

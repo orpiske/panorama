@@ -15,11 +15,9 @@
  */
 package net.orpiske.tcs.service.core.repository.cassandra;
 
-import net.orpiske.tcs.service.core.domain.Csp;
+import net.orpiske.tcs.service.core.domain.Domain;
 import net.orpiske.tcs.service.core.domain.TagCloud;
-import net.orpiske.tcs.service.core.domain.Text;
 import net.orpiske.tcs.service.core.repository.TagRepository;
-import net.orpiske.tcs.service.persistence.exception.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class TagRepositoryCassandra implements TagRepository {
@@ -28,7 +26,7 @@ public class TagRepositoryCassandra implements TagRepository {
 	private TagCloudDao dao;
 
     @Override
-    public TagCloud findByCsp(Csp csp) {
+    public TagCloud findByCsp(Domain domain) {
         return null;
     }
 

@@ -16,9 +16,9 @@
 package net.orpiske.tcs.service.rest.controller;
 
 
-import net.orpiske.tcs.service.core.domain.CspList;
-import net.orpiske.tcs.service.core.events.response.CspListEvent;
-import net.orpiske.tcs.service.core.events.request.RequestCspListEvent;
+import net.orpiske.tcs.service.core.domain.DomainList;
+import net.orpiske.tcs.service.core.events.request.RequestDomainListEvent;
+import net.orpiske.tcs.service.core.events.response.DomainListEvent;
 import net.orpiske.tcs.service.core.service.TagCloudService;
 
 import org.apache.log4j.Logger;
@@ -28,10 +28,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/csp")
-public class CspQueriesController {
+@RequestMapping("/domain")
+public class DomainQueriesController {
 
-    private static final Logger logger = Logger.getLogger(CspQueriesController.class);
+    private static final Logger logger = Logger.getLogger(DomainQueriesController.class);
 
     @Autowired
     private TagCloudService tagCloudService;
@@ -39,13 +39,13 @@ public class CspQueriesController {
     @RequestMapping(method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public CspList requestCspList() {
+    public DomainList requestCspList() {
         if (logger.isDebugEnabled()) {
             logger.debug("CSP query controller handling a create CSP request");
         }
 
-        CspListEvent cspListEvent = tagCloudService.requestCspList(new RequestCspListEvent());
+        DomainListEvent domainListEvent = tagCloudService.requestDomainList(new RequestDomainListEvent());
 
-        return cspListEvent.getCspList();
+        return domainListEvent.getDomainList();
     }
 }

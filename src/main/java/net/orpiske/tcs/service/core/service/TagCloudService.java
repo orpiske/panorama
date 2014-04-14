@@ -15,20 +15,20 @@
  */
 package net.orpiske.tcs.service.core.service;
 
-import net.orpiske.tcs.service.core.events.request.RequestCreateCspEvent;
+import net.orpiske.tcs.service.core.events.request.RequestCreateDomainEvent;
 import net.orpiske.tcs.service.core.events.request.RequestCreateReference;
-import net.orpiske.tcs.service.core.events.request.RequestCspListEvent;
+import net.orpiske.tcs.service.core.events.request.RequestDomainListEvent;
 import net.orpiske.tcs.service.core.events.request.RequestTagCloudEvent;
-import net.orpiske.tcs.service.core.events.response.CspCreateEvent;
-import net.orpiske.tcs.service.core.events.response.CspListEvent;
+import net.orpiske.tcs.service.core.events.response.DomainCreateEvent;
+import net.orpiske.tcs.service.core.events.response.DomainListEvent;
 import net.orpiske.tcs.service.core.events.response.ReferenceCreateEvent;
 import net.orpiske.tcs.service.core.events.response.TagCloudEvent;
 
 public interface TagCloudService {
 
-    public CspListEvent requestCspList(RequestCspListEvent requestCspListEvent);
+    public DomainListEvent requestDomainList(RequestDomainListEvent requestDomainListEvent);
 
-    public CspCreateEvent createCsp(RequestCreateCspEvent requestCreateCspEvent);
+    public DomainCreateEvent createDomain(RequestCreateDomainEvent requestCreateDomainEvent);
 
     public TagCloudEvent requestTagCloud(RequestTagCloudEvent requestTagCloudEvent);
 

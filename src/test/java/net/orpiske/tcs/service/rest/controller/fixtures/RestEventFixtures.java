@@ -15,8 +15,8 @@
  */
 package net.orpiske.tcs.service.rest.controller.fixtures;
 
-import net.orpiske.tcs.service.core.events.response.CspCreateEvent;
-import net.orpiske.tcs.service.core.events.response.CspListEvent;
+import net.orpiske.tcs.service.core.events.response.DomainCreateEvent;
+import net.orpiske.tcs.service.core.events.response.DomainListEvent;
 import net.orpiske.tcs.service.core.events.response.ReferenceCreateEvent;
 import net.orpiske.tcs.service.core.events.response.TagCloudEvent;
 
@@ -24,14 +24,14 @@ import static net.orpiske.tcs.service.rest.controller.fixtures.RestDataFixtures.
 
 public class RestEventFixtures {
 
-    public static CspListEvent emptyCspListEvent() {
-        return new CspListEvent();
+    public static DomainListEvent emptyCspListEvent() {
+        return new DomainListEvent();
     }
 
-    public static CspListEvent cspListEvent() {
+    public static DomainListEvent domainListEvent() {
         System.out.println("Creating a custom CSP list");
 
-        return new CspListEvent(customCspList());
+        return new DomainListEvent(customDomainList());
     }
 
     public static TagCloudEvent notFoundCspEvent() {
@@ -50,7 +50,7 @@ public class RestEventFixtures {
         return new TagCloudEvent(customSmallCspTagCloud());
     }
 
-    public static CspCreateEvent cspCreateEvent() {
-        return new CspCreateEvent(customCsp());
+    public static DomainCreateEvent cspCreateEvent() {
+        return new DomainCreateEvent(customCsp());
     }
 }

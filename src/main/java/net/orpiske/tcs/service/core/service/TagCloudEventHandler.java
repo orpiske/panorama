@@ -16,15 +16,15 @@
 package net.orpiske.tcs.service.core.service;
 
 import net.orpiske.tcs.service.core.domain.*;
-import net.orpiske.tcs.service.core.events.request.RequestCreateCspEvent;
+import net.orpiske.tcs.service.core.events.request.RequestCreateDomainEvent;
 import net.orpiske.tcs.service.core.events.request.RequestCreateReference;
-import net.orpiske.tcs.service.core.events.request.RequestCspListEvent;
+import net.orpiske.tcs.service.core.events.request.RequestDomainListEvent;
 import net.orpiske.tcs.service.core.events.request.RequestTagCloudEvent;
-import net.orpiske.tcs.service.core.events.response.CspCreateEvent;
-import net.orpiske.tcs.service.core.events.response.CspListEvent;
+import net.orpiske.tcs.service.core.events.response.DomainCreateEvent;
+import net.orpiske.tcs.service.core.events.response.DomainListEvent;
 import net.orpiske.tcs.service.core.events.response.ReferenceCreateEvent;
 import net.orpiske.tcs.service.core.events.response.TagCloudEvent;
-import net.orpiske.tcs.service.core.repository.CspRepository;
+import net.orpiske.tcs.service.core.repository.DomainRepository;
 import net.orpiske.tcs.service.core.repository.ReferenceRepository;
 import net.orpiske.tcs.service.core.repository.TagRepository;
 import org.apache.log4j.Logger;
@@ -36,7 +36,7 @@ public class TagCloudEventHandler implements TagCloudService {
     private static final Logger logger = Logger.getLogger(TagCloudEventHandler.class);
 
     @Autowired
-    private CspRepository cspRepository;
+    private DomainRepository domainRepository;
 
     @Autowired
     private ReferenceRepository refRepository;
@@ -46,31 +46,31 @@ public class TagCloudEventHandler implements TagCloudService {
 
 
     @Override
-    public CspListEvent requestCspList(RequestCspListEvent requestCspListEvent) {
-        List<Csp> list = cspRepository.findAll();
-        CspListEvent event = new CspListEvent(list);
+    public DomainListEvent requestDomainList(RequestDomainListEvent requestDomainListEvent) {
+        List<Domain> list = domainRepository.findAll();
+        DomainListEvent event = new DomainListEvent(list);
 
         return event;
     }
 
     @Override
-    public CspCreateEvent createCsp(RequestCreateCspEvent requestCreateCspEvent) {
-        Csp csp = requestCreateCspEvent.getCsp();
+    public DomainCreateEvent createDomain(RequestCreateDomainEvent requestCreateDomainEvent) {
+        Domain domain = requestCreateDomainEvent.getDomain();
 
-        cspRepository.save(csp);
+        domainRepository.save(domain);
 
-        CspCreateEvent event = new CspCreateEvent(csp);
+        DomainCreateEvent event = new DomainCreateEvent(domain);
 
         return event;
     }
 
     @Override
     public TagCloudEvent requestTagCloud(RequestTagCloudEvent requestTagCloudEvent) {
-        Csp csp = requestTagCloudEvent.getCsp();
+        Domain domain = requestTagCloudEvent.getDomain();
         TagCloud tagCloud;
 
-		if (csp != null) {
-			tagCloud = tagRepository.findByCsp(csp);
+		if (domain != null) {
+			tagCloud = tagRepository.findByCsp(domain);
 		}
 		else {
 			tagCloud = tagRepository.findAll();
@@ -87,8 +87,8 @@ public class TagCloudEventHandler implements TagCloudService {
         ReferenceCreateEvent event = new ReferenceCreateEvent();
 
         try {
-            Csp csp = data.getCsp();
-            cspRepository.save(csp);
+            Domain domain = data.getDomain();
+            domainRepository.save(domain);
 
             Reference reference = data.toReference();
             refRepository.add(reference);

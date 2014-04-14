@@ -15,7 +15,7 @@
  */
 package net.orpiske.tcs.service.rest.controller;
 
-import net.orpiske.tcs.service.core.domain.Csp;
+import net.orpiske.tcs.service.core.domain.Domain;
 import net.orpiske.tcs.service.core.domain.TagCloud;
 import net.orpiske.tcs.service.core.events.request.RequestTagCloudEvent;
 import net.orpiske.tcs.service.core.events.response.TagCloudEvent;
@@ -50,16 +50,16 @@ public class TagCloudQueriesController {
     }
 
 
-    @RequestMapping(value = "/{csp}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{domain}", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<TagCloud> requestCspTagCloud(@RequestBody final Csp csp) {
+    public ResponseEntity<TagCloud> requestCspTagCloud(@RequestBody final Domain domain) {
 
         if (logger.isDebugEnabled()) {
-            logger.debug("Requesting the CSP tag cloud for " + csp);
+            logger.debug("Requesting the CSP tag cloud for " + domain);
         }
 
         TagCloudEvent tagCloudEvent = tagCloudService.requestTagCloud(
-                new RequestTagCloudEvent(csp));
+                new RequestTagCloudEvent(domain));
 
         if (!tagCloudEvent.isEntityFound()) {
             return new ResponseEntity<TagCloud>(HttpStatus.NOT_FOUND);

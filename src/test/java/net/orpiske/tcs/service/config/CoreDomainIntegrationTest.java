@@ -15,16 +15,15 @@
  */
 package net.orpiske.tcs.service.config;
 
-import net.orpiske.tcs.service.core.domain.Csp;
-import net.orpiske.tcs.service.core.domain.CspList;
+import net.orpiske.tcs.service.core.domain.Domain;
+import net.orpiske.tcs.service.core.domain.DomainList;
 import net.orpiske.tcs.service.core.events.request.RequestCreateReference;
-import net.orpiske.tcs.service.core.events.response.CspListEvent;
-import net.orpiske.tcs.service.core.events.request.RequestCreateCspEvent;
-import net.orpiske.tcs.service.core.events.request.RequestCspListEvent;
+import net.orpiske.tcs.service.core.events.request.RequestDomainListEvent;
+import net.orpiske.tcs.service.core.events.response.DomainListEvent;
+import net.orpiske.tcs.service.core.events.request.RequestCreateDomainEvent;
 import net.orpiske.tcs.service.core.events.response.ReferenceCreateEvent;
 import net.orpiske.tcs.service.core.service.TagCloudService;
 
-import net.orpiske.tcs.service.utils.LogConfigurator;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -53,20 +52,20 @@ public class CoreDomainIntegrationTest {
 
     @Test
     public void testAddCspToTheSystem() {
-        RequestCreateCspEvent requestCreateCspEvent =
-                new RequestCreateCspEvent(new Csp("HomeMadeCSP", "www.home.com.br"));
+        RequestCreateDomainEvent requestCreateDomainEvent =
+                new RequestCreateDomainEvent(new Domain("HomeMadeCSP", "www.home.com.br"));
 
-        tagCloudService.createCsp(requestCreateCspEvent);
+        tagCloudService.createDomain(requestCreateDomainEvent);
 
-        RequestCspListEvent requestCspListEvent = new RequestCspListEvent();
+        RequestDomainListEvent requestDomainListEvent = new RequestDomainListEvent();
 
-        CspListEvent cspListEvent = tagCloudService.requestCspList(
-                requestCspListEvent);
+        DomainListEvent domainListEvent = tagCloudService.requestDomainList(
+                requestDomainListEvent);
 
-        CspList cspList = cspListEvent.getCspList();
-        assertNotNull("Returned list is null", cspList);
+        DomainList domainList = domainListEvent.getDomainList();
+        assertNotNull("Returned list is null", domainList);
 
-        assertTrue("Record wasn't added successfully", (cspList.getCspList().size() >= 1));
+        assertTrue("Record wasn't added successfully", (domainList.getDomainList().size() >= 1));
     }
 
 

@@ -15,9 +15,9 @@
  */
 package net.orpiske.tcs.service.rest.controller;
 
-import net.orpiske.tcs.service.core.domain.Csp;
-import net.orpiske.tcs.service.core.events.request.RequestCreateCspEvent;
-import net.orpiske.tcs.service.core.events.response.CspCreateEvent;
+import net.orpiske.tcs.service.core.domain.Domain;
+import net.orpiske.tcs.service.core.events.request.RequestCreateDomainEvent;
+import net.orpiske.tcs.service.core.events.response.DomainCreateEvent;
 import net.orpiske.tcs.service.core.service.TagCloudService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,31 +30,31 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 
 @Controller
-@RequestMapping("/csp")
-public class CspCommandsController {
-    private static final Logger logger = Logger.getLogger(CspCommandsController.class);
+@RequestMapping("/domain")
+public class DomainCommandsController {
+    private static final Logger logger = Logger.getLogger(DomainCommandsController.class);
 
     @Autowired
     private TagCloudService tagCloudService;
 
-    @RequestMapping(value = "/{csp}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{domain}", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<Csp> createCspTagCloud(@RequestBody final Csp csp, UriComponentsBuilder builder) {
+    public ResponseEntity<Domain> createCspTagCloud(@RequestBody final Domain domain, UriComponentsBuilder builder) {
 
         if (logger.isDebugEnabled()) {
-            logger.debug("CSP command controller handling a create CSP request for " + csp);
+            logger.debug("CSP command controller handling a create CSP request for " + domain);
         }
 
-        CspCreateEvent tagCloudEvent = tagCloudService.createCsp(
-                new RequestCreateCspEvent(csp));
+        DomainCreateEvent tagCloudEvent = tagCloudService.createDomain(
+                new RequestCreateDomainEvent(domain));
 
-        Csp cspObj = tagCloudEvent.getCsp();
+        Domain domainObj = tagCloudEvent.getDomain();
 
         HttpHeaders httpHeaders = new HttpHeaders();
 
-        httpHeaders.setLocation(builder.path("/csp/{csp}")
-                .buildAndExpand(cspObj.getName()).toUri());
+        httpHeaders.setLocation(builder.path("/domain/{domain}")
+                .buildAndExpand(domainObj.getName()).toUri());
 
-        return new ResponseEntity<Csp>(cspObj, httpHeaders, HttpStatus.OK);
+        return new ResponseEntity<Domain>(domainObj, httpHeaders, HttpStatus.OK);
     }
 }
