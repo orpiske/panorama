@@ -19,6 +19,7 @@ package net.orpiske.dcd.dispatcher.impl;
 import net.orpiske.dcd.collector.metadata.MetaData;
 import net.orpiske.dcd.collector.metadata.Occurrence;
 import net.orpiske.dcd.utils.ConfigurationWrapper;
+import net.orpiske.dcd.utils.DomainConfigurationWrapper;
 import net.orpiske.exchange.header.v1.ApiType;
 import net.orpiske.exchange.header.v1.CallerType;
 import net.orpiske.exchange.header.v1.HeaderType;
@@ -47,6 +48,9 @@ public class WebServicesConversor {
 
     private static final PropertiesConfiguration config =
             ConfigurationWrapper.getConfig();
+
+    private static final PropertiesConfiguration domainConfig =
+            DomainConfigurationWrapper.getConfig();
 
     public static HeaderType newHeader(final MetaData metaData) {
         HeaderType headerType = new HeaderType();
@@ -138,7 +142,11 @@ public class WebServicesConversor {
     public static CspType newCsp(final MetaData metaData) {
         CspType cspType = new CspType();
 
-        cspType.setName(metaData.getWord().getWord());
+        String name = metaData.getWord().getWord();
+        cspType.setName(name);
+        String domain = domainConfig.getString(name, name.toLowerCase() + ".csp");
+        cspType.setDomain(domain);
+
         cspType.setOccurrences(metaData.getOccurrenceCount());
 
         return cspType;
