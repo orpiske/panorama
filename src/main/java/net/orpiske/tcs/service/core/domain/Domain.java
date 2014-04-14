@@ -23,7 +23,7 @@ import javax.persistence.*;
  */
 @Table(name = "domain", schema = "tcs@cassandra_pu")
 @Entity
-public class Csp {
+public class Domain {
 
     @Id
     @Column(name = "domain")
@@ -32,9 +32,9 @@ public class Csp {
     @Column(name = "name")
     private String name;
 
-    public Csp() {}
+    public Domain() {}
 
-    public Csp(final String name, final String domain) {
+    public Domain(final String name, final String domain) {
         this.name = name;
         this.domain = domain;
     }
@@ -43,7 +43,7 @@ public class Csp {
         return domain;
     }
 
-    public Csp setDomain(String domain) {
+    public Domain setDomain(String domain) {
         this.domain = domain;
 
 		return this;
@@ -53,7 +53,7 @@ public class Csp {
         return name;
     }
 
-    public Csp setName(String name) {
+    public Domain setName(String name) {
         this.name = name;
 
 		return this;

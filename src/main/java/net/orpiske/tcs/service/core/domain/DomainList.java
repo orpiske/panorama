@@ -19,30 +19,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Abstracts a list of CSPs
+ * Abstracts a list of CSPs by domain
  */
-public class CspList {
+public class DomainList {
 
-    private List<Csp> cspList;
+    private List<Domain> domainList;
 
-    public CspList() {
-        cspList = new ArrayList<Csp>();
+    public DomainList() {
+        domainList = new ArrayList<Domain>();
     }
 
 
-    public CspList(List<Csp> list) {
-        this.cspList = new ArrayList<Csp>(list);
+    public DomainList(List<Domain> list) {
+        this.domainList = new ArrayList<Domain>(list);
     }
 
     public boolean add(String s, String domain) {
-        return cspList.add(new Csp(s, domain));
+        return domainList.add(new Domain(s, domain));
     }
 
-    public Csp get(int index) {
-        return cspList.get(index);
+    public Domain get(int index) {
+        return domainList.get(index);
     }
 
-    public List<Csp> getCspList() {
-        return cspList;
+    public List<Domain> getDomainList() {
+        return domainList;
     }
 }

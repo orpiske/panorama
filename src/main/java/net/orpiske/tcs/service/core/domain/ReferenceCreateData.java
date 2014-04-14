@@ -26,16 +26,16 @@ import java.util.Date;
  * This is used to create new reference data
  */
 public class ReferenceCreateData {
-    private Csp csp;
+    private Domain domain;
     private Text text;
     private Date date;
 
-    public Csp getCsp() {
-        return csp;
+    public Domain getDomain() {
+        return domain;
     }
 
-    public ReferenceCreateData setCsp(Csp csp) {
-        this.csp = csp;
+    public ReferenceCreateData setDomain(Domain domain) {
+        this.domain = domain;
 
 		return this;
     }
@@ -65,7 +65,7 @@ public class ReferenceCreateData {
 
         reference.setReferenceDate(this.date);
         reference.setInclusionDate(new Date());
-        reference.setDomain(csp.getDomain());
+        reference.setDomain(domain.getDomain());
 
         try {
             String decompressed = TextUtils.getDecompressedText(text);
