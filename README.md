@@ -33,7 +33,7 @@ CREATE TABLE references (
 ) WITH COMPACT STORAGE;
 
 
-CREATE TABLE domain (
+CREATE TABLE csp (
   name text,
   domain text,
   PRIMARY KEY (domain)
