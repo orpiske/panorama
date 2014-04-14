@@ -12,14 +12,14 @@ Get all CSPs stored:
 
 Method: GET
 ```
-tcs.solar.info/csp/
+tcs.solar.info/domain/
 ```
 
 Create a new CSP
 
 POST:
 ```
-tcs.solar.info/csp/{csp}
+tcs.solar.info/domain/{domain}
 ```
 
 JSON Request:
@@ -40,7 +40,7 @@ Get the tag cloud for CSP (in progress):
 
 Method: POST
 ```
-tcs.solar.info/tagcloud/{csp}
+tcs.solar.info/tagcloud/{domain}
 ```
 
 
@@ -49,7 +49,7 @@ Add a new reference to the database
 
 POST:
 ```
-tcs.solar.info/references/{csp}
+tcs.solar.info/references/{domain}
 ```
 
 
