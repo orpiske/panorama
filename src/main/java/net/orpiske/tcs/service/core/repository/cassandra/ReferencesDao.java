@@ -16,18 +16,10 @@
 package net.orpiske.tcs.service.core.repository.cassandra;
 
 import com.netflix.astyanax.entitystore.EntityManager;
-import net.orpiske.tcs.service.core.domain.Csp;
 import net.orpiske.tcs.service.core.domain.Reference;
-import net.orpiske.tcs.service.core.domain.Text;
-import net.orpiske.tcs.service.core.utils.TextUtils;
-import net.orpiske.tcs.service.persistence.exception.PersistenceException;
 import net.orpiske.tcs.service.persistence.utils.EntityManagerWrapper;
 import net.orpiske.tcs.service.persistence.utils.PersistenceProperties;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.log4j.Logger;
-
-import java.io.IOException;
-import java.util.Date;
 
 public class ReferencesDao extends AbstractDao {
     private static final Logger logger = Logger.getLogger(ReferencesDao.class);
@@ -43,29 +35,5 @@ public class ReferencesDao extends AbstractDao {
 
     public void add(Reference reference) {
         em.put(reference);
-    }
-
-
-    public void add(Csp csp, Text text) throws PersistenceException {
-        if (logger.isDebugEnabled()) {
-            logger.debug("Adding a new reference: ");
-        }
-
-        Reference reference = new Reference();
-        reference.setDomain(csp.getDomain());
-
-        try {
-            String decompressed = TextUtils.getDecompressedText(text);
-            reference.setHash(DigestUtils.sha256Hex(decompressed));
-            reference.setReferenceText(decompressed);
-        }
-        catch (IOException e) {
-            throw new PersistenceException(e);
-        }
-
-        reference.setInclusionDate(new Date());
-        reference.setReferenceDate(new Date());
-
-        add(reference);
     }
 }

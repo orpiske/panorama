@@ -17,7 +17,7 @@
 package net.orpiske.tcs.service.core.repository.cassandra;
 
 import com.netflix.astyanax.entitystore.EntityManager;
-import net.orpiske.tcs.service.core.domain.Csp;
+import net.orpiske.tcs.service.core.domain.Domain;
 import net.orpiske.tcs.service.core.domain.Tag;
 import net.orpiske.tcs.service.core.domain.TagCloud;
 import net.orpiske.tcs.service.persistence.utils.EntityManagerWrapper;
@@ -45,7 +45,7 @@ public class TagCloudDao extends AbstractDao {
 	}
 
 
-	public TagCloud findByCsp(final Csp csp) {
+	public TagCloud findByCsp(final Domain domain) {
 		// em.get
 		return null;
 	}

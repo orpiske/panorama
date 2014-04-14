@@ -16,54 +16,54 @@
 package net.orpiske.tcs.service.core.repository.cassandra;
 
 import com.netflix.astyanax.entitystore.EntityManager;
-import net.orpiske.tcs.service.core.domain.Csp;
+import net.orpiske.tcs.service.core.domain.Domain;
 import net.orpiske.tcs.service.persistence.utils.EntityManagerWrapper;
 import net.orpiske.tcs.service.persistence.utils.PersistenceProperties;
 import org.apache.log4j.Logger;
 
 import java.util.List;
 
-public class CspDao extends AbstractDao {
-    private static final Logger logger = Logger.getLogger(CspDao.class);
+public class DomainDao extends AbstractDao {
+    private static final Logger logger = Logger.getLogger(DomainDao.class);
 
 
-    private EntityManager<Csp, String> em;
+    private EntityManager<Domain, String> em;
 
-    public CspDao(PersistenceProperties persistenceProperties) {
+    public DomainDao(PersistenceProperties persistenceProperties) {
         super(persistenceProperties);
 
         EntityManagerWrapper wrapper = getWrapper();
 
-        em = wrapper.<Csp, String>getPersistenceObj(Csp.class, "csp");
+        em = wrapper.<Domain, String>getPersistenceObj(Domain.class, "domain");
     }
 
-    public Csp save(Csp csp) {
+    public Domain save(Domain domain) {
         if (logger.isDebugEnabled()) {
-            logger.debug("Saving CSP into Cassandra instance: " + csp);
+            logger.debug("Saving CSP into Cassandra instance: " + domain);
         }
 
-        em.put(csp);
+        em.put(domain);
 
-        return csp;
+        return domain;
     }
 
 
-    public Csp findByName(String name) {
+    public Domain findByName(String name) {
         if (logger.isDebugEnabled()) {
-            logger.debug("Looking for a CSP named " + name);
+            logger.debug("Looking for a domain named " + name);
         }
 
-        Csp ret = em.get(name);
+        Domain ret = em.get(name);
 
         if (logger.isDebugEnabled()) {
-            logger.debug("Found CSP: " + ret);
+            logger.debug("Found domain: " + ret);
         }
 
         return ret;
     }
 
-    public List<Csp> findAll() {
-        List<Csp> ret = em.getAll();
+    public List<Domain> findAll() {
+        List<Domain> ret = em.getAll();
         return ret;
     }
 }
