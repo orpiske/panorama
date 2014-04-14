@@ -28,6 +28,7 @@ import java.util.Date;
 public class ReferenceCreateData {
     private Csp csp;
     private Text text;
+    private Date date;
 
     public Csp getCsp() {
         return csp;
@@ -49,10 +50,20 @@ public class ReferenceCreateData {
 		return this;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public ReferenceCreateData setDate(Date date) {
+        this.date = date;
+
+        return this;
+    }
+
     public Reference toReference() throws ReferenceConversionException {
         Reference reference = new Reference();
 
-        reference.setReferenceDate(new Date());
+        reference.setReferenceDate(this.date);
         reference.setInclusionDate(new Date());
         reference.setDomain(csp.getDomain());
 
