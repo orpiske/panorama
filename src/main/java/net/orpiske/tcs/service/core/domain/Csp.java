@@ -19,9 +19,9 @@ import javax.persistence.*;
 
 
 /**
- * Abstracts a CSP
+ * Abstracts a CSP (by domain)
  */
-@Table(name = "csp", schema = "tcs@cassandra_pu")
+@Table(name = "domain", schema = "tcs@cassandra_pu")
 @Entity
 public class Csp {
 
