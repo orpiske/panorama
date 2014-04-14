@@ -19,7 +19,7 @@ import net.orpiske.dcd.collector.vocabulary.Context;
 
 /**
  * A string context that simply validates whether the word exists in a
- * text or not
+ * tag or not
  */
 public class StringContext implements Context {
 

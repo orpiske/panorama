@@ -94,6 +94,67 @@ public class MBoxDataSet implements DataSet {
         return currentMessage <= messageCount;
     }
 
+    private Date getDate(final String strDate) {
+        final int DATE_LENGTH_WITH_TZ = 37;
+        final int DATE_LENGTH_WITHOUT_TZ = 31;
+
+        String dateWithCorrectSize;
+
+        if (strDate == null || strDate.isEmpty()) {
+            logger.error("The input date is null, returning epoch");
+
+            return new Date(0);
+        }
+
+        /*
+         * DateUtils seems to fail if the length of the string
+         * is bigger than expected (or I just don't know how to
+         * use it properly ... TODO: research this).
+         *
+         * This case checks if the date is something like this:
+         * Sun, 16 Feb 2014 18:44:57 -0300 (BRT)
+         */
+        switch (strDate.length()) {
+            /* This case checks if the date is something like this:
+             * Sun, 16 Feb 2014 18:44:57 -0300 (BRT)
+             */
+            case (DATE_LENGTH_WITH_TZ - 1):
+            case DATE_LENGTH_WITH_TZ: {
+                dateWithCorrectSize = strDate.substring(0, 31);
+                break;
+            }
+            /* This case checks if the date is something like this:
+             * Sun, 6 Feb 2014 18:44:57 -0300
+             */
+            case (DATE_LENGTH_WITHOUT_TZ - 1):
+
+            /* This case checks if the date is something like this:
+             * Sun, 16 Feb 2014 18:44:57 -0300
+             */
+            case DATE_LENGTH_WITHOUT_TZ: {
+                dateWithCorrectSize = strDate;
+                break;
+            }
+            default: {
+                logger.error("The input date does not seem to be in any " +
+                        "recognizable format: " + strDate);
+                logger.warn("Defaulting to epoch ...");
+                return new Date(0);
+            }
+        }
+
+        try {
+            return  DateUtils.parseDate(dateWithCorrectSize,
+                "EEE, dd MMM yyyy HH:mm:ss Z");
+        } catch (ParseException e) {
+            logger.error("Unable to parse date " + strDate + ": "
+                    + e.getMessage(), e);
+            logger.warn("Defaulting to epoch ...");
+            return new Date(0);
+        }
+
+    }
+
     @Override
     public Data next() {
         MBoxData mBoxData = null;
@@ -130,21 +191,9 @@ public class MBoxDataSet implements DataSet {
 
                 if (header.getName().equalsIgnoreCase("date")) {
                     String strDate = header.getValue();
+                    Date date = getDate(strDate);
 
-                    if (strDate != null) {
-                        strDate = strDate.substring(0, strDate.length() - 6);
-
-                        try {
-                            Date date = DateUtils.parseDate(strDate,
-                                    "EEE, dd MMM yyyy HH:mm:ss Z");
-
-                            mBoxData.setDate(date);
-                        } catch (ParseException e) {
-                            logger.error("Unable to parse date " + strDate + ": "
-                                    + e.getMessage(), e);
-                        }
-                    }
-
+                    mBoxData.setDate(date);
                 }
 
                 stringBuilder.append('\n');

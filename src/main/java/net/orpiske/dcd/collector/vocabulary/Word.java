@@ -56,9 +56,9 @@ public class Word {
 
 
     /**
-     * Checks whether the word exists in a given text and is valid within
+     * Checks whether the word exists in a given tag and is valid within
      * any of the given contexts
-     * @param text the text to check against
+     * @param text the tag to check against
      * @return true if exists and is valid or false otherwise
      */
     public boolean existsInText(final String text) {
