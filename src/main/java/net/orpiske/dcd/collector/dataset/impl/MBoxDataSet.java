@@ -116,9 +116,14 @@ public class MBoxDataSet implements DataSet {
          */
         switch (strDate.length()) {
             /* This case checks if the date is something like this:
-             * Sun, 16 Feb 2014 18:44:57 -0300 (BRT)
+             * Sun, 1 Feb 2014 18:44:57 -0300 (BRT)
              */
             case (DATE_LENGTH_WITH_TZ - 1):
+                dateWithCorrectSize = strDate.substring(0, 30);
+                break;
+            /* This case checks if the date is something like this:
+             * Sun, 16 Feb 2014 18:44:57 -0300 (BRT)
+             */
             case DATE_LENGTH_WITH_TZ: {
                 dateWithCorrectSize = strDate.substring(0, 31);
                 break;
@@ -145,7 +150,7 @@ public class MBoxDataSet implements DataSet {
 
         try {
             return  DateUtils.parseDate(dateWithCorrectSize,
-                "EEE, dd MMM yyyy HH:mm:ss Z");
+                "EEE, d MMM yyyy HH:mm:ss Z");
         } catch (ParseException e) {
             logger.error("Unable to parse date " + strDate + ": "
                     + e.getMessage(), e);

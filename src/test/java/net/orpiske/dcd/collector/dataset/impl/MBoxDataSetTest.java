@@ -17,31 +17,34 @@
 package net.orpiske.dcd.collector.dataset.impl;
 
 import net.orpiske.dcd.collector.dataset.Data;
+import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 
 public class MBoxDataSetTest {
 
     private MBoxDataSet dataSet;
-    private List<Data> dataList = new ArrayList<Data>();
+    private static List<Data> dataList = null;
 
     @Before
     public void setup() throws Exception {
-        String path = getClass().getResource("FakeMail.txt").getFile();
-        File file = new File(path);
+        if (dataList == null) {
+            dataList = new ArrayList<Data>();
 
-        dataSet = new MBoxDataSet(file);
-        while (dataSet.hasNext()) {
-            Data data = dataSet.next();
-            dataList.add(data);
+            String path = getClass().getResource("FakeMail.txt").getFile();
+            File file = new File(path);
+
+            dataSet = new MBoxDataSet(file);
+            while (dataSet.hasNext()) {
+                Data data = dataSet.next();
+                dataList.add(data);
+            }
         }
     }
 
@@ -50,18 +53,64 @@ public class MBoxDataSetTest {
     public void testCount() {
         int count = dataList.size();
 
-        assertEquals("The expected message count is incorrect", 2, count);
+        assertEquals("The expected message count is incorrect", 4, count);
     }
 
 
+    // Date: Wed, 2 May 2013 01:12:02 -0300 (BRT)
     @Test
-    public void testDate() {
+    public void testOneDigitDateWithTZ() {
         Data data = dataList.get(0);
 
         Date date = data.getDate();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
 
-        assertEquals("The year is incorrect", 2013, date.getYear());
-        assertEquals("The month is incorrect", 5, date.getMonth());
-        assertEquals("The day is incorrect", 1, date.getDay());
+        assertEquals("The year is incorrect", 2013, cal.get(Calendar.YEAR));
+        assertEquals("The month is incorrect", Calendar.MAY, cal.get(Calendar.MONTH));
+        assertEquals("The day is incorrect", 2, cal.get(Calendar.DAY_OF_MONTH));
+    }
+
+    // Date: Wed, 20 May 2013 01:20:02 -0300 (BRT)
+    @Test
+    public void testTwoDigitDateWithTZ() {
+        Data data = dataList.get(1);
+
+        Date date = data.getDate();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+
+        assertEquals("The year is incorrect", 2013, cal.get(Calendar.YEAR));
+        assertEquals("The month is incorrect", Calendar.MAY, cal.get(Calendar.MONTH));
+        assertEquals("The day is incorrect", 20, cal.get(Calendar.DAY_OF_MONTH));
+    }
+
+
+    // Date: Wed, 1 May 2013 01:12:02 -0300
+    @Test
+    public void testOneDigitDateWithoutTZ() {
+        Data data = dataList.get(2);
+
+        Date date = data.getDate();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+
+        assertEquals("The year is incorrect", 2013, cal.get(Calendar.YEAR));
+        assertEquals("The month is incorrect", Calendar.MAY, cal.get(Calendar.MONTH));
+        assertEquals("The day is incorrect", 1, cal.get(Calendar.DAY_OF_MONTH));
+    }
+
+    // Date: Wed, 10 May 2013 01:12:02 -0300
+    @Test
+    public void testTwoDigitDateWithoutTZ() {
+        Data data = dataList.get(3);
+
+        Date date = data.getDate();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+
+        assertEquals("The year is incorrect", 2013, cal.get(Calendar.YEAR));
+        assertEquals("The month is incorrect", Calendar.MAY, cal.get(Calendar.MONTH));
+        assertEquals("The day is incorrect", 10, cal.get(Calendar.DAY_OF_MONTH));
     }
 }

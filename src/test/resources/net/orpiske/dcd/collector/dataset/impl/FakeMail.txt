@@ -1,6 +1,6 @@
 From user em somemail.com  Wed May  1 01:12:02 2013
 From: use em somemail.com (My User Name)
-Date: Wed, 1 May 2013 01:12:02 -0300 (BRT)
+Date: Wed, 2 May 2013 01:12:02 -0300 (BRT)
 Subject: [fake pdl] Fake subject
 Message-ID: <CAPefbKqx1QDDQcbi_ZdZiRpULjUaB0zkVrDfhft2=NXuGRapDA@somemail.com>
 
@@ -8,9 +8,27 @@ This is a fake email text
 
 From another em otheremail.com  Wed May  1 01:20:02 2013
 From: another em otheremail.com (Other User Name)
-Date: Wed, 2 May 2013 01:20:02 -0300 (BRT)
+Date: Wed, 20 May 2013 01:20:02 -0300 (BRT)
 Subject: [fake pdl] Fake subject
 In-Reply-To: <CAPefbKqx1QDDQcbi_ZdZiRpULjUaB0zkVrDfhft2=NXuGRapDA@somemail.com>
 Message-ID: <CAPefbKqx1QDDZZbi_ZdZiRpULjUaB0zkVrDfhft2=NXuGRapDA@otheremail.com>
 
 This is a fake reply text
+
+
+From user em somemail.com  Wed May  1 01:12:02 2013
+From: use em somemail.com (My User Name)
+Date: Wed, 1 May 2013 01:12:02 -0300
+Subject: [fake pdl] Fake subject 2
+Message-ID: <CAPefbKqx1ADDQcbi_ZdZiRpULjUaB0zkVrDfhft2=NXuGRapDA@somemail.com>
+
+bla bla bla
+
+From user em somemail.com  Wed May  1 01:12:02 2013
+From: use em somemail.com (My User Name)
+Date: Wed, 10 May 2013 01:12:02 -0300
+Subject: [fake pdl] Fake subject 3
+Message-ID: <CAPefbKqx1ADDQcbi_ZdZiRpULjUaB0zkVrDfhft2=NXuGRapDA@somemail.com>
+
+
+bla bla bla
