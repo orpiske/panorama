@@ -24,6 +24,7 @@ import net.orpiske.tcs.service.persistence.utils.EntityManagerWrapper;
 import net.orpiske.tcs.service.persistence.utils.PersistenceProperties;
 import org.apache.log4j.Logger;
 
+import java.util.Collections;
 import java.util.List;
 
 public class TagCloudDao extends AbstractDao {
@@ -41,7 +42,13 @@ public class TagCloudDao extends AbstractDao {
 	public TagCloud findAll() {
 		List<Tag> list = em.getAll();
 
-		return new TagCloud(list);
+        /*
+         * Clustering order probably would solve our problem, however we can't use it
+         * for now since we already use compact storage (and if there's a simpler way
+         * I don't about it ... yet!).
+         */
+        Collections.sort(list);
+        return new TagCloud(list);
 	}
 
 

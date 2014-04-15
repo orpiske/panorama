@@ -46,7 +46,7 @@ CREATE TABLE tag_cloud (
   word text,
   occurrences int,
   reference_date timestamp
-) WITH COMPACT STORAGE ;
+) WITH COMPACT STORAGE;
 
 CREATE INDEX domain_key ON tag_cloud (domain);
 CREATE INDEX word_key ON tag_cloud (word);
