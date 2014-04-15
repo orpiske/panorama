@@ -27,7 +27,7 @@ import java.util.Date;
  */
 @Table(name = "tag_cloud", schema = "tcs@cassandra_pu")
 @Entity
-public class Tag {
+public class Tag implements Comparable<Tag> {
 	@Id
 	@Column(name = "hash")
 	private String hash;
@@ -94,5 +94,53 @@ public class Tag {
         this.word = word;
 
 		return this;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Tag tag = (Tag) o;
+
+        if (occurrences != tag.occurrences) return false;
+        if (domain != null ? !domain.equals(tag.domain) : tag.domain != null)
+            return false;
+        if (word != null ? !word.equals(tag.word) : tag.word != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = domain != null ? domain.hashCode() : 0;
+        result = 31 * result + occurrences;
+        result = 31 * result + (word != null ? word.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public int compareTo(Tag o) {
+        if (o.equals(this)) {
+            return 0;
+        }
+
+        if (domain.equals(o.domain)) {
+            if (occurrences > o.occurrences) {
+                return 1;
+            }
+            else {
+                if (occurrences == o.occurrences) {
+
+                    return word.compareTo(o.word);
+                }
+                else {
+                    return -1;
+                }
+            }
+        }
+
+        return domain.compareTo(o.domain);
     }
 }
