@@ -24,6 +24,8 @@ import net.orpiske.tcs.service.persistence.utils.EntityManagerWrapper;
 import net.orpiske.tcs.service.persistence.utils.PersistenceProperties;
 import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -53,7 +55,31 @@ public class TagCloudDao extends AbstractDao {
 
 
 	public TagCloud findByCsp(final Domain domain) {
-		// em.get
-		return null;
+        List<Tag> tagList = new ArrayList<Tag>();
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("Looking for a domain named " + domain);
+        }
+
+        /*
+        I wanted to use the simpler/cleaner solution that uses native queries, as used in
+         Astyanax test cases, however the code below throws
+         'java.lang.UnsupportedOperationException' and I don't want to/cannot research
+         further now
+
+        TODO: check
+
+        Collection<Tag> domainCollection = em.createNativeQuery()
+                    .whereColumn("domain")
+                    .equal(domain.getDomain()).getResultSet();
+        */
+        tagList = em.find("SELECT * FROM tag_cloud WHERE domain = '"
+                + domain.getDomain() + "'");
+        if (logger.isDebugEnabled()) {
+            logger.debug("Found " + tagList.size() + " entries for "
+                    + domain.getDomain());
+        }
+
+        return new TagCloud(tagList);
 	}
 }
