@@ -55,7 +55,7 @@ public class TagCloudQueriesController {
     public ResponseEntity<TagCloud> requestCspTagCloud(@RequestBody final Domain domain) {
 
         if (logger.isDebugEnabled()) {
-            logger.debug("Requesting the CSP tag cloud for " + domain);
+            logger.debug("Requesting the CSP tag cloud for " + domain.getDomain());
         }
 
         TagCloudEvent tagCloudEvent = tagCloudService.requestTagCloud(
