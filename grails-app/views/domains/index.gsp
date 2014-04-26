@@ -3,8 +3,6 @@
 
 <head>
       <title>Panorama</title>
-
-
         <base href="."></base>
 
         <meta name="description" content="Panorama da Internet brasileira" />
@@ -31,16 +29,21 @@
                 </header>
             </div>
 
-            <div id="left_menu">
-                   <g:tagDomains list="${domainList}" />
-            </div>
+             <div id="left_menu">
+                   <ul>
+                        <g:tagDomains list="${domainList}" />
+                  </ul>
+              </div>
 
+<!--
             <div id="content">
                 <p>
-                   <g:tagMinCloud list="${tagCloud}" size="${tagCloud}.size" />
+                   <g:tagList list="${tagList}" size="${tagList}.size">
+                        Há ${occurrences} ocorrências de <code>${word}</code> para o domínio ${domain}<br>
+                   </g:tagList>
                 </p>
             </div>
-
+-->
         </div>
     </body>
 </html>
