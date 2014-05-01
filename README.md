@@ -40,7 +40,7 @@ Get the tag cloud for CSP (in progress):
 
 Method: POST
 ```
-tcs.solar.info/tagcloud/{domain}
+tcs.solar.info/tagcloud/domain
 ```
 
 
