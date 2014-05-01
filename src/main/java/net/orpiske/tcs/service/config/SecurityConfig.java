@@ -16,6 +16,7 @@
 
 package net.orpiske.tcs.service.config;
 
+import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,10 +27,25 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private static final Logger logger = Logger.getLogger(SecurityConfig.class);
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        String user = System.getenv("TCS_USER");
+        String password = System.getenv("TCS_PASSWORD");
+
+        if (user == null) {
+            logger.fatal("The system username is not provided");
+            System.exit(-1);
+        }
+
+        if (password == null) {
+            logger.fatal("The system password is not provided");
+            System.exit(-1);
+        }
+
         auth.inMemoryAuthentication()
-                .withUser("admin").password("admin").roles("USER");
+                .withUser(user).password(password).roles("USER");
     }
 
     @Override
