@@ -50,7 +50,7 @@ public class TagCloudQueriesController {
     }
 
 
-    @RequestMapping(value = "/{domain}", method = RequestMethod.POST)
+    @RequestMapping(value = "/domain", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<TagCloud> requestCspTagCloud(@RequestBody final Domain domain) {
 

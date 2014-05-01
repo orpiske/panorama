@@ -91,7 +91,7 @@ public class RestDataFixtures {
 
 
     public static Domain customCsp() {
-        return new Domain("Terra", "www.terra.com.br");
+        return new Domain("Terra", "terra.com.br");
     }
 
     public static Text customText() {
