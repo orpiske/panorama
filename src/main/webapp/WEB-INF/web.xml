@@ -30,9 +30,9 @@
 
     <context-param>
         <param-name>webmaster</param-name>
-        <param-value>myaddress@mycompany.com</param-value>
+        <param-value>angusyoung@gmail.com</param-value>
         <description>
-           bla bla bla
+           TCS System
         </description>
     </context-param>
 
