@@ -53,7 +53,7 @@ public class DomainCommandsController {
         HttpHeaders httpHeaders = new HttpHeaders();
 
         httpHeaders.setLocation(builder.path("/domain/{domain}")
-                .buildAndExpand(domainObj.getName()).toUri());
+                .buildAndExpand(domainObj.getDomain()).toUri());
 
         return new ResponseEntity<Domain>(domainObj, httpHeaders, HttpStatus.OK);
     }
