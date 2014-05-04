@@ -18,6 +18,7 @@ package net.orpiske.tcs.service.config;
 
 import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -50,9 +51,32 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        /**
+         * Disabling CSRF because ... well ... because ... f**** you. I know it's good
+         * but I need to research more about it. For now, I just want to get this site
+         * up an running.
+         *
+         * Ref.:
+         * http://spring.io/blog/2013/08/21/spring-security-3-2-0-rc1-highlights-csrf-protection/
+         */
+        http.csrf().disable();
+
         http.authorizeRequests()
-                .antMatchers("/**").hasRole("USER")
+                .antMatchers(HttpMethod.POST, "/domain/**")
+                    .hasRole("USER")
                     .and()
                 .httpBasic();
+
+        http.authorizeRequests()
+                .antMatchers(HttpMethod.GET, "/domain/**").permitAll();
+
+        http.authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/references/**")
+                    .hasRole("USER")
+                    .and()
+                .httpBasic();
+
+        http.authorizeRequests()
+                .antMatchers("/tagcloud/**", "/tagcloud/domain/**").permitAll();
     }
 }
