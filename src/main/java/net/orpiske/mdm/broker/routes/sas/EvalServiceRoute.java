@@ -37,6 +37,7 @@ public class EvalServiceRoute extends RouteBuilder {
         String sasResponseQueue = config.getString("sas.response.queue");
 
         from("direct:sas.prepare")
+                .routeId(name)
                 .split()
                     .method(EvalRequestConversor.class, "split")
                 .to("log:net.orpiske.mdm.broker.exchanges.evalservice?level=INFO")
