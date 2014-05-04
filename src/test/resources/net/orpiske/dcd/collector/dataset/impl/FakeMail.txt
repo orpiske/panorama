@@ -32,3 +32,10 @@ Message-ID: <CAPefbKqx1ADDQcbi_ZdZiRpULjUaB0zkVrDfhft2=NXuGRapDA@somemail.com>
 
 
 bla bla bla
+
+
+From user em somemail.com  Wed May  1 01:12:02 2013
+From: use em somemail.com (My User Name)
+Date: Wed, 2 May 2013 01:12:02 -0300 (BRST)
+Subject: [fake pdl] Fake subject
+Message-ID: <CAPefbKqx1QDDQcbi_ZdZiRpULjUaB0zkVrDfhft2=NXuGRapDA@somemail.com>

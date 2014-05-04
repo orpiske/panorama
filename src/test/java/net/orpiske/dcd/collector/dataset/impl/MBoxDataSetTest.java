@@ -53,7 +53,7 @@ public class MBoxDataSetTest {
     public void testCount() {
         int count = dataList.size();
 
-        assertEquals("The expected message count is incorrect", 4, count);
+        assertEquals("The expected message count is incorrect", 5, count);
     }
 
 

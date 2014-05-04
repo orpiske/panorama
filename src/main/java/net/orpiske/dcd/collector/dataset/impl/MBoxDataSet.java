@@ -106,6 +106,8 @@ public class MBoxDataSet implements DataSet {
             return new Date(0);
         }
 
+
+        int length = strDate.trim().length();
         /*
          * DateUtils seems to fail if the length of the string
          * is bigger than expected (or I just don't know how to
@@ -114,18 +116,18 @@ public class MBoxDataSet implements DataSet {
          * This case checks if the date is something like this:
          * Sun, 16 Feb 2014 18:44:57 -0300 (BRT)
          */
-        switch (strDate.length()) {
+        switch (length) {
             /* This case checks if the date is something like this:
              * Sun, 1 Feb 2014 18:44:57 -0300 (BRT)
              */
             case (DATE_LENGTH_WITH_TZ - 1):
-                dateWithCorrectSize = strDate.substring(0, 30);
+                dateWithCorrectSize = strDate.substring(0, DATE_LENGTH_WITHOUT_TZ - 1);
                 break;
             /* This case checks if the date is something like this:
              * Sun, 16 Feb 2014 18:44:57 -0300 (BRT)
              */
             case DATE_LENGTH_WITH_TZ: {
-                dateWithCorrectSize = strDate.substring(0, 31);
+                dateWithCorrectSize = strDate.substring(0, DATE_LENGTH_WITHOUT_TZ);
                 break;
             }
             /* This case checks if the date is something like this:
@@ -141,10 +143,18 @@ public class MBoxDataSet implements DataSet {
                 break;
             }
             default: {
-                logger.error("The input date does not seem to be in any " +
-                        "recognizable format: " + strDate);
-                logger.warn("Defaulting to epoch ...");
-                return new Date(0);
+                if (length > DATE_LENGTH_WITH_TZ) {
+                    logger.warn("The length of the date header is bigger than expected: "
+                        + length);
+                    dateWithCorrectSize = strDate.substring(0, DATE_LENGTH_WITHOUT_TZ);
+                }
+                else {
+                    logger.error("The input date does not seem to be in any " +
+                            "recognizable format: " + strDate);
+                    logger.warn("Defaulting to epoch ...");
+                    return new Date(0);
+                }
+
             }
         }
 
