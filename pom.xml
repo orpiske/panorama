@@ -33,6 +33,13 @@
             <version>2.2.3</version>
         </dependency>
 
+        <!-- For credentials and authorization -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.3.3</version>
+        </dependency>
+
         <dependency>
             <groupId>net.orpiske</groupId>
             <artifactId>tcs-domain</artifactId>
