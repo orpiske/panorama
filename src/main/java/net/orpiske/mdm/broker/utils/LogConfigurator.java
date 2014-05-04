@@ -41,7 +41,7 @@ public class LogConfigurator {
                 "org.apache.log4j.PatternLayout");
         properties.setProperty(
                 "log4j.appender.stdout.layout.ConversionPattern",
-                "%m%n");
+                "%C.%M:%L [%p] %m%n");
     }
 
     private static void configureTrace(Properties properties) {

@@ -15,13 +15,18 @@
  */
 package net.orpiske.mdm.broker.routes.tcs;
 
-import net.orpiske.mdm.broker.processors.sas.EvalRequestConversor;
-import net.orpiske.mdm.broker.processors.tcs.TcsEndpointResolver;
 import net.orpiske.mdm.broker.processors.tcs.TcsRequestConversor;
+import net.orpiske.mdm.broker.utils.ConfigurationWrapper;
+import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.component.restlet.RestletConstants;
 import org.apache.camel.model.dataformat.JsonLibrary;
+import org.apache.commons.configuration.PropertiesConfiguration;
+import org.restlet.data.MediaType;
 
 public class TcsRoute extends RouteBuilder {
+    private static final PropertiesConfiguration config =
+            ConfigurationWrapper.getConfig();
 
     private String name;
 
@@ -31,13 +36,32 @@ public class TcsRoute extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
+        String username = config.getString("tcs.service.username");
+        String password = config.getString("tcs.service.password");
+
+        String url = config.getString("tcs.service.url");
+        String tcsEndpoint = "restlet:" + url + "/references/"
+                + "?restletMethod=post";
+
+        /**
+         * If the messages fail to process, I'd like to have them logged, with the body
+         * exchange id and all that so I can find out the problem
+         * a
+         */
+        onException()
+                .handled(true)
+                .to("log:net.orpiske.mdm.broker.exchanges.tcsservice.deadletter?level=ERROR&showOut=true&showExchangeId=true");
+
         from("direct:tcs.prepare")
+                .routeId(name)
                 .split()
                 .method(TcsRequestConversor.class, "split")
                 .marshal().json(JsonLibrary.Jackson)
-                .to("log:net.orpiske.mdm.broker.exchanges.evalservice?level=INFO")
-                .process(new TcsEndpointResolver())
-                .throttle(500).timePeriodMillis(5000)
-                .dynamicRouter(header("TCS.ENDPOINT"));
+                .to("log:net.orpiske.mdm.broker.exchanges.tcservice?level=INFO&showExchangeId=true")
+                    .setHeader(RestletConstants.RESTLET_LOGIN, constant(username))
+                    .setHeader(RestletConstants.RESTLET_PASSWORD, constant(password))
+                    .setHeader(Exchange.CONTENT_TYPE, constant(MediaType.APPLICATION_JSON))
+                    .throttle(500).timePeriodMillis(5000)
+                .to(tcsEndpoint);
     }
 }
