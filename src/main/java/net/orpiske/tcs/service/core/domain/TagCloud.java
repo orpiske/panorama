@@ -23,15 +23,15 @@ import java.util.List;
  * A tag cloud
  */
 public class TagCloud {
-    private List<Tag> tagList;
+    private List<Tag> tagCloud;
 
 	public TagCloud() {
-		tagList = new LinkedList<Tag>();
+		tagCloud = new LinkedList<Tag>();
 	}
 
 
-	public TagCloud(List<Tag> tagList) {
-		this.tagList = tagList;
+	public TagCloud(List<Tag> tagCloud) {
+		this.tagCloud = tagCloud;
 	}
 
 	/**
@@ -39,10 +39,10 @@ public class TagCloud {
 	 * @param tag the tag to add
 	 */
     public void add(final Tag tag) {
-        tagList.add(tag);
+        tagCloud.add(tag);
     }
 
     public List<Tag> getTagCloud() {
-        return tagList;
+        return tagCloud;
     }
 }
