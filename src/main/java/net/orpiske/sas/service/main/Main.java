@@ -25,7 +25,7 @@ import java.util.Arrays;
 
 public class Main {
     private static void help(int code) {
-        System.out.println("Usage: dcd <action>\n");
+        System.out.println("Usage: sas-service <action>\n");
 
         System.out.println("Actions:");
         System.out.println(" run");
