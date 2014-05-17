@@ -108,4 +108,42 @@
         </plugins>
 
     </build>
+
+
+    <profiles>
+        <profile>
+            <id>Delivery</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>
+                                    src/main/assembly/dcd-assembly.xml
+                                </descriptor>
+                            </descriptors>
+                            <appendAssemblyId>true</appendAssemblyId>
+
+
+                        </configuration>
+
+                        <executions>
+                            <execution>
+                                <id>wsdl-files</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>assembly</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
