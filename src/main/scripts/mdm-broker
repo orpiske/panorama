@@ -48,4 +48,4 @@ fi
 mainclass=net.orpiske.mdm.broker.main.Main
 
 nohup java -classpath "$installdir"/bin/mdm-broker-*.jar -Dnet.orpiske.mdm.broker.home="$installdir" $JAVA_OPTS "$mainclass" run $@ 2>&1 &
-echo $! > mdm.pid
+echo $! > "$installdir"/bin/mdm.pid

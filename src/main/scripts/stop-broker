@@ -40,7 +40,7 @@ if [ x"$is_running" = "x" ] ; then
 fi
 
 
-kill -TERM "$pid"
+kill -TERM $pid
 
 if [ $? -ne 0 ] ; then
 	echo "Kill failed"
@@ -54,9 +54,11 @@ if [ x"$is_running" = "x" ] ; then
 	exit 0
 else
 	echo "MDM broker is still running ... forcing stop"
-	sleep 3
+	sleep 1
 	kill -9 $pid
-	
+	sleep 3
+
+	is_running=`ps -ef | grep -i $pid | grep -v grep`
 	if [ x"$is_running" = "x" ] ; then
 		rm "$installdir"/bin/mdm.pid
 		echo "MDM broker stopped successfully after SIGKILL"
