@@ -32,29 +32,24 @@ class TagListTagLib {
         for (int i = 0; i < tagList.size(); i++) {
             Tag tag = tagList.get(i);
 
+
             int occurrences = tag.getOccurrences();
-            int size = 0;
+            final double minSize = 12;
 
+            /*
+             * This is the growth factor used to increase the font size based
+             * on the number of occurrences/mentions of the ISP. It is:
+             *
+             * It grows logarithmic, such as for 1 occurrence the font size
+             * will be around
+             */
+            double base = ((Math.pow(occurrences,2)) / (double) (10 * occurrences));
+            double growthFactor = base + (Math.log10(Math.pow(occurrences,2)));
+            double size = minSize + growthFactor;
 
-            if (occurrences < 5) {
-                size = 12;
-            }
-            else {
-                if (occurrences < 10) {
-                    size = 16;
-                }
-                else {
-                    if (occurrences < 30) {
-                        size = 18;
-                    }
-                    else {
-                        size = 22;
-                    }
-                }
-            }
-
-            out << "<span style=\"font-size:" << String.valueOf(tag.getOccurrences()) << \
-              "px;\">" << tag.getWord() << " </span>";
+            out << "<span style=\"font-size:" << String.valueOf(size) << \
+              "px;\" title=\"" << String.valueOf(occurrences) << " occurrences\">" << \
+                tag.getWord() << " </span>";
         }
     }
 
