@@ -127,7 +127,7 @@ public class CountReducerTable extends Reducer<OccurrenceWritable, IntWritable, 
 
         logger.info("Iterated over " + sum + " records for domain '" + key.toString() + "'");
 
-        // Then, create the mutation objects so that we can save then on the DB
+        // Then, create the mutation objects so that we can save them on the DB
         Mutation domain = getMutation("domain", key.getDomain());
         Mutation word = getMutation("word", key.getText());
         Mutation occurrences = getMutation("occurrences", sum);
