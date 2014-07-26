@@ -22,10 +22,8 @@
             <header>
                 <div id="top_menu">
                     <ul>
-                        <li><a href="index">Home</a></li>
                         <li><a href="about">Sobre</a></li>
                         <li><a href="domains">Provedores</a></li>
-                        <li><a href="how">Como Funciona</a></li>
                         <li><a href="contact">Contato</a></li>
                     </ul>
                 </div>
