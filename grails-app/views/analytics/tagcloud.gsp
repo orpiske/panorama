@@ -25,7 +25,6 @@
                             <li><a href="${siteRoot}/">Home</a></li>
                             <li><a href="${siteRoot}/about">Sobre</a></li>
                             <li><a href="${siteRoot}/domains">Estatísticas</a></li>
-                            <li><a href="${siteRoot}/how">Como Funciona</a></li>
                             <li><a href="${siteRoot}/contact">Contato</a></li>
                         </ul>
                     </div>
