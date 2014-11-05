@@ -20,6 +20,8 @@ import net.orpiske.mdm.broker.utils.ConfigurationWrapper;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.commons.configuration.PropertiesConfiguration;
 
+import java.util.Arrays;
+
 public class InternalRoute extends RouteBuilder {
     private static final PropertiesConfiguration config =
             ConfigurationWrapper.getConfig();
@@ -29,12 +31,27 @@ public class InternalRoute extends RouteBuilder {
         this.name = name;
     }
 
+
+    private String[] destinationRoutes() {
+        String[] ret;
+        boolean enableSas = config.getBoolean("sas.service.enable", false);
+
+        if (enableSas) {
+            ret = new String[]{ "direct:sas.prepare", "direct:tcs.prepare" };
+        }
+        else {
+            ret = new String[]{ "direct:tcs.prepare" };
+        }
+
+        return ret;
+    }
+
     @Override
     public void configure() throws Exception {
-        from("seda://BROKER.INTERNAL")
-                .routeId(name)
-                .process(new InternalProcessor())
-                .multicast()
-                .to("direct:sas.prepare", "direct:tcs.prepare");
+         from("seda://BROKER.INTERNAL")
+                    .routeId(name)
+                    .process(new InternalProcessor())
+                    .multicast()
+                    .to(destinationRoutes());
     }
 }

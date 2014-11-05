@@ -60,18 +60,31 @@ public class BrokerRunner {
         logger.debug("Initializing broker engine");
         CamelContext camelContext = new DefaultCamelContext();
 
-        // Sets up the Active MQ component
-        logger.debug("Setting up ActiveMQ component");
-        ActiveMQConfiguration activeMQConfiguration = getActiveMQConfiguration();
-        ActiveMQComponent component = new ActiveMQComponent(activeMQConfiguration);
-        camelContext.addComponent("activemq", component);
+        /* This is a (I presume) temporary hack, since we don't use SAS data yet and
+         * we don't have too much memory on the server
+         */
+        boolean enableSas = config.getBoolean("sas.service.enable", false);
 
+        if (enableSas) {
+            // Sets up the Active MQ component
+            logger.debug("Setting up ActiveMQ component");
+            ActiveMQConfiguration activeMQConfiguration = getActiveMQConfiguration();
+            ActiveMQComponent component = new ActiveMQComponent(activeMQConfiguration);
+            camelContext.addComponent("activemq", component);
+        }
+        else {
+            logger.info("Sas is currently disabled, therefore ActiveMQ is not loaded");
+        }
 
         // Adds new routes
         logger.debug("Adding routes");
         camelContext.addRoutes(new LoadServiceRoute("LoadService"));
         camelContext.addRoutes(new InternalRoute("InternalRoute"));
-        camelContext.addRoutes(new EvalServiceRoute("EvalService"));
+
+        if (enableSas) {
+            camelContext.addRoutes(new EvalServiceRoute("EvalService"));
+        }
+
         camelContext.addRoutes(new TcsRoute("TcsService"));
 
         // Starts Apache Camel
