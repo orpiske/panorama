@@ -12,8 +12,6 @@ angular.module('panoramaGuiV2App')
 	  
 	  $scope.domains = '';
 	  
-	  
-			
 	  	  $scope.search = function (domain) {
 			  $http.get('/tcs/domain/')
 			  	.success(function(data){
@@ -22,10 +20,13 @@ angular.module('panoramaGuiV2App')
 		  };
 		  
 	  	  $scope.listDomains = function (domain) {
-			  $http.get('/tcs/domain/')
-			  	.success(function(data){
-					$scope.domains = data;
-				});
+			  if ($scope.domains === '') { 
+				  $http.get('/tcs/domain/')
+				  	.success(function(data){
+						$scope.domains = data;
+					});
+			  }
+			  
 		  };
 	
 			/*
