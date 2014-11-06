@@ -1,0 +1,19 @@
+<div class="container">
+	<form autocomplete="on" tooltip="test" role="form" ng-submit="search()">
+		<div class="row">
+			<div class="input-group">
+				<input type="text" ng-model="todo" placeholder="Digite o domínio do provedor? (ex.: vivo.com.br)" class="form-control">
+				<span class="input-group-btn">
+					<input type="submit" class="btn btn-primary" value="Pesquisar">
+				</span>
+				
+			</div>
+		</div>
+	</form>
+	
+	<p>1 = {{ domains }}</p>
+	<p>2 = {{ domains.domainList }}</p>
+	<blockquote ng-repeat="domain in domains.domainList">
+	    	<b>{{ domain.name }} at {{domain.domain}}</p>
+	</blockquote>	
+</div>
