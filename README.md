@@ -1,4 +1,4 @@
-Otavio's Examples: TCS Persistence
+Otavio's Examples: TCS Service
 ============
 
 This project implements a simple REST webservice that receives CSP references and adds them to an
