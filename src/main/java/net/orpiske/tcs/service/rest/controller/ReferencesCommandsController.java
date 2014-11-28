@@ -22,6 +22,7 @@ import net.orpiske.tcs.service.core.events.response.ReferenceCreateEvent;
 import net.orpiske.tcs.service.core.service.TagCloudService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -38,7 +39,7 @@ public class ReferencesCommandsController {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity updateCloud(@RequestBody ReferenceCreateData data) {
+    public ResponseEntity<String> updateCloud(@RequestBody ReferenceCreateData data) {
         if (logger.isDebugEnabled()) {
             logger.debug("References command controller handling a create request for " + data);
         }
