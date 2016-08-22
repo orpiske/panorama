@@ -1,0 +1,18 @@
+<div class="container">
+	<form role="form" ng-submit="listDomains()">
+		<div class="row">
+			<div class="input-group">
+				<input type="text" list="domainList" tooltip="test" ng-change="listDomains()" ng-model="todo" placeholder="Digite o domínio do provedor? (ex.: vivo.com.br)" class="form-control">
+				
+				<datalist ng-repeat="domain in domains.domainList | filter:todo" id="domainList">
+				  <option value="{{ domain.domain }}">
+				</datalist>
+				
+				<span class="input-group-btn">
+					<input type="submit" class="btn btn-primary" value="Pesquisar">
+				</span>
+				
+			</div>
+		</div>
+	</form>
+</div>
