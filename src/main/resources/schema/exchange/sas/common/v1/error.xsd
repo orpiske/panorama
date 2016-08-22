@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.orpiske.net/exchange/sas/common/error/v1" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.orpiske.net/exchange/sas/common/error/v1">
+
+    <complexType name="ReturnType">
+    	<sequence>
+    		<element name="code" type="int" minOccurs="1"
+    			maxOccurs="1">
+    		</element>
+    		<element name="message" type="string" minOccurs="0" maxOccurs="1"></element>
+    	</sequence>
+    </complexType>
+</schema>
