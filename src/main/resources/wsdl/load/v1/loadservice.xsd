@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.orpiske.net/exchange/loadservice/v1"
+	elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.orpiske.net/exchange/loadservice/v1" xmlns:pref="http://www.orpiske.net/exchange/header/v1">
+	<import schemaLocation="../../common/v1/header.xsd" namespace="http://www.orpiske.net/exchange/header/v1"></import>
+
+	<element name="loadService" type="tns:LoadServiceType"></element>
+
+	<complexType name="LoadServiceType">
+		<sequence>
+            <element name="header" type="pref:HeaderType"></element>
+            <element name="source" type="tns:SourceType" minOccurs="1"
+				maxOccurs="1">
+			</element>
+			<element name="csp" type="tns:CspType" minOccurs="1"
+				maxOccurs="1">
+			</element>
+			<element name="reportDate" type="dateTime"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="SourceType">
+		<sequence>
+			<element name="emailList" type="tns:EmailListType"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="EmailType">
+		<sequence>
+			<element name="name" type="string"></element>
+            <element name="header" type="string"></element>
+            <element name="body" type="string"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="CspType">
+		<sequence>
+			<element name="name" type="string" minOccurs="1" maxOccurs="1"></element>
+			<element name="occurrences" type="int" minOccurs="1" maxOccurs="1"></element>
+		</sequence>
+	</complexType>
+
+	<element name="loadServiceResponse"
+		type="tns:LoadServiceResponseType">
+	</element>
+
+	<complexType name="LoadServiceResponseType">
+		<sequence>
+			<element name="code" type="int"></element>
+			<element name="message" type="string"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="EmailListType">
+		<sequence>
+			<element name="email" type="tns:EmailType" minOccurs="0" maxOccurs="unbounded"></element>
+		</sequence>
+	</complexType>
+</schema>
